@@ -1068,14 +1068,12 @@
                 <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
                     <span class="n">inputs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b[A-Za-z0-9_]+\b&#39;</span><span class="p">,</span> <span class="n">rule</span><span class="p">))</span>
                     <span class="k">for</span> <span class="n">input_node</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">input_node</span> <span class="o">!=</span> <span class="n">target</span><span class="p">:</span>
-                            <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">input_node</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+                        <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">input_node</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># BN case</span>
                 <span class="n">inputs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b[A-Za-z0-9_]+\b&#39;</span><span class="p">,</span> <span class="n">rules</span><span class="p">))</span>
                 <span class="k">for</span> <span class="n">input_node</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">input_node</span> <span class="o">!=</span> <span class="n">target</span><span class="p">:</span>
-                        <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">input_node</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+                    <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">input_node</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">edges</span>
     
     <span class="c1"># Extract nodes and edges</span>
