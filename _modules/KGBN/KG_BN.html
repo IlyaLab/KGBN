@@ -385,7 +385,7 @@
                 <span class="k">if</span> <span class="n">score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">edge_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">in_node</span><span class="si">}</span><span class="s2">_activate:</span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         
-        <span class="k">if</span> <span class="n">joiner</span> <span class="o">==</span> <span class="s1">&#39;inhibitor_wins&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">joiner</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;inhibitor_wins&#39;</span><span class="p">,</span> <span class="s1">&#39;inhibitorwins&#39;</span><span class="p">,</span> <span class="s1">&#39;inhibitor wins&#39;</span><span class="p">]:</span>
             <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inhibitors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">inhibitor_string</span> <span class="o">=</span> <span class="s1">&#39; &amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;!</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inhibitors</span><span class="p">)</span>
@@ -411,7 +411,7 @@
                 <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">upregulator_string</span><span class="si">}</span><span class="s1">&#39;</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="n">gene_name</span>
-        <span class="k">elif</span> <span class="n">joiner</span> <span class="o">==</span> <span class="s1">&#39;majority&#39;</span> <span class="ow">or</span> <span class="n">joiner</span> <span class="o">==</span> <span class="s1">&#39;plurality&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">joiner</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;majority&#39;</span> <span class="ow">or</span> <span class="n">joiner</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;plurality&#39;</span><span class="p">:</span>
             <span class="c1"># a majority vote system for upregulators and downregulators</span>
             <span class="c1"># node is true if activators - repressors &gt; 0</span>
             <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -498,6 +498,375 @@
     <span class="n">merged_equations</span> <span class="o">=</span> <span class="p">[</span><span class="n">eq</span> <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">merged_equations</span> <span class="k">if</span> <span class="n">eq</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39; 0&#39;</span><span class="p">]</span>
     <span class="n">merged_string</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">merged_equations</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">merged_string</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_edge_direction</span><span class="p">(</span><span class="n">predicate</span><span class="p">,</span> <span class="n">qualifiers</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Infer activation/inhibition from a Translator edge&#39;s predicate and qualifiers.</span>
+
+<span class="sd">    Returns &#39;inhibit&#39;, &#39;activate&#39;, or &#39;unknown&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="p">(</span><span class="n">qualifiers</span> <span class="ow">or</span> <span class="p">[]):</span>
+        <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;qualifier_type_id&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;biolink:object_direction_qualifier&#39;</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;qualifier_value&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;downregulated&#39;</span><span class="p">,</span> <span class="s1">&#39;decreased&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s1">&#39;inhibit&#39;</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;upregulated&#39;</span><span class="p">,</span> <span class="s1">&#39;increased&#39;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s1">&#39;activate&#39;</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">predicate</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s1">&#39;negatively&#39;</span> <span class="ow">in</span> <span class="n">pred</span> <span class="ow">or</span> <span class="s1">&#39;negative&#39;</span> <span class="ow">in</span> <span class="n">pred</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;inhibit&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;positively&#39;</span> <span class="ow">in</span> <span class="n">pred</span> <span class="ow">or</span> <span class="s1">&#39;positive&#39;</span> <span class="ow">in</span> <span class="n">pred</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;activate&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_curie_names</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="n">curie_to_symbol</span><span class="p">,</span> <span class="n">filtered_results</span><span class="p">,</span> <span class="n">gene_names_mod</span><span class="p">,</span> <span class="n">name_resolver</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Populate *curie_to_symbol* for every CURIE in *curies* that is not yet mapped.&quot;&quot;&quot;</span>
+    <span class="c1"># 1. Extract subject_name / object_name from edge attributes</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">filtered_results</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attributes&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="n">tid</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attribute_type_id&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tid</span> <span class="o">==</span> <span class="s1">&#39;subject_name&#39;</span> <span class="ow">and</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">curie_to_symbol</span><span class="p">:</span>
+                <span class="n">curie_to_symbol</span><span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">tid</span> <span class="o">==</span> <span class="s1">&#39;object_name&#39;</span> <span class="ow">and</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">curie_to_symbol</span><span class="p">:</span>
+                <span class="n">curie_to_symbol</span><span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+
+    <span class="c1"># 2. NCBIGene CURIEs → gene symbols via local gene_names module</span>
+    <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">curies</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">curie</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">curie_to_symbol</span> <span class="ow">and</span> <span class="n">curie</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;NCBIGene:&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">curie_to_symbol</span><span class="p">[</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">gene_names_mod</span><span class="o">.</span><span class="n">get_symbol</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">curie</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                <span class="k">pass</span>
+
+    <span class="c1"># 3. Remaining unknowns → Translator name_resolver</span>
+    <span class="n">unknown</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curies</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">curie_to_symbol</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">unknown</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="n">name_resolver</span><span class="o">.</span><span class="n">batch_lookup</span><span class="p">(</span><span class="n">unknown</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unknown</span><span class="p">:</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="n">extra</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">info</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+                        <span class="n">curie_to_symbol</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+                        <span class="k">continue</span>
+                <span class="n">curie_to_symbol</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">unknown</span><span class="p">:</span>
+                <span class="n">curie_to_symbol</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="load_translator_network">
+<a class="viewcode-back" href="../../build_bn_from_kg.html#KGBN.KG_BN.load_translator_network">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_translator_network</span><span class="p">(</span><span class="n">gene_list</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="n">n_hop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">sele_predicate</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;biolink:regulates&#39;</span><span class="p">],</span> <span class="n">sele_tax_id</span><span class="o">=</span><span class="mi">9606</span><span class="p">,</span> <span class="n">sele_API</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sele_KG</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a boolean network from Translator using all of the provided genes.</span>
+<span class="sd">    Tries to build a connected Steiner subgraph among input nodes (via n_hop paths).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        gene_list - list of symbols for genes, proteins, chemicals, or drugs</span>
+<span class="sd">        type - &quot;gene&quot;, &quot;protein&quot;, &quot;chemical&quot;, &quot;drug&quot;, &quot;disease&quot;, &quot;phenotype&quot;</span>
+<span class="sd">        joiner - &quot;&amp;&quot;, &quot;|&quot;, &quot;inhibitor_wins&quot;, or &quot;majority&quot;, or &quot;plurality&quot;</span>
+<span class="sd">                 (difference between the last two: in plurality, a tie indicates 1,</span>
+<span class="sd">                 in majority, a tie indicates 0)</span>
+<span class="sd">        n_hop - number of hops to build the subgraph, e.g., n_hop=1 means only</span>
+<span class="sd">                direct connections between input, n_hop=2 means one hop away, etc.</span>
+<span class="sd">                * currently only n_hop=1 is supported in TCT</span>
+<span class="sd">        sele_predicate - list of predicates to query from Translator</span>
+<span class="sd">        sele_tax_id - tax id to use when looking up genes/proteins, default is 9606 (human)</span>
+<span class="sd">        sele_API - list of APIs to select from Translator</span>
+<span class="sd">        sele_KG - list of KG to select from results (matches sources resource_id</span>
+<span class="sd">                  or attribute provided_by / knowledge_source values)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (bn_string, all_relations) where bn_string is a boolean network string</span>
+<span class="sd">        and all_relations is a list of (source, target, direction, score) tuples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">TCT</span><span class="w"> </span><span class="kn">import</span> <span class="n">name_resolver</span><span class="p">,</span> <span class="n">translator_metakg</span><span class="p">,</span> <span class="n">translator_kpinfo</span><span class="p">,</span> <span class="n">translator_query</span><span class="p">,</span> <span class="n">TCT</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">igraph</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ig</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">gene_names</span><span class="p">,</span> <span class="n">steiner_tree</span>
+
+    <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">joiner</span> <span class="ow">and</span> <span class="n">joiner</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">):</span>
+        <span class="n">joiner</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">joiner</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+
+    <span class="n">category_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;gene&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Gene&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;protein&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Protein&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;chemical&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:ChemicalSubstance&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;drug&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Drug&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;disease&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:DiseaseOrPhenotypicFeature&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;phenotype&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:PhenotypicFeature&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">input_node_category</span> <span class="o">=</span> <span class="n">category_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">input_node_category</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown type &#39;</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">&#39;. Must be one of: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">category_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 1. Resolve gene symbols → CURIEs</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Resolving gene names...&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sele_tax_id</span><span class="p">:</span>
+        <span class="n">sele_tax_id</span> <span class="o">=</span> <span class="s2">&quot;NCBITaxon:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sele_tax_id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected tax id: </span><span class="si">{</span><span class="n">sele_tax_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No tax id selected, using all&quot;</span><span class="p">)</span>
+    <span class="n">input_info</span> <span class="o">=</span> <span class="n">name_resolver</span><span class="o">.</span><span class="n">batch_lookup</span><span class="p">(</span><span class="n">gene_list</span><span class="p">,</span> <span class="n">only_taxa</span> <span class="o">=</span> <span class="n">sele_tax_id</span><span class="p">)</span>
+    <span class="n">input_curies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">curie_to_symbol</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gene_list</span><span class="p">:</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">input_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;info for </span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">info</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="s1">&#39;curie&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">info</span><span class="o">.</span><span class="n">curie</span><span class="p">:</span>
+            <span class="n">input_curies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">curie</span><span class="p">)</span>
+            <span class="n">curie_to_symbol</span><span class="p">[</span><span class="n">info</span><span class="o">.</span><span class="n">curie</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Resolved </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">input_curies</span><span class="p">)</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gene_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> genes to CURIEs&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_curies</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Need at least 2 resolved genes to build a network.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[]</span>
+
+    <span class="c1"># 2. Load Translator resources &amp; determine available predicates/APIs</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading Translator resources...&quot;</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">APInames</span> <span class="o">=</span> <span class="n">translator_kpinfo</span><span class="o">.</span><span class="n">get_translator_kp_info</span><span class="p">()</span>
+    <span class="n">metaKG</span> <span class="o">=</span> <span class="n">translator_metakg</span><span class="o">.</span><span class="n">get_KP_metadata</span><span class="p">(</span><span class="n">APInames</span><span class="p">)</span>
+    <span class="n">APInames</span><span class="p">,</span> <span class="n">metaKG</span> <span class="o">=</span> <span class="n">translator_metakg</span><span class="o">.</span><span class="n">add_plover_API</span><span class="p">(</span><span class="n">APInames</span><span class="p">,</span> <span class="n">metaKG</span><span class="p">)</span>
+
+    <span class="n">sub_cat</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_node_category</span><span class="p">]</span>
+    <span class="n">obj_cat</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_node_category</span><span class="p">]</span>
+    <span class="n">all_predicates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span>
+        <span class="n">TCT</span><span class="o">.</span><span class="n">select_concept</span><span class="p">(</span><span class="n">sub_list</span><span class="o">=</span><span class="n">sub_cat</span><span class="p">,</span> <span class="n">obj_list</span><span class="o">=</span><span class="n">obj_cat</span><span class="p">,</span> <span class="n">metaKG</span><span class="o">=</span><span class="n">metaKG</span><span class="p">)))</span>
+    <span class="n">query_predicates</span> <span class="o">=</span> <span class="n">all_predicates</span>
+    <span class="k">if</span> <span class="n">sele_predicate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">filtered_predicates</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">all_predicates</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sele_predicate</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">filtered_predicates</span><span class="p">:</span>
+            <span class="n">query_predicates</span> <span class="o">=</span> <span class="n">filtered_predicates</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: none of sele_predicate found. Using all </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_predicates</span><span class="p">)</span><span class="si">}</span><span class="s2"> available predicates.&quot;</span><span class="p">)</span>
+    
+    <span class="n">all_APIs</span> <span class="o">=</span> <span class="n">TCT</span><span class="o">.</span><span class="n">select_API</span><span class="p">(</span><span class="n">sub_list</span><span class="o">=</span><span class="n">sub_cat</span><span class="p">,</span> <span class="n">obj_list</span><span class="o">=</span><span class="n">obj_cat</span><span class="p">,</span> <span class="n">metaKG</span><span class="o">=</span><span class="n">metaKG</span><span class="p">)</span>
+    <span class="n">query_APIs</span> <span class="o">=</span> <span class="n">all_APIs</span>
+    <span class="k">if</span> <span class="n">sele_API</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">filtered_APIs</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">all_APIs</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">sele_API</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">filtered_APIs</span><span class="p">:</span>
+            <span class="n">query_APIs</span> <span class="o">=</span> <span class="n">filtered_APIs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: none of sele_API found. Using all </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_APIs</span><span class="p">)</span><span class="si">}</span><span class="s2"> available APIs.&quot;</span><span class="p">)</span>
+
+    <span class="n">API_predicates</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">metaKG</span><span class="p">[</span><span class="s1">&#39;API&#39;</span><span class="p">]):</span>
+        <span class="n">API_predicates</span><span class="p">[</span><span class="n">api</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">metaKG</span><span class="p">[</span><span class="n">metaKG</span><span class="p">[</span><span class="s1">&#39;API&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">api</span><span class="p">][</span><span class="s1">&#39;Predicate&#39;</span><span class="p">]))</span>
+
+    <span class="c1"># 3. Query Translator</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_do_query</span><span class="p">(</span><span class="n">curies</span><span class="p">):</span>
+        <span class="n">qj</span> <span class="o">=</span> <span class="n">TCT</span><span class="o">.</span><span class="n">format_query_json</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="p">[],</span> <span class="n">sub_cat</span><span class="p">,</span> <span class="n">obj_cat</span><span class="p">,</span> <span class="n">query_predicates</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">translator_query</span><span class="o">.</span><span class="n">parallel_api_query</span><span class="p">(</span>
+            <span class="n">query_json</span><span class="o">=</span><span class="n">qj</span><span class="p">,</span> <span class="n">select_APIs</span><span class="o">=</span><span class="n">query_APIs</span><span class="p">,</span>
+            <span class="n">APInames</span><span class="o">=</span><span class="n">APInames</span><span class="p">,</span> <span class="n">API_predicates</span><span class="o">=</span><span class="n">API_predicates</span><span class="p">,</span>
+            <span class="n">max_workers</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">query_APIs</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Querying Translator with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">input_curies</span><span class="p">)</span><span class="si">}</span><span class="s2"> input nodes...&quot;</span><span class="p">)</span>
+    <span class="n">all_results</span> <span class="o">=</span> <span class="n">_do_query</span><span class="p">(</span><span class="n">input_curies</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Query returned </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_results</span><span class="p">)</span><span class="si">}</span><span class="s2"> results&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 4. Iterative expansion for n_hop &gt; 2</span>
+    <span class="n">queried</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">input_curies</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">hop_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_hop</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">boundary</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">all_results</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">s</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subject&#39;</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">queried</span> <span class="ow">and</span> <span class="n">o</span> <span class="ow">and</span> <span class="n">o</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">queried</span><span class="p">:</span>
+                <span class="n">boundary</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">queried</span> <span class="ow">and</span> <span class="n">s</span> <span class="ow">and</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">queried</span><span class="p">:</span>
+                <span class="n">boundary</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">boundary</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No new boundary nodes at hop </span><span class="si">{</span><span class="n">hop_i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hop </span><span class="si">{</span><span class="n">hop_i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="si">}</span><span class="s2">: querying </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">boundary</span><span class="p">)</span><span class="si">}</span><span class="s2"> boundary nodes...&quot;</span><span class="p">)</span>
+        <span class="n">new_results</span> <span class="o">=</span> <span class="n">_do_query</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">boundary</span><span class="p">))</span>
+        <span class="n">all_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_results</span><span class="p">)</span>
+        <span class="n">queried</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">boundary</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total results so far: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_results</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 5. Filter results by KG</span>
+    <span class="n">sele_KG_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">sele_KG</span><span class="p">)</span> <span class="k">if</span> <span class="n">sele_KG</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="n">filtered</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">all_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">sele_KG_set</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sources&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">rid</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;resource_id&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">rid</span> <span class="ow">in</span> <span class="n">sele_KG_set</span> <span class="ow">or</span> <span class="n">rid</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">sele_KG_set</span><span class="p">:</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attributes&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attribute_type_id&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;provided_by&#39;</span><span class="p">,</span> <span class="s1">&#39;knowledge_source&#39;</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">sele_KG_set</span><span class="p">:</span>
+                            <span class="n">match</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="k">break</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">filtered</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+    <span class="c1"># n_hop = 1: keep only edges between input nodes</span>
+    <span class="n">input_curie_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">input_curies</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_hop</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">filtered</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">filtered</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;subject&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">input_curie_set</span>
+                    <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">input_curie_set</span><span class="p">}</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filtered to </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">filtered</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No edges found after filtering.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[]</span>
+
+    <span class="c1"># 6. Resolve CURIEs → gene symbols</span>
+    <span class="n">all_curies</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">filtered</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">all_curies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">])</span>
+        <span class="n">all_curies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span>
+    <span class="n">_resolve_curie_names</span><span class="p">(</span><span class="n">all_curies</span><span class="p">,</span> <span class="n">curie_to_symbol</span><span class="p">,</span> <span class="n">filtered</span><span class="p">,</span> <span class="n">gene_names</span><span class="p">,</span> <span class="n">name_resolver</span><span class="p">)</span>
+
+    <span class="c1"># 7. Collect directed edges as (source_sym, target_sym, pred, quals)</span>
+    <span class="n">edges_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">filtered</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">s</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">o</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">sn</span> <span class="o">=</span> <span class="n">curie_to_symbol</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">on</span> <span class="o">=</span> <span class="n">curie_to_symbol</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+        <span class="n">edges_data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sn</span><span class="p">,</span> <span class="n">on</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;predicate&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;qualifiers&#39;</span><span class="p">,</span> <span class="p">[])))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">edges_data</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No valid directed edges found.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[]</span>
+
+    <span class="c1"># 8. For n_hop &gt; 1: build undirected graph, find Steiner tree</span>
+    <span class="k">if</span> <span class="n">n_hop</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">all_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">edges_data</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">o</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">edges_data</span><span class="p">})</span>
+        <span class="n">G</span> <span class="o">=</span> <span class="n">ig</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_names</span><span class="p">:</span>
+            <span class="n">G</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">seen_undirected</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">edges_data</span><span class="p">:</span>
+            <span class="n">ek</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">]))</span>
+            <span class="k">if</span> <span class="n">ek</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen_undirected</span><span class="p">:</span>
+                <span class="n">seen_undirected</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ek</span><span class="p">)</span>
+                <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+
+        <span class="n">input_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">curie</span> <span class="ow">in</span> <span class="n">input_curies</span><span class="p">:</span>
+            <span class="n">sym</span> <span class="o">=</span> <span class="n">curie_to_symbol</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">curie</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sym</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">G</span><span class="o">.</span><span class="n">vs</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">sym</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">sym</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_names</span><span class="p">:</span>
+                        <span class="n">input_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sym</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_names</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finding Steiner tree for </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">input_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> input nodes &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;in a graph of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">vs</span><span class="p">)</span><span class="si">}</span><span class="s2"> nodes...&quot;</span><span class="p">)</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="n">steiner_tree</span><span class="o">.</span><span class="n">steiner_tree</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">input_names</span><span class="p">)</span>
+            <span class="n">tree_nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">vs</span><span class="p">}</span>
+            <span class="n">edges_data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">edges_data</span>
+                          <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">tree_nodes</span> <span class="ow">and</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">tree_nodes</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Steiner tree: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tree_nodes</span><span class="p">)</span><span class="si">}</span><span class="s2"> nodes, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">edges_data</span><span class="p">)</span><span class="si">}</span><span class="s2"> directed edges&quot;</span><span class="p">)</span>
+
+    <span class="c1"># 9. Group edges by target, determine direction, build BN equations</span>
+    <span class="c1"># node_inputs: target_name → {source_name: [directions]}</span>
+    <span class="n">node_inputs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">sn</span><span class="p">,</span> <span class="n">on</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">quals</span> <span class="ow">in</span> <span class="n">edges_data</span><span class="p">:</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">_get_edge_direction</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">quals</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;unknown&#39;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown direction for edge </span><span class="si">{</span><span class="n">sn</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">on</span><span class="si">}</span><span class="s2"> with predicate </span><span class="si">{</span><span class="n">pred</span><span class="si">}</span><span class="s2"> and qualifiers </span><span class="si">{</span><span class="n">quals</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">node_inputs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">on</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">sn</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+
+    <span class="n">all_node_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="ow">in</span> <span class="n">edges_data</span><span class="p">:</span>
+        <span class="n">all_node_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">all_node_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+    <span class="n">bn_lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">all_relations</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">gene_name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_node_names</span><span class="p">):</span>
+        <span class="n">sources</span> <span class="o">=</span> <span class="n">node_inputs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">gene_name</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">inhibitors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">upregulators</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">input_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">sources</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">src</span> <span class="o">==</span> <span class="n">gene_name</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">directions</span> <span class="o">=</span> <span class="n">sources</span><span class="p">[</span><span class="n">src</span><span class="p">]</span>
+            <span class="n">n_inh</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">directions</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="s1">&#39;inhibit&#39;</span><span class="p">)</span>
+            <span class="n">n_act</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span> <span class="o">-</span> <span class="n">n_inh</span>
+            <span class="k">if</span> <span class="n">n_inh</span> <span class="o">&gt;</span> <span class="n">n_act</span><span class="p">:</span>
+                <span class="n">input_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;(! </span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+                <span class="n">inhibitors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+                <span class="n">all_relations</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">src</span><span class="p">,</span> <span class="n">gene_name</span><span class="p">,</span> <span class="s1">&#39;inhibit&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">src</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+                <span class="n">upregulators</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+                <span class="n">all_relations</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">src</span><span class="p">,</span> <span class="n">gene_name</span><span class="p">,</span> <span class="s1">&#39;activate&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+        <span class="c1"># --- build the equation string (same joiner logic as load_signor_network) ---</span>
+        <span class="k">if</span> <span class="n">joiner</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;inhibitor_wins&#39;</span><span class="p">,</span> <span class="s1">&#39;inhibitorwins&#39;</span><span class="p">,</span> <span class="s1">&#39;inhibitor wins&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inhibitors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">inhibitor_string</span> <span class="o">=</span> <span class="s1">&#39; &amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;!</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inhibitors</span><span class="p">)</span>
+                <span class="n">inhibitor_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">inhibitor_string</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">inhibitors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">inhibitor_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;!</span><span class="si">{</span><span class="n">inhibitors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">inhibitor_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">upregulators</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">upregulator_string</span> <span class="o">=</span> <span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">upregulators</span><span class="p">)</span>
+                <span class="n">upregulator_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">upregulator_string</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">upregulators</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">upregulator_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">upregulators</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">upregulator_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+            <span class="k">if</span> <span class="n">inhibitor_string</span> <span class="ow">and</span> <span class="n">upregulator_string</span><span class="p">:</span>
+                <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">inhibitor_string</span><span class="si">}</span><span class="s1"> &amp; </span><span class="si">{</span><span class="n">upregulator_string</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="k">elif</span> <span class="n">inhibitor_string</span><span class="p">:</span>
+                <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="n">inhibitor_string</span>
+            <span class="k">elif</span> <span class="n">upregulator_string</span><span class="p">:</span>
+                <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="n">upregulator_string</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="n">gene_name</span>
+
+        <span class="k">elif</span> <span class="n">joiner</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;majority&#39;</span><span class="p">,</span> <span class="s1">&#39;plurality&#39;</span><span class="p">]:</span>
+            <span class="n">up_down</span> <span class="o">=</span> <span class="n">upregulators</span> <span class="o">+</span> <span class="n">inhibitors</span>
+            <span class="n">all_outputs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">permutation</span> <span class="ow">in</span> <span class="n">all_boolean_combos</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">up_down</span><span class="p">)):</span>
+                <span class="n">upreg</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">permutation</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">upregulators</span><span class="p">)])</span>
+                <span class="n">downreg</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">permutation</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">upregulators</span><span class="p">):])</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">joiner</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;majority&#39;</span> <span class="ow">and</span> <span class="n">upreg</span> <span class="o">&gt;</span> <span class="n">downreg</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">joiner</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;plurality&#39;</span> <span class="ow">and</span> <span class="n">upreg</span> <span class="o">&gt;=</span> <span class="n">downreg</span><span class="p">)):</span>
+                    <span class="n">gene_string</span> <span class="o">=</span> <span class="s1">&#39; &amp; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="s1">&#39;!&#39;</span> <span class="o">+</span> <span class="n">g</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">g</span>
+                        <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">permutation</span><span class="p">,</span> <span class="n">up_down</span><span class="p">))</span>
+                    <span class="n">all_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">gene_string</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+            <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="s1">&#39; | &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">all_outputs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_nodes_string</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="n">joiner</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_nodes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">input_nodes_string</span> <span class="o">=</span> <span class="n">gene_name</span>
+
+        <span class="n">bn_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">gene_name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">input_nodes_string</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="n">bn_lines</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bn_lines</span><span class="p">),</span> <span class="n">all_relations</span></div>
 
 </pre></div>
         </article>

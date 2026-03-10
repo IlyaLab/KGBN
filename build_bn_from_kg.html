@@ -282,6 +282,38 @@ score_cutoff - minimum score threshold for edges to be included (default: None, 
 prob: probability of the equations from the original model</p>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="KGBN.KG_BN.load_translator_network">
+<span class="sig-prename descclassname"><span class="pre">KGBN.KG_BN.</span></span><span class="sig-name descname"><span class="pre">load_translator_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gene_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gene'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joiner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&amp;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_hop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sele_predicate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['biolink:regulates']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sele_tax_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9606</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sele_API</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sele_KG</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/KGBN/KG_BN.html#load_translator_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#KGBN.KG_BN.load_translator_network" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a boolean network from Translator using all of the provided genes.
+Tries to build a connected Steiner subgraph among input nodes (via n_hop paths).</p>
+<dl>
+<dt>Args:</dt><dd><p>gene_list - list of symbols for genes, proteins, chemicals, or drugs
+type - “gene”, “protein”, “chemical”, “drug”, “disease”, “phenotype”
+joiner - “&amp;”, “|”, “inhibitor_wins”, or “majority”, or “plurality”</p>
+<blockquote>
+<div><p>(difference between the last two: in plurality, a tie indicates 1,
+in majority, a tie indicates 0)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>n_hop - number of hops to build the subgraph, e.g., n_hop=1 means only</dt><dd><p>direct connections between input, n_hop=2 means one hop away, etc.
+* currently only n_hop=1 is supported in TCT</p>
+</dd>
+</dl>
+<p>sele_predicate - list of predicates to query from Translator
+sele_tax_id - tax id to use when looking up genes/proteins, default is 9606 (human)
+sele_API - list of APIs to select from Translator
+sele_KG - list of KG to select from results (matches sources resource_id</p>
+<blockquote>
+<div><p>or attribute provided_by / knowledge_source values)</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>(bn_string, all_relations) where bn_string is a boolean network string
+and all_relations is a list of (source, target, direction, score) tuples.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
         </article>
@@ -325,6 +357,7 @@ prob: probability of the equations from the original model</p>
 <li><a class="reference internal" href="#KGBN.KG_BN.all_boolean_combos"><code class="docutils literal notranslate"><span class="pre">all_boolean_combos()</span></code></a></li>
 <li><a class="reference internal" href="#KGBN.KG_BN.load_signor_network"><code class="docutils literal notranslate"><span class="pre">load_signor_network()</span></code></a></li>
 <li><a class="reference internal" href="#KGBN.KG_BN.merge_PBN_string"><code class="docutils literal notranslate"><span class="pre">merge_PBN_string()</span></code></a></li>
+<li><a class="reference internal" href="#KGBN.KG_BN.load_translator_network"><code class="docutils literal notranslate"><span class="pre">load_translator_network()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -1031,7 +1031,12 @@
 
 <div class="viewcode-block" id="SteadyStateCalculator.compute_stationary_deterministic">
 <a class="viewcode-back" href="../../steady_state.html#KGBN.steady_state.SteadyStateCalculator.compute_stationary_deterministic">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">compute_stationary_deterministic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_runs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_stationary_deterministic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_runs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> 
+                                         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">stimuli</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">stimuli_efficacy</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">inhibitors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                         <span class="n">inhibitors_efficacy</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Find attractors (fixed points and cycles) in a synchronous</span>
 <span class="sd">        Boolean network via random restarts.</span>
@@ -1046,6 +1051,14 @@
 <span class="sd">            Whether to print steady state information</span>
 <span class="sd">        seed : int, optional</span>
 <span class="sd">            Random seed for reproducibility</span>
+<span class="sd">        stimuli : List[str], optional</span>
+<span class="sd">            Node names to stimulate (fix to 1)</span>
+<span class="sd">        stimuli_efficacy : List[float], optional</span>
+<span class="sd">            Efficacy values for stimuli (0-1). If 1.0, full knockout. If &lt; 1.0, probabilistic.</span>
+<span class="sd">        inhibitors : List[str], optional</span>
+<span class="sd">            Node names to inhibit (fix to 0)</span>
+<span class="sd">        inhibitors_efficacy : List[float], optional</span>
+<span class="sd">            Efficacy values for inhibitors (0-1). If 1.0, full knockout. If &lt; 1.0, probabilistic.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1058,7 +1071,17 @@
         <span class="c1"># Set random seed for reproducibility</span>
         <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-            
+
+        <span class="c1"># Apply experimental conditions if provided</span>
+        <span class="n">has_conditions</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="n">stimuli</span><span class="p">,</span> <span class="n">inhibitors</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">has_conditions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_experimental_conditions</span><span class="p">(</span>
+                <span class="n">stimuli</span><span class="o">=</span><span class="n">stimuli</span><span class="p">,</span>
+                <span class="n">stimuli_efficacy</span><span class="o">=</span><span class="n">stimuli_efficacy</span><span class="p">,</span>
+                <span class="n">inhibitors</span><span class="o">=</span><span class="n">inhibitors</span><span class="p">,</span>
+                <span class="n">inhibitors_efficacy</span><span class="o">=</span><span class="n">inhibitors_efficacy</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="n">fixed_points</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">cycles</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -1073,11 +1096,17 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_network_state</span><span class="p">()</span>  <span class="c1"># keep original state</span>
 
+        <span class="c1"># Identify nodes that must keep their fixed value during random restarts</span>
+        <span class="n">fixed_indices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_indices</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_constant_node</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                <span class="n">fixed_indices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_runs</span><span class="p">):</span>
             <span class="c1"># random start</span>
             <span class="n">init</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
-            <span class="c1"># Keep input nodes at their current values (set by experimental conditions)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_indices</span><span class="p">:</span>
+            <span class="c1"># Keep input and constant/knocked-out nodes at their current values</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fixed_indices</span><span class="p">:</span>
                 <span class="n">init</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             
             <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">setInitialValues</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
