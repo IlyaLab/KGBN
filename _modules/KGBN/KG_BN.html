@@ -340,6 +340,11 @@
             <span class="n">new_uniprot_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">continue</span>
+    <span class="c1"># # print edges in the graph where subject and object is in [&#39;CDKN2A&#39;, &#39;MYC&#39;, &#39;TP53&#39;,&#39;CDK2&#39;]</span>
+    <span class="c1"># print(&quot;\nEdge found among CDKN2A, MYC, TP53, CDK2:&quot;)</span>
+    <span class="c1"># for e in graph.es:</span>
+    <span class="c1">#     if graph.vs[e.source].attributes()[&#39;feature_name&#39;] in [&#39;CDKN2A&#39;, &#39;MYC&#39;, &#39;TP53&#39;,&#39;CDK2&#39;] and graph.vs[e.target].attributes()[&#39;feature_name&#39;] in [&#39;CDKN2A&#39;, &#39;MYC&#39;, &#39;TP53&#39;,&#39;CDK2&#39;]:</span>
+    <span class="c1">#         print(f&quot;{graph.vs[e.source].attributes()[&#39;feature_name&#39;]} {e.attributes()[&#39;predicate&#39;]} {graph.vs[e.target].attributes()[&#39;feature_name&#39;]}&quot;)</span>
     <span class="c1"># print(new_uniprot_list)</span>
     <span class="c1"># Steiner subgraph - get a tree using a connected thing...</span>
     <span class="n">tree</span> <span class="o">=</span> <span class="n">steiner_tree</span><span class="o">.</span><span class="n">steiner_tree</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">new_uniprot_list</span><span class="p">)</span>
@@ -559,7 +564,7 @@
 
 <div class="viewcode-block" id="load_translator_network">
 <a class="viewcode-back" href="../../build_bn_from_kg.html#KGBN.KG_BN.load_translator_network">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_translator_network</span><span class="p">(</span><span class="n">gene_list</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="n">n_hop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_translator_network</span><span class="p">(</span><span class="n">gene_list</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="n">n_hop</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">sele_predicate</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;biolink:regulates&#39;</span><span class="p">],</span> <span class="n">sele_tax_id</span><span class="o">=</span><span class="mi">9606</span><span class="p">,</span> <span class="n">sele_API</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sele_KG</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a boolean network from Translator using all of the provided genes.</span>
@@ -567,7 +572,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        gene_list - list of symbols for genes, proteins, chemicals, or drugs</span>
-<span class="sd">        type - &quot;gene&quot;, &quot;protein&quot;, &quot;chemical&quot;, &quot;drug&quot;, &quot;disease&quot;, &quot;phenotype&quot;</span>
+<span class="sd">        type - &quot;gene&quot;, &quot;protein&quot;, &quot;chemical&quot;, &quot;drug&quot;, &quot;disease&quot;, &quot;phenotype&quot;, or None (all possible types)</span>
 <span class="sd">        joiner - &quot;&amp;&quot;, &quot;|&quot;, &quot;inhibitor_wins&quot;, or &quot;majority&quot;, or &quot;plurality&quot;</span>
 <span class="sd">                 (difference between the last two: in plurality, a tie indicates 1,</span>
 <span class="sd">                 in majority, a tie indicates 0)</span>
@@ -591,18 +596,6 @@
     <span class="k">if</span> <span class="s1">&#39; &#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">joiner</span> <span class="ow">and</span> <span class="n">joiner</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">):</span>
         <span class="n">joiner</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">joiner</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
 
-    <span class="n">category_map</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;gene&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Gene&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;protein&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Protein&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;chemical&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:ChemicalSubstance&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;drug&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Drug&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;disease&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:DiseaseOrPhenotypicFeature&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;phenotype&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:PhenotypicFeature&#39;</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="n">input_node_category</span> <span class="o">=</span> <span class="n">category_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">input_node_category</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown type &#39;</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">&#39;. Must be one of: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">category_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
     <span class="c1"># 1. Resolve gene symbols → CURIEs</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Resolving gene names...&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">sele_tax_id</span><span class="p">:</span>
@@ -623,6 +616,27 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_curies</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Need at least 2 resolved genes to build a network.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">[]</span>
+    
+    <span class="c1"># determine the input node categories</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">:</span>
+        <span class="n">category_map</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;gene&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Gene&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;protein&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Protein&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;chemical&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:ChemicalSubstance&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;drug&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:Drug&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;disease&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:DiseaseOrPhenotypicFeature&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;phenotype&#39;</span><span class="p">:</span> <span class="s1">&#39;biolink:PhenotypicFeature&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">input_node_category</span> <span class="o">=</span> <span class="p">[</span><span class="n">category_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">input_node_category</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown type &#39;</span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">&#39;. Must be one of: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">category_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">input_node_category</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">gene_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">input_info</span><span class="p">[</span><span class="n">node</span><span class="p">],</span> <span class="s1">&#39;types&#39;</span><span class="p">):</span>
+                <span class="n">input_node_category</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">input_info</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">types</span><span class="p">)</span>
+        <span class="n">input_node_category</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">input_node_category</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Querying for input node categories: </span><span class="si">{</span><span class="n">input_node_category</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># 2. Load Translator resources &amp; determine available predicates/APIs</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading Translator resources...&quot;</span><span class="p">)</span>
@@ -630,10 +644,8 @@
     <span class="n">metaKG</span> <span class="o">=</span> <span class="n">translator_metakg</span><span class="o">.</span><span class="n">get_KP_metadata</span><span class="p">(</span><span class="n">APInames</span><span class="p">)</span>
     <span class="n">APInames</span><span class="p">,</span> <span class="n">metaKG</span> <span class="o">=</span> <span class="n">translator_metakg</span><span class="o">.</span><span class="n">add_plover_API</span><span class="p">(</span><span class="n">APInames</span><span class="p">,</span> <span class="n">metaKG</span><span class="p">)</span>
 
-    <span class="n">sub_cat</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_node_category</span><span class="p">]</span>
-    <span class="n">obj_cat</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_node_category</span><span class="p">]</span>
     <span class="n">all_predicates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span>
-        <span class="n">TCT</span><span class="o">.</span><span class="n">select_concept</span><span class="p">(</span><span class="n">sub_list</span><span class="o">=</span><span class="n">sub_cat</span><span class="p">,</span> <span class="n">obj_list</span><span class="o">=</span><span class="n">obj_cat</span><span class="p">,</span> <span class="n">metaKG</span><span class="o">=</span><span class="n">metaKG</span><span class="p">)))</span>
+        <span class="n">TCT</span><span class="o">.</span><span class="n">select_concept</span><span class="p">(</span><span class="n">sub_list</span><span class="o">=</span><span class="n">input_node_category</span><span class="p">,</span> <span class="n">obj_list</span><span class="o">=</span><span class="n">input_node_category</span><span class="p">,</span> <span class="n">metaKG</span><span class="o">=</span><span class="n">metaKG</span><span class="p">)))</span>
     <span class="n">query_predicates</span> <span class="o">=</span> <span class="n">all_predicates</span>
     <span class="k">if</span> <span class="n">sele_predicate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filtered_predicates</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">all_predicates</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">sele_predicate</span><span class="p">]</span>
@@ -642,7 +654,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: none of sele_predicate found. Using all </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_predicates</span><span class="p">)</span><span class="si">}</span><span class="s2"> available predicates.&quot;</span><span class="p">)</span>
     
-    <span class="n">all_APIs</span> <span class="o">=</span> <span class="n">TCT</span><span class="o">.</span><span class="n">select_API</span><span class="p">(</span><span class="n">sub_list</span><span class="o">=</span><span class="n">sub_cat</span><span class="p">,</span> <span class="n">obj_list</span><span class="o">=</span><span class="n">obj_cat</span><span class="p">,</span> <span class="n">metaKG</span><span class="o">=</span><span class="n">metaKG</span><span class="p">)</span>
+    <span class="n">all_APIs</span> <span class="o">=</span> <span class="n">TCT</span><span class="o">.</span><span class="n">select_API</span><span class="p">(</span><span class="n">sub_list</span><span class="o">=</span><span class="n">input_node_category</span><span class="p">,</span> <span class="n">obj_list</span><span class="o">=</span><span class="n">input_node_category</span><span class="p">,</span> <span class="n">metaKG</span><span class="o">=</span><span class="n">metaKG</span><span class="p">)</span>
     <span class="n">query_APIs</span> <span class="o">=</span> <span class="n">all_APIs</span>
     <span class="k">if</span> <span class="n">sele_API</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filtered_APIs</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">all_APIs</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">sele_API</span><span class="p">]</span>
@@ -657,7 +669,7 @@
 
     <span class="c1"># 3. Query Translator</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_do_query</span><span class="p">(</span><span class="n">curies</span><span class="p">):</span>
-        <span class="n">qj</span> <span class="o">=</span> <span class="n">TCT</span><span class="o">.</span><span class="n">format_query_json</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="p">[],</span> <span class="n">sub_cat</span><span class="p">,</span> <span class="n">obj_cat</span><span class="p">,</span> <span class="n">query_predicates</span><span class="p">)</span>
+        <span class="n">qj</span> <span class="o">=</span> <span class="n">TCT</span><span class="o">.</span><span class="n">format_query_json</span><span class="p">(</span><span class="n">curies</span><span class="p">,</span> <span class="p">[],</span> <span class="n">input_node_category</span><span class="p">,</span> <span class="n">input_node_category</span><span class="p">,</span> <span class="n">query_predicates</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">translator_query</span><span class="o">.</span><span class="n">parallel_api_query</span><span class="p">(</span>
             <span class="n">query_json</span><span class="o">=</span><span class="n">qj</span><span class="p">,</span> <span class="n">select_APIs</span><span class="o">=</span><span class="n">query_APIs</span><span class="p">,</span>
             <span class="n">APInames</span><span class="o">=</span><span class="n">APInames</span><span class="p">,</span> <span class="n">API_predicates</span><span class="o">=</span><span class="n">API_predicates</span><span class="p">,</span>

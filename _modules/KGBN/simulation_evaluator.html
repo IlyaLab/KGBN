@@ -391,7 +391,7 @@
                     <span class="c1"># Use tuple (exp_id, node_name) as key for node-based measurements</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">normalized_measured_values</span><span class="p">[(</span><span class="n">exp</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">node_name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">normalized</span>
         
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Normalization enabled: Measured values range [</span><span class="si">{</span><span class="n">min_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">max_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">] scaled to [0, 1]&quot;</span><span class="p">)</span>
+        <span class="c1"># print(f&quot;Normalization enabled: Measured values range [{min_val:.4f}, {max_val:.4f}] scaled to [0, 1]&quot;)</span>
     
     <span class="k">def</span><span class="w"> </span><span class="nf">_store_original_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Store original parameters for non-optimized nodes&quot;&quot;&quot;</span>
