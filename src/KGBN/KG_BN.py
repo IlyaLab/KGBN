@@ -22,7 +22,7 @@ def all_boolean_combos(n):
 
 # try using signor
 def load_signor_network(gene_list, input_format="symbol", joiner='&', kg_filename='SIGNOR_2025_08_14.tsv',
-        only_proteins=True, score_cutoff=None):
+        only_proteins=True, score_cutoff=None, saveto=None):
     """
     Creates a boolean network from SigNOR using all of the provided genes. Tries to build a connected Steiner subgraph...
 
@@ -33,6 +33,9 @@ def load_signor_network(gene_list, input_format="symbol", joiner='&', kg_filenam
         kg_filename - "SIGNOR_2025_08_14.tsv" by default. "SIGNOR_formatted.tsv" can also be used (this is an older version of SigNOR).
         only_proteins - whether to only use protein nodes in SIGNOR for getting the subgraph (default: True)
         score_cutoff - minimum score threshold for edges to be included (default: None, includes all edges)
+        saveto - if provided, save all edge attributes (source, target, direction, predicate,
+                 Primary_Knowledge_Source, Knowledge_Source, publications, score, …) to this
+                 CSV file path (e.g. 'KG_evidence.csv').  Default: None (no file written).
     """
     from . import graph_info, steiner_tree, gene_names
     if ' ' not in joiner and (joiner == '&' or joiner == '|'):
@@ -102,6 +105,7 @@ def load_signor_network(gene_list, input_format="symbol", joiner='&', kg_filenam
     # inhibitors
     # get all input edges
     all_relations = []
+    all_edge_records = []  # for optional CSV export
     for n in subgraph.vs:
         inhibitors = []
         upregulators = []
@@ -110,32 +114,38 @@ def load_signor_network(gene_list, input_format="symbol", joiner='&', kg_filenam
         in_edges = subgraph.incident(n, mode='in')
         input_nodes = []
         edge_scores = []
-        
+
         for e in in_edges:
             e = subgraph.es[e]
             in_node = subgraph.vs[e.source].attributes()['feature_name']
             if in_node in incoming_genes:
                 continue
             incoming_genes.add(in_node)
-            predicate = e.attributes()['predicate']
-            
-            # Get score if available
-            score = None
-            if 'score' in e.attributes():
-                score = e.attributes()['score']
-            
+            attrs = e.attributes()
+            predicate = attrs.get('predicate', '')
+            score = attrs.get('score', None)
+
             if 'down-regulates' in predicate:
+                direction = 'inhibit'
                 input_nodes.append(f'(! {in_node})')
                 inhibitors.append(in_node)
-                all_relations.append((in_node, gene_name, 'inhibit', score))
+                all_relations.append((in_node, gene_name, direction, score))
                 if score is not None:
                     edge_scores.append(f"{in_node}_inhibit:{score}")
             elif 'up-regulates' in predicate:
+                direction = 'activate'
                 input_nodes.append(f'({in_node})')
                 upregulators.append(in_node)
-                all_relations.append((in_node, gene_name, 'activate', score))
+                all_relations.append((in_node, gene_name, direction, score))
                 if score is not None:
                     edge_scores.append(f"{in_node}_activate:{score}")
+            else:
+                direction = 'unknown'
+
+            # Collect full record for CSV
+            record = {'source': in_node, 'target': gene_name, 'direction': direction}
+            record.update(attrs)
+            all_edge_records.append(record)
         
         if joiner.lower() in ['inhibitor_wins', 'inhibitorwins', 'inhibitor wins']:
             input_nodes_string = ''
@@ -194,6 +204,13 @@ def load_signor_network(gene_list, input_format="symbol", joiner='&', kg_filenam
         bn_lines.append(output_string)
     # order the equations by key alphabetically
     bn_lines.sort(key=lambda x: x.split('=')[0])
+
+    if saveto and all_edge_records:
+        import pandas as pd
+        df = pd.DataFrame(all_edge_records)
+        df.to_csv(saveto, index=False)
+        print(f"Edge attributes saved to {saveto} ({len(df)} rows)")
+
     return '\n'.join(bn_lines), all_relations
 
 
