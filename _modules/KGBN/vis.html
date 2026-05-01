@@ -614,25 +614,76 @@
 
 <div class="viewcode-block" id="vis_network">
 <a class="viewcode-back" href="../../vis.html#KGBN.vis.vis_network">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">vis_network</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">output_html</span><span class="o">=</span><span class="s2">&quot;network_graph.html&quot;</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
-                   <span class="n">removed_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">removed_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">measured_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perturbed_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                   <span class="n">color_node</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color_edge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">physics</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">vis_network</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">output_html</span><span class="o">=</span><span class="s2">&quot;network_graph.html&quot;</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">removed_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">removed_edges</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">measured_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perturbed_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">color_node</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color_edge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">physics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Boolean Network&quot;</span><span class="p">,</span> <span class="n">node_groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;hierarchical&#39;</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">activation_color</span><span class="o">=</span><span class="s1">&#39;#D73027&#39;</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="o">=</span><span class="s1">&#39;#4575B4&#39;</span><span class="p">,</span>
+                <span class="n">node_size</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Visualize the logic graph using PyVis and igraph.</span>
+<span class="sd">    Visualize the Boolean network.</span>
+
+<span class="sd">    When ``interactive=False`` (default), produces a publication-quality</span>
+<span class="sd">    matplotlib figure with a configurable layout and clearly distinguished</span>
+<span class="sd">    activation / inhibition edges.</span>
+
+<span class="sd">    When ``interactive=True``, saves an interactive HTML file via PyVis.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        source: Logic rules (dict), file path (str), network string (str), </span>
-<span class="sd">                BooleanNetwork object, or ProbabilisticBN object</span>
-<span class="sd">        output_html (str): Output HTML file name.</span>
-<span class="sd">        interactive (bool): If True, return the network visualization in interactive html file</span>
-<span class="sd">        removed_nodes (set): Set of node names that were removed (shown in grey)</span>
-<span class="sd">        removed_edges (set): Set of edge tuples that were removed (shown in grey)</span>
-<span class="sd">        measured_nodes (set): Set of node names that are measured (shown in orange)</span>
-<span class="sd">        perturbed_nodes (set): Set of node names that are perturbed (shown in red)</span>
-<span class="sd">        color_node (str): If provided, all nodes will use this color (e.g., &#39;lightblue&#39;, &#39;#FF5733&#39;)</span>
-<span class="sd">        color_edge (str): If provided, all edges will use this color. If None, edges are colored</span>
-<span class="sd">                         by regulation type (blue for inhibition, red for activation)</span>
-<span class="sd">        physics (bool): If True, enable physics simulation</span>
+<span class="sd">        source: Logic rules — dict, file path (str), network string (str),</span>
+<span class="sd">                BooleanNetwork, or ProbabilisticBN object.</span>
+<span class="sd">        output_html (str): Output HTML file name (interactive mode only).</span>
+<span class="sd">        interactive (bool): If ``True``, generate an interactive HTML file.</span>
+<span class="sd">        removed_nodes (set): Nodes shown as removed (light grey).</span>
+<span class="sd">        removed_edges (set): Edges shown as removed (interactive mode only).</span>
+<span class="sd">        measured_nodes (set): Measured / readout nodes (orange).</span>
+<span class="sd">        perturbed_nodes (set): Perturbed nodes (red).</span>
+<span class="sd">        color_node (str): Uniform node colour override (interactive mode only).</span>
+<span class="sd">        color_edge (str): Uniform edge colour override (interactive mode only).</span>
+<span class="sd">        physics (bool): Enable physics simulation (interactive mode only).</span>
+
+<span class="sd">        figsize (tuple): Figure size ``(width, height)`` in inches</span>
+<span class="sd">                         (static mode only).</span>
+<span class="sd">        title (str): Figure title (static mode only).</span>
+<span class="sd">        node_groups (dict): Custom colour groups that override</span>
+<span class="sd">                            connectivity-based defaults.  Format::</span>
+
+<span class="sd">                                {group_name: (node_set, color)}</span>
+
+<span class="sd">                            Example::</span>
+
+<span class="sd">                                {&#39;Drug targets&#39;: ({&#39;BCL2&#39;, &#39;SYK&#39;}, &#39;#E1F2D0&#39;),</span>
+<span class="sd">                                 &#39;Mutations&#39;:    ({&#39;NRAS&#39;},         &#39;#D783FF&#39;)}</span>
+
+<span class="sd">        layout (str): Node placement algorithm (static mode only).  Options:</span>
+
+<span class="sd">                      * ``&#39;hierarchical&#39;`` *(default)* — layered top-down.</span>
+<span class="sd">                      * ``&#39;spring&#39;`` — force-directed (dense/cyclic nets).</span>
+<span class="sd">                      * ``&#39;kamada_kawai&#39;`` — stress-minimisation.</span>
+<span class="sd">                      * ``&#39;circular&#39;`` — evenly spaced on a circle.</span>
+<span class="sd">                      * ``&#39;shell&#39;`` — concentric shells.</span>
+<span class="sd">                      * ``&#39;spectral&#39;`` — eigenvector-based.</span>
+<span class="sd">                      * ``&#39;dot&#39;`` — Graphviz ``dot`` (requires</span>
+<span class="sd">                        ``pygraphviz`` or ``pydot``).</span>
+
+<span class="sd">        layout_kwargs (dict): Extra keyword arguments for the layout</span>
+<span class="sd">                              algorithm.  For ``&#39;hierarchical&#39;``, ``x_gap``</span>
+<span class="sd">                              (default 3.0) and ``y_gap`` (default 2.5)</span>
+<span class="sd">                              control inter-node spacing.</span>
+<span class="sd">        activation_color (str): Edge colour for activation (static mode only).</span>
+<span class="sd">        inhibition_color (str): Edge colour for inhibition (static mode only).</span>
+<span class="sd">        node_size (int): Node marker size in matplotlib units (static mode only).</span>
+<span class="sd">        font_size (int): Label font size in points (static mode only).</span>
+<span class="sd">        ax: Existing :class:`matplotlib.axes.Axes` to draw on; a new figure</span>
+<span class="sd">            is created when *None* (static mode only).</span>
+<span class="sd">        return_fig (bool): If ``True``, return ``(fig, ax)`` instead of</span>
+<span class="sd">                           calling ``plt.show()`` (static mode only).</span>
+<span class="sd">        seed (int): Random seed for reproducible layouts (static mode only).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``None``, or ``(fig, ax)`` when *return_fig* is ``True`` and</span>
+<span class="sd">        ``interactive=False``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Handle different input types</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;nodeDict&#39;</span><span class="p">):</span>  <span class="c1"># BooleanNetwork or ProbabilisticBN</span>
@@ -655,10 +706,18 @@
     <span class="n">measured_nodes</span> <span class="o">=</span> <span class="n">measured_nodes</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">perturbed_nodes</span> <span class="o">=</span> <span class="n">perturbed_nodes</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="c1"># For non-interactive mode, use matplotlib visualization</span>
+    <span class="c1"># For non-interactive mode, use publication-quality matplotlib rendering</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">interactive</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">create_matplotlib_visualization</span><span class="p">(</span><span class="n">logic_rules</span><span class="p">,</span> <span class="n">removed_nodes</span><span class="p">,</span> <span class="n">removed_edges</span><span class="p">,</span> 
-                                                  <span class="n">measured_nodes</span><span class="p">,</span> <span class="n">perturbed_nodes</span><span class="p">,</span> <span class="n">color_node</span><span class="o">=</span><span class="n">color_node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_vis_network_static</span><span class="p">(</span>
+            <span class="n">source</span><span class="p">,</span>
+            <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">removed_nodes</span><span class="o">=</span><span class="n">removed_nodes</span><span class="p">,</span> <span class="n">measured_nodes</span><span class="o">=</span><span class="n">measured_nodes</span><span class="p">,</span>
+            <span class="n">perturbed_nodes</span><span class="o">=</span><span class="n">perturbed_nodes</span><span class="p">,</span> <span class="n">node_groups</span><span class="o">=</span><span class="n">node_groups</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="n">layout_kwargs</span><span class="p">,</span>
+            <span class="n">activation_color</span><span class="o">=</span><span class="n">activation_color</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="o">=</span><span class="n">inhibition_color</span><span class="p">,</span>
+            <span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">return_fig</span><span class="o">=</span><span class="n">return_fig</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="c1"># For interactive mode, use pyvis</span>
     <span class="c1"># Check if this is PBN (multiple rules per node)</span>
@@ -1022,24 +1081,78 @@
 <div class="viewcode-block" id="vis_extension">
 <a class="viewcode-back" href="../../vis.html#KGBN.vis.vis_extension">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">vis_extension</span><span class="p">(</span><span class="n">original_network</span><span class="p">,</span> <span class="n">extended_network</span><span class="p">,</span> <span class="n">output_html</span><span class="o">=</span><span class="s2">&quot;network+KG.html&quot;</span><span class="p">,</span> <span class="n">interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                  <span class="n">color_node</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">color_edge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extension_color_node</span><span class="o">=</span><span class="s1">&#39;#E1F2D0&#39;</span><span class="p">,</span> 
-                  <span class="n">extension_color_edge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">physics</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                  <span class="n">color_node</span><span class="o">=</span><span class="s1">&#39;#AED6F1&#39;</span><span class="p">,</span> <span class="n">color_edge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extension_color_node</span><span class="o">=</span><span class="s1">&#39;#FBE1BE&#39;</span><span class="p">,</span>
+                  <span class="n">extension_color_edge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">physics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">node_groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;hierarchical&#39;</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">edge_scores</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">activation_color</span><span class="o">=</span><span class="s1">&#39;#D73027&#39;</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="o">=</span><span class="s1">&#39;#4575B4&#39;</span><span class="p">,</span>
+                  <span class="n">node_size</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">return_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Visualize the network with KG (Knowledge Graph) extension, highlighting new nodes and edges.</span>
-<span class="sd">    </span>
+<span class="sd">    Visualize the network with KG (Knowledge Graph) extension, highlighting</span>
+<span class="sd">    new nodes and edges.</span>
+
+<span class="sd">    When ``interactive=True`` (default), saves an interactive HTML file via</span>
+<span class="sd">    PyVis.  When ``interactive=False``, produces a side-by-side</span>
+<span class="sd">    publication-quality matplotlib figure comparing the original and extended</span>
+<span class="sd">    networks.</span>
+
 <span class="sd">    Args:</span>
-<span class="sd">        original_network: Original BooleanNetwork or ProbabilisticBN</span>
-<span class="sd">        extended_network: Extended network with additional nodes/edges</span>
-<span class="sd">        output_html (str): Output HTML file name</span>
-<span class="sd">        interactive (bool): If True, return network visualization in interactive html file</span>
-<span class="sd">        color_node (str): Color for nodes from the original network (e.g., &#39;lightblue&#39;, &#39;#FF5733&#39;).</span>
-<span class="sd">                         If None, nodes are colored by type (input/output/intermediate)</span>
-<span class="sd">        color_edge (str): Color for edges from the original network. If None, edges are colored</span>
-<span class="sd">                         by regulation type (blue for inhibition, red for activation)</span>
-<span class="sd">        extension_color_node (str): Color for new nodes present only in KG (e.g., &#39;#E1F2D0&#39;)</span>
-<span class="sd">        extension_color_edge (str): Color for new edges present only in KG. If None, edges are </span>
-<span class="sd">                                   colored by regulation type (blue for inhibition, red for activation)</span>
-<span class="sd">        physics (bool): If True, enable physics simulation</span>
+<span class="sd">        original_network: Original BooleanNetwork or ProbabilisticBN.</span>
+<span class="sd">        extended_network: Extended network with additional nodes / edges.</span>
+<span class="sd">        output_html (str): Output HTML file name (interactive mode only).</span>
+<span class="sd">        interactive (bool): If ``True``, generate an interactive HTML file.</span>
+<span class="sd">        color_node (str): Fill colour for original-network nodes.</span>
+<span class="sd">        color_edge (str): Uniform edge colour override (interactive mode only).</span>
+<span class="sd">        extension_color_node (str): Fill colour for nodes added by the KG.</span>
+<span class="sd">        extension_color_edge (str): Edge colour override for KG-added edges</span>
+<span class="sd">                                    (interactive mode only).</span>
+<span class="sd">        physics (bool): Enable physics simulation (interactive mode only).</span>
+
+<span class="sd">        figsize (tuple): Overall figure size ``(width, height)`` in inches</span>
+<span class="sd">                         (static mode only).</span>
+<span class="sd">        title (str): Super-title above both panels (static mode only).</span>
+<span class="sd">        node_groups (dict): Optional extra colour groups applied to both</span>
+<span class="sd">                            panels, overriding *color_node* /</span>
+<span class="sd">                            *extension_color_node* for the listed nodes.</span>
+<span class="sd">                            Format::</span>
+
+<span class="sd">                                {group_name: (node_set, color)}</span>
+
+<span class="sd">                            Example::</span>
+
+<span class="sd">                                {&#39;Drug targets&#39;: ({&#39;BCL2&#39;, &#39;SYK&#39;}, &#39;#FBE1BE&#39;),</span>
+<span class="sd">                                 &#39;Mutations&#39;:    ({&#39;NRAS&#39;},         &#39;#D783FF&#39;)}</span>
+
+<span class="sd">        layout (str): Node placement algorithm shared by both panels</span>
+<span class="sd">                      (static mode only).  See :func:`vis_network` for</span>
+<span class="sd">                      available options.</span>
+<span class="sd">        layout_kwargs (dict): Extra keyword arguments for the layout</span>
+<span class="sd">                              algorithm (static mode only).</span>
+<span class="sd">        edge_scores (dict): Optional ``{(src, tgt): score}`` mapping used to</span>
+<span class="sd">                            scale new-edge line widths by evidence score</span>
+<span class="sd">                            (static mode only).  Build this from the</span>
+<span class="sd">                            ``all_relations`` list returned by</span>
+<span class="sd">                            :func:`load_signor_network`::</span>
+
+<span class="sd">                                _, relations = load_signor_network(genes, ...)</span>
+<span class="sd">                                edge_scores = {</span>
+<span class="sd">                                    (src, tgt): score</span>
+<span class="sd">                                    for src, tgt, _, score in relations</span>
+<span class="sd">                                    if score is not None</span>
+<span class="sd">                                }</span>
+
+<span class="sd">                            Width is mapped as ``0.5 + score × 4``.</span>
+<span class="sd">        activation_color (str): Colour for activation edges (static mode only).</span>
+<span class="sd">        inhibition_color (str): Colour for inhibition edges (static mode only).</span>
+<span class="sd">        node_size (int): Node marker size (static mode only).</span>
+<span class="sd">        font_size (int): Label font size in points (static mode only).</span>
+<span class="sd">        return_fig (bool): If ``True``, return ``(fig, axes)`` instead of</span>
+<span class="sd">                           calling ``plt.show()`` (static mode only).</span>
+<span class="sd">        seed (int): Random seed for reproducible layouts (static mode only).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ``None``, or ``(fig, axes)`` when *return_fig* is ``True`` and</span>
+<span class="sd">        ``interactive=False``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Extract logic rules from both networks</span>
     <span class="n">original_rules</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">extract_logic_rules_from_network</span><span class="p">(</span><span class="n">original_network</span><span class="p">)</span>
@@ -1094,11 +1207,19 @@
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Extended edges: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">extended_edges</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  New edges: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_edges</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     
-    <span class="c1"># For non-interactive mode, use matplotlib visualization with highlights</span>
+    <span class="c1"># For non-interactive mode, use publication-quality side-by-side rendering</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">interactive</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">create_matplotlib_extension_visualization</span><span class="p">(</span><span class="n">extended_rules</span><span class="p">,</span> <span class="n">new_nodes</span><span class="p">,</span> <span class="n">new_edges</span><span class="p">,</span>
-                                                         <span class="n">color_node</span><span class="o">=</span><span class="n">color_node</span><span class="p">,</span> <span class="n">extension_color_node</span><span class="o">=</span><span class="n">extension_color_node</span><span class="p">,</span>
-                                                         <span class="n">extension_color_edge</span><span class="o">=</span><span class="n">extension_color_edge</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_vis_extension_static</span><span class="p">(</span>
+            <span class="n">original_network</span><span class="p">,</span> <span class="n">extended_network</span><span class="p">,</span>
+            <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">color_node</span><span class="o">=</span><span class="n">color_node</span><span class="p">,</span> <span class="n">extension_color_node</span><span class="o">=</span><span class="n">extension_color_node</span><span class="p">,</span>
+            <span class="n">node_groups</span><span class="o">=</span><span class="n">node_groups</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="n">layout_kwargs</span><span class="p">,</span>
+            <span class="n">edge_scores</span><span class="o">=</span><span class="n">edge_scores</span><span class="p">,</span>
+            <span class="n">activation_color</span><span class="o">=</span><span class="n">activation_color</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="o">=</span><span class="n">inhibition_color</span><span class="p">,</span>
+            <span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span>
+            <span class="n">return_fig</span><span class="o">=</span><span class="n">return_fig</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+        <span class="p">)</span>
     
     <span class="c1"># For interactive mode, use the extended network but highlight new elements</span>
     <span class="c1"># Check if this is PBN</span>
@@ -1440,13 +1561,596 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Network + KG Extension Visualization&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    
+
     <span class="c1"># Add legend</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    
+
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Publication-quality figure functions</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_edge_type</span><span class="p">(</span><span class="n">src_name</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine if an edge from src_name is inhibitory based on the logic rule.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_entire_rule_negated</span><span class="p">(</span><span class="n">rule</span><span class="p">):</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b[A-Za-z0-9_]+\b&#39;</span><span class="p">,</span> <span class="n">rule</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">src_name</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;inhibitory&#39;</span>
+    <span class="k">if</span> <span class="sa">f</span><span class="s1">&#39;!</span><span class="si">{</span><span class="n">src_name</span><span class="si">}</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">rule</span> <span class="ow">or</span> <span class="sa">f</span><span class="s1">&#39;! </span><span class="si">{</span><span class="n">src_name</span><span class="si">}</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">rule</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;inhibitory&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;activating&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_nx_graph_from_rules</span><span class="p">(</span><span class="n">logic_rules</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a networkx DiGraph from logic rules dictionary, with edge type attributes.&quot;&quot;&quot;</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+
+    <span class="n">all_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">rules</span> <span class="ow">in</span> <span class="n">logic_rules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">all_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node_name</span><span class="p">)</span>
+        <span class="n">rule_list</span> <span class="o">=</span> <span class="n">rules</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rules</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">rules</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rule_list</span><span class="p">:</span>
+            <span class="n">all_nodes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b[A-Za-z0-9_]+\b&#39;</span><span class="p">,</span> <span class="n">rule</span><span class="p">))</span>
+    <span class="n">G</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">all_nodes</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">rules</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">logic_rules</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="n">rule_list</span> <span class="o">=</span> <span class="n">rules</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rules</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">rules</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rule_list</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b[A-Za-z0-9_]+\b&#39;</span><span class="p">,</span> <span class="n">rule</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">src</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">src</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">edge_type</span> <span class="o">=</span> <span class="n">_get_edge_type</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">rule</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">G</span><span class="o">.</span><span class="n">has_edge</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+                    <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">edge_type</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">G</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="n">target</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">edge_type</span><span class="p">:</span>
+                    <span class="n">G</span><span class="p">[</span><span class="n">src</span><span class="p">][</span><span class="n">target</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ambiguous&#39;</span>
+
+    <span class="k">return</span> <span class="n">G</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dag_from_graph</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a DAG derived from G by removing self-loops and back-edges found</span>
+<span class="sd">    via an iterative DFS.  Forward/cross edges are preserved.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">H</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">!=</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">H</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">nx</span><span class="o">.</span><span class="n">is_directed_acyclic_graph</span><span class="p">(</span><span class="n">H</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">H</span>
+
+    <span class="c1"># Iterative DFS: skip edges that would create a back-edge (ancestor → descendant)</span>
+    <span class="n">dag</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">dag</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">on_stack</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">nodes</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">start</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="p">[(</span><span class="n">start</span><span class="p">,</span> <span class="nb">iter</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">start</span><span class="p">))))]</span>
+        <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        <span class="n">on_stack</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="n">node</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">child</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">children</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">on_stack</span><span class="p">:</span>
+                    <span class="k">pass</span>  <span class="c1"># back edge — omit</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dag</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">child</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                        <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                        <span class="n">on_stack</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+                        <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">child</span><span class="p">,</span> <span class="nb">iter</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">child</span><span class="p">)))))</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="n">on_stack</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">dag</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_hierarchical_pos</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">x_gap</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">y_gap</span><span class="o">=</span><span class="mf">2.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute layered (Sugiyama-style) positions for a directed graph.</span>
+<span class="sd">    Cycles are handled by removing DFS back-edges before layer assignment,</span>
+<span class="sd">    so no node is pushed to an unexpectedly deep layer.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: {node: np.array([x, y])} positions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="n">dag</span> <span class="o">=</span> <span class="n">_dag_from_graph</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+
+    <span class="c1"># Assign layers via longest path from sources on the DAG</span>
+    <span class="n">topo</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">lexicographical_topological_sort</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">nodes</span><span class="p">()}</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">topo</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">succ</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">layers</span><span class="p">[</span><span class="n">succ</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">layers</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
+                <span class="n">layers</span><span class="p">[</span><span class="n">succ</span><span class="p">]</span> <span class="o">=</span> <span class="n">layers</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># Group nodes by layer</span>
+    <span class="n">layer_groups</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">layer_groups</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="n">max_layer</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">layer_groups</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">layer_groups</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="c1"># Barycenter ordering within layers to reduce edge crossings (3 passes)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer_idx</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">layer_groups</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">layer_groups</span><span class="p">[</span><span class="n">layer_idx</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">layer_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">nodes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="o">-</span><span class="n">dag</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">prev_layer</span> <span class="o">=</span> <span class="n">layer_groups</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">layer_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="n">prev_x</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">prev_layer</span><span class="p">)}</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">bary_key</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">pxmap</span><span class="o">=</span><span class="n">prev_x</span><span class="p">,</span> <span class="n">pl</span><span class="o">=</span><span class="n">prev_layer</span><span class="p">):</span>
+                    <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">dag</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pxmap</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">pxmap</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">preds</span><span class="p">])</span> <span class="k">if</span> <span class="n">preds</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">pl</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+                <span class="n">nodes</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">bary_key</span><span class="p">)</span>
+            <span class="n">layer_groups</span><span class="p">[</span><span class="n">layer_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">nodes</span>
+
+    <span class="c1"># Assign coordinates: top layer = highest y</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">layer_idx</span><span class="p">,</span> <span class="n">nodes</span> <span class="ow">in</span> <span class="n">layer_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_layer</span> <span class="o">-</span> <span class="n">layer_idx</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_gap</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_gap</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">pos</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;hierarchical&#39;</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute node positions using the requested algorithm.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        G: networkx DiGraph</span>
+<span class="sd">        layout (str): One of ``&#39;hierarchical&#39;``, ``&#39;spring&#39;``,</span>
+<span class="sd">                      ``&#39;kamada_kawai&#39;``, ``&#39;circular&#39;``, ``&#39;shell&#39;``,</span>
+<span class="sd">                      ``&#39;spectral&#39;``, or ``&#39;dot&#39;`` (requires graphviz).</span>
+<span class="sd">        layout_kwargs (dict): Extra keyword arguments forwarded to the</span>
+<span class="sd">                              chosen algorithm.  For ``&#39;hierarchical&#39;``</span>
+<span class="sd">                              the supported keys are ``x_gap`` and</span>
+<span class="sd">                              ``y_gap`` (floats, default 3.0 / 2.5).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: {node: position} mapping accepted by networkx draw functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kw</span> <span class="o">=</span> <span class="n">layout_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;hierarchical&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_compute_hierarchical_pos</span><span class="p">(</span>
+            <span class="n">G</span><span class="p">,</span>
+            <span class="n">x_gap</span><span class="o">=</span><span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;x_gap&#39;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
+            <span class="n">y_gap</span><span class="o">=</span><span class="n">kw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;y_gap&#39;</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;spring&#39;</span><span class="p">:</span>
+        <span class="n">defaults</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">defaults</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="o">**</span><span class="n">defaults</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;kamada_kawai&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">kamada_kawai_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;circular&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;shell&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">shell_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;spectral&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">spectral_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;dot&#39;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">nx_agraph</span><span class="o">.</span><span class="n">graphviz_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">nx</span><span class="o">.</span><span class="n">drawing</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">graphviz_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">prog</span><span class="o">=</span><span class="s1">&#39;dot&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;graphviz unavailable — falling back to hierarchical layout.&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">_compute_hierarchical_pos</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown layout &#39;</span><span class="si">{</span><span class="n">layout</span><span class="si">}</span><span class="s2">&#39;. Choose from: &#39;hierarchical&#39;, &quot;</span>
+            <span class="s2">&quot;&#39;spring&#39;, &#39;kamada_kawai&#39;, &#39;circular&#39;, &#39;shell&#39;, &#39;spectral&#39;, &#39;dot&#39;.&quot;</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_network_on_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node_color_map</span><span class="p">,</span>
+                        <span class="n">activation_color</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="p">,</span>
+                        <span class="n">node_size</span><span class="p">,</span> <span class="n">font_size</span><span class="p">,</span>
+                        <span class="n">new_node_set</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_edge_set</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">gray_edge_set</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">removed_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">edge_scores</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">missing_node_set</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">missing_edge_set</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal helper: draw graph G on ax with hierarchical style.</span>
+
+<span class="sd">    new_edge_set     — edges drawn thick and fully colored (KG additions).</span>
+<span class="sd">    gray_edge_set    — edges drawn thin and gray (solid=activation, dashed=inhibition).</span>
+<span class="sd">    missing_node_set — nodes present in original but absent from extended network;</span>
+<span class="sd">                       drawn with a dashed border to signal removal.</span>
+<span class="sd">    missing_edge_set — edges present in original but absent from extended network;</span>
+<span class="sd">                       drawn as light gray dotted lines.</span>
+<span class="sd">    edge_scores      — dict {(src, tgt): score} to scale new-edge widths.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_node_set</span>    <span class="o">=</span> <span class="n">new_node_set</span>    <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">new_edge_set</span>    <span class="o">=</span> <span class="n">new_edge_set</span>    <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">gray_edge_set</span>   <span class="o">=</span> <span class="n">gray_edge_set</span>   <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">removed_nodes</span>   <span class="o">=</span> <span class="n">removed_nodes</span>   <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">edge_scores</span>     <span class="o">=</span> <span class="n">edge_scores</span>     <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">missing_node_set</span> <span class="o">=</span> <span class="n">missing_node_set</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">missing_edge_set</span> <span class="o">=</span> <span class="n">missing_edge_set</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># Categorise edges into buckets</span>
+    <span class="n">act_base</span><span class="p">,</span> <span class="n">inh_base</span><span class="p">,</span> <span class="n">act_new</span><span class="p">,</span> <span class="n">inh_new</span><span class="p">,</span> <span class="n">gray_act</span><span class="p">,</span> <span class="n">gray_inh</span><span class="p">,</span> <span class="n">miss_act</span><span class="p">,</span> <span class="n">miss_inh</span><span class="p">,</span> <span class="n">faded</span> <span class="o">=</span> \
+        <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">==</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">removed_nodes</span> <span class="ow">or</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">removed_nodes</span><span class="p">:</span>
+            <span class="n">faded</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="k">continue</span>
+        <span class="n">etype</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;activating&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">new_edge_set</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">inh_new</span>  <span class="k">if</span> <span class="n">etype</span> <span class="o">==</span> <span class="s1">&#39;inhibitory&#39;</span> <span class="k">else</span> <span class="n">act_new</span> <span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">missing_edge_set</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">miss_inh</span> <span class="k">if</span> <span class="n">etype</span> <span class="o">==</span> <span class="s1">&#39;inhibitory&#39;</span> <span class="k">else</span> <span class="n">miss_act</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">gray_edge_set</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">gray_inh</span> <span class="k">if</span> <span class="n">etype</span> <span class="o">==</span> <span class="s1">&#39;inhibitory&#39;</span> <span class="k">else</span> <span class="n">gray_act</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">inh_base</span> <span class="k">if</span> <span class="n">etype</span> <span class="o">==</span> <span class="s1">&#39;inhibitory&#39;</span> <span class="k">else</span> <span class="n">act_base</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+
+    <span class="n">base_kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">,</span> <span class="n">arrows</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">arrowsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_new_widths</span><span class="p">(</span><span class="n">edgelist</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">3.0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">edge_scores</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mf">1.5</span> <span class="o">+</span> <span class="n">edge_scores</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">4.0</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">edgelist</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">edgelist</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="c1"># Gray original edges: activation=solid, inhibition=dashed</span>
+        <span class="p">(</span><span class="n">gray_act</span><span class="p">,</span>  <span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span> <span class="s1">&#39;solid&#39;</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">gray_inh</span><span class="p">,</span>  <span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.55</span><span class="p">),</span>
+        <span class="c1"># Missing edges: lighter dotted, activation=solid dotted, inhibition=dashed dotted</span>
+        <span class="p">(</span><span class="n">miss_act</span><span class="p">,</span>  <span class="s1">&#39;#CCCCCC&#39;</span><span class="p">,</span> <span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">miss_inh</span><span class="p">,</span>  <span class="s1">&#39;#CCCCCC&#39;</span><span class="p">,</span> <span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="c1"># Colored base edges</span>
+        <span class="p">(</span><span class="n">act_base</span><span class="p">,</span>  <span class="n">activation_color</span><span class="p">,</span> <span class="s1">&#39;solid&#39;</span><span class="p">,</span>  <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">inh_base</span><span class="p">,</span>  <span class="n">inhibition_color</span><span class="p">,</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">faded</span><span class="p">,</span>     <span class="s1">&#39;#DDDDDD&#39;</span><span class="p">,</span> <span class="s1">&#39;dotted&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>
+    <span class="p">]:</span>
+        <span class="k">if</span> <span class="n">edgelist</span><span class="p">:</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">edgelist</span><span class="o">=</span><span class="n">edgelist</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                                   <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="o">**</span><span class="n">base_kw</span><span class="p">)</span>
+
+    <span class="c1"># New edges: drawn separately so width can be score-scaled</span>
+    <span class="k">for</span> <span class="n">edgelist</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">act_new</span><span class="p">,</span> <span class="n">activation_color</span><span class="p">,</span> <span class="s1">&#39;solid&#39;</span><span class="p">,</span>  <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">inh_new</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="p">,</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+    <span class="p">]:</span>
+        <span class="k">if</span> <span class="n">edgelist</span><span class="p">:</span>
+            <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_edges</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">edgelist</span><span class="o">=</span><span class="n">edgelist</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                                   <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">_new_widths</span><span class="p">(</span><span class="n">edgelist</span><span class="p">),</span>
+                                   <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="o">**</span><span class="n">base_kw</span><span class="p">)</span>
+
+    <span class="c1"># Draw nodes — split into present and missing so we can apply dashed borders</span>
+    <span class="n">node_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">present_nodes</span>  <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node_list</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">missing_node_set</span><span class="p">]</span>
+    <span class="n">absent_nodes</span>   <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node_list</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span>  <span class="n">missing_node_set</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_node_style</span><span class="p">(</span><span class="n">nodelist</span><span class="p">):</span>
+        <span class="n">colors</span>  <span class="o">=</span> <span class="p">[</span><span class="n">node_color_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">&#39;#AED6F1&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodelist</span><span class="p">]</span>
+        <span class="n">borders</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#FFC000&#39;</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">new_node_set</span> <span class="k">else</span> <span class="s1">&#39;#333333&#39;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodelist</span><span class="p">]</span>
+        <span class="n">lws</span>     <span class="o">=</span> <span class="p">[</span><span class="mf">3.0</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">new_node_set</span> <span class="k">else</span> <span class="mf">1.5</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nodelist</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">colors</span><span class="p">,</span> <span class="n">borders</span><span class="p">,</span> <span class="n">lws</span>
+
+    <span class="k">if</span> <span class="n">present_nodes</span><span class="p">:</span>
+        <span class="n">colors</span><span class="p">,</span> <span class="n">borders</span><span class="p">,</span> <span class="n">lws</span> <span class="o">=</span> <span class="n">_node_style</span><span class="p">(</span><span class="n">present_nodes</span><span class="p">)</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">nodelist</span><span class="o">=</span><span class="n">present_nodes</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                               <span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="n">borders</span><span class="p">,</span>
+                               <span class="n">linewidths</span><span class="o">=</span><span class="n">lws</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">absent_nodes</span><span class="p">:</span>
+        <span class="n">colors</span><span class="p">,</span> <span class="n">borders</span><span class="p">,</span> <span class="n">lws</span> <span class="o">=</span> <span class="n">_node_style</span><span class="p">(</span><span class="n">absent_nodes</span><span class="p">)</span>
+        <span class="c1"># Draw with lighter fill to signal absence; dashed border via PathCollection</span>
+        <span class="n">faded_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">&#39;99&#39;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span>
+                        <span class="k">else</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">]</span>
+        <span class="n">pc</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">nodelist</span><span class="o">=</span><span class="n">absent_nodes</span><span class="p">,</span>
+                                    <span class="n">node_color</span><span class="o">=</span><span class="n">faded_colors</span><span class="p">,</span>
+                                    <span class="n">node_size</span><span class="o">=</span><span class="n">node_size</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;#999999&#39;</span><span class="p">,</span>
+                                    <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pc</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Labels</span>
+    <span class="n">active_labels</span>  <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node_list</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">removed_nodes</span><span class="p">}</span>
+    <span class="n">removed_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node_list</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span>  <span class="n">removed_nodes</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">active_labels</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">active_labels</span><span class="p">,</span>
+                                <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span> <span class="n">font_weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">removed_labels</span><span class="p">:</span>
+        <span class="n">nx</span><span class="o">.</span><span class="n">draw_networkx_labels</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">removed_labels</span><span class="p">,</span>
+                                <span class="n">font_size</span><span class="o">=</span><span class="n">font_size</span><span class="p">,</span> <span class="n">font_color</span><span class="o">=</span><span class="s1">&#39;#888888&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_vis_network_static</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Boolean Network&quot;</span><span class="p">,</span>
+                        <span class="n">removed_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">measured_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">perturbed_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">node_groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;hierarchical&#39;</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">activation_color</span><span class="o">=</span><span class="s1">&#39;#D73027&#39;</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="o">=</span><span class="s1">&#39;#4575B4&#39;</span><span class="p">,</span>
+                        <span class="n">node_size</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+                        <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal helper: publication-quality static network figure via matplotlib.</span>
+
+<span class="sd">    Called by :func:`vis_network` when ``interactive=False``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># --- Parse source ---</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;nodeDict&#39;</span><span class="p">):</span>
+        <span class="n">logic_rules</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">extract_logic_rules_from_network</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">logic_rules</span> <span class="o">=</span> <span class="n">source</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logic_rules</span> <span class="o">=</span> <span class="n">read_logic_rules</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">logic_rules</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No logic rules provided.&quot;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">removed_nodes</span> <span class="o">=</span> <span class="n">removed_nodes</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">measured_nodes</span> <span class="o">=</span> <span class="n">measured_nodes</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">perturbed_nodes</span> <span class="o">=</span> <span class="n">perturbed_nodes</span> <span class="ow">or</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">node_groups</span> <span class="o">=</span> <span class="n">node_groups</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="c1"># --- Build graph &amp; layout ---</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">_build_nx_graph_from_rules</span><span class="p">(</span><span class="n">logic_rules</span><span class="p">)</span>
+    <span class="n">layout_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">layout_kwargs</span> <span class="ow">or</span> <span class="p">{})</span>
+    <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;spring&#39;</span> <span class="ow">and</span> <span class="s1">&#39;seed&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">layout_kwargs</span><span class="p">:</span>
+        <span class="n">layout_kwargs</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seed</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">_compute_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="n">layout_kwargs</span><span class="p">)</span>
+
+    <span class="c1"># --- Node colours (priority: perturbed &gt; measured &gt; groups &gt; connectivity) ---</span>
+    <span class="n">node_color_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="n">has_pred</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">p</span> <span class="o">!=</span> <span class="n">node</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="n">has_succ</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="n">node</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_pred</span><span class="p">:</span>
+            <span class="n">node_color_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#A8D5A2&#39;</span>   <span class="c1"># light green — input</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">has_succ</span><span class="p">:</span>
+            <span class="n">node_color_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#FFE484&#39;</span>   <span class="c1"># yellow — output</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node_color_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#AED6F1&#39;</span>   <span class="c1"># light blue — intermediate</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">group_nodes</span><span class="p">,</span> <span class="n">group_color</span><span class="p">)</span> <span class="ow">in</span> <span class="n">node_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">group_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_color_map</span><span class="p">:</span>
+                <span class="n">node_color_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">group_color</span>
+
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">removed_nodes</span><span class="p">:</span>
+        <span class="n">node_color_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#DDDDDD&#39;</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">measured_nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">removed_nodes</span><span class="p">:</span>
+            <span class="n">node_color_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#F0A500&#39;</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">perturbed_nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">removed_nodes</span><span class="p">:</span>
+            <span class="n">node_color_map</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#E74C3C&#39;</span>
+
+    <span class="c1"># --- Axes ---</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
+
+    <span class="c1"># --- Draw ---</span>
+    <span class="n">_draw_network_on_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">node_color_map</span><span class="p">,</span>
+                        <span class="n">activation_color</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="p">,</span>
+                        <span class="n">node_size</span><span class="p">,</span> <span class="n">font_size</span><span class="p">,</span>
+                        <span class="n">removed_nodes</span><span class="o">=</span><span class="n">removed_nodes</span><span class="p">)</span>
+
+    <span class="c1"># --- Legend ---</span>
+    <span class="n">handles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">node_groups</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">group_name</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">gc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">node_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">gc</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">group_name</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">handles</span> <span class="o">+=</span> <span class="p">[</span>
+            <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#A8D5A2&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Input&#39;</span><span class="p">),</span>
+            <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#FFE484&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Output&#39;</span><span class="p">),</span>
+            <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#AED6F1&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Intermediate&#39;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="k">if</span> <span class="n">measured_nodes</span><span class="p">:</span>
+        <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#F0A500&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measured&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">perturbed_nodes</span><span class="p">:</span>
+        <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#E74C3C&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Perturbed&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">removed_nodes</span><span class="p">:</span>
+        <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#DDDDDD&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Removed&#39;</span><span class="p">))</span>
+    <span class="n">handles</span> <span class="o">+=</span> <span class="p">[</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">activation_color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Activation&#39;</span><span class="p">),</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">inhibition_color</span><span class="p">,</span>  <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Inhibition&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.01</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+              <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">return_fig</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_vis_extension_static</span><span class="p">(</span><span class="n">original_network</span><span class="p">,</span> <span class="n">extended_network</span><span class="p">,</span>
+                          <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">color_node</span><span class="o">=</span><span class="s1">&#39;#AED6F1&#39;</span><span class="p">,</span>
+                          <span class="n">extension_color_node</span><span class="o">=</span><span class="s1">&#39;#FBE1BE&#39;</span><span class="p">,</span>
+                          <span class="n">node_groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;hierarchical&#39;</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">edge_scores</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">activation_color</span><span class="o">=</span><span class="s1">&#39;#D73027&#39;</span><span class="p">,</span>
+                          <span class="n">inhibition_color</span><span class="o">=</span><span class="s1">&#39;#4575B4&#39;</span><span class="p">,</span>
+                          <span class="n">node_size</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+                          <span class="n">return_fig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal helper: side-by-side publication figure comparing original and</span>
+<span class="sd">    KG-extended networks via matplotlib.</span>
+
+<span class="sd">    Called by :func:`vis_extension` when ``interactive=False``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="kn">import</span> <span class="n">Patch</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="c1"># --- Extract rules ---</span>
+    <span class="n">original_rules</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">extract_logic_rules_from_network</span><span class="p">(</span><span class="n">original_network</span><span class="p">)</span>
+    <span class="n">extended_rules</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">extract_logic_rules_from_network</span><span class="p">(</span><span class="n">extended_network</span><span class="p">)</span>
+    <span class="n">node_groups</span> <span class="o">=</span> <span class="n">node_groups</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="c1"># --- Build graphs ---</span>
+    <span class="n">G_orig</span> <span class="o">=</span> <span class="n">_build_nx_graph_from_rules</span><span class="p">(</span><span class="n">original_rules</span><span class="p">)</span>
+    <span class="n">G_ext</span> <span class="o">=</span> <span class="n">_build_nx_graph_from_rules</span><span class="p">(</span><span class="n">extended_rules</span><span class="p">)</span>
+
+    <span class="n">orig_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G_orig</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">ext_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G_ext</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">orig_edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G_orig</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+    <span class="n">ext_edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">G_ext</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+    <span class="n">new_nodes</span>     <span class="o">=</span> <span class="n">ext_nodes</span>  <span class="o">-</span> <span class="n">orig_nodes</span>   <span class="c1"># added by KG</span>
+    <span class="n">new_edges</span>     <span class="o">=</span> <span class="n">ext_edges</span>  <span class="o">-</span> <span class="n">orig_edges</span>   <span class="c1"># added by KG</span>
+    <span class="n">missing_nodes</span> <span class="o">=</span> <span class="n">orig_nodes</span> <span class="o">-</span> <span class="n">ext_nodes</span>    <span class="c1"># in original but dropped from extended</span>
+    <span class="n">missing_edges</span> <span class="o">=</span> <span class="n">orig_edges</span> <span class="o">-</span> <span class="n">ext_edges</span>    <span class="c1"># in original but dropped from extended</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extension comparison:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Original : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">orig_nodes</span><span class="p">)</span><span class="si">}</span><span class="s2"> nodes, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">orig_edges</span><span class="p">)</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Extended : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ext_nodes</span><span class="p">)</span><span class="si">}</span><span class="s2"> nodes, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ext_edges</span><span class="p">)</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  New nodes (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  New edges: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_edges</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">missing_nodes</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Missing nodes (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing_nodes</span><span class="p">)</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">missing_nodes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">missing_edges</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Missing edges: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing_edges</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># --- Shared layout ---</span>
+    <span class="c1"># Build a union graph (all nodes from both networks) so that missing nodes</span>
+    <span class="c1"># (in original but not extended) also get positions, keeping shared nodes</span>
+    <span class="c1"># at the same (x, y) across both panels.</span>
+    <span class="n">G_union</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">G_union</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">G_orig</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">G_union</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">G_ext</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">G_union</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">G_orig</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+    <span class="n">G_union</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">G_ext</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
+    <span class="n">layout_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">layout_kwargs</span> <span class="ow">or</span> <span class="p">{})</span>
+    <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="s1">&#39;spring&#39;</span> <span class="ow">and</span> <span class="s1">&#39;seed&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">layout_kwargs</span><span class="p">:</span>
+        <span class="n">layout_kwargs</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seed</span>
+    <span class="n">pos_shared</span> <span class="o">=</span> <span class="n">_compute_layout</span><span class="p">(</span><span class="n">G_union</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">layout_kwargs</span><span class="o">=</span><span class="n">layout_kwargs</span><span class="p">)</span>
+    <span class="n">pos_orig</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">pos_shared</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G_orig</span><span class="o">.</span><span class="n">nodes</span><span class="p">()}</span>
+
+    <span class="c1"># --- Colour maps ---</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_color_map</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">is_ext</span><span class="p">):</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">is_ext</span> <span class="ow">and</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">new_nodes</span><span class="p">:</span>
+                <span class="n">cmap</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">extension_color_node</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cmap</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">color_node</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">group_nodes</span><span class="p">,</span> <span class="n">group_color</span><span class="p">)</span> <span class="ow">in</span> <span class="n">node_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">group_nodes</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cmap</span><span class="p">:</span>
+                    <span class="n">cmap</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">group_color</span>
+        <span class="k">return</span> <span class="n">cmap</span>
+
+    <span class="n">orig_cmap</span> <span class="o">=</span> <span class="n">make_color_map</span><span class="p">(</span><span class="n">G_orig</span><span class="p">,</span> <span class="n">is_ext</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ext_cmap</span> <span class="o">=</span> <span class="n">make_color_map</span><span class="p">(</span><span class="n">G_ext</span><span class="p">,</span> <span class="n">is_ext</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># --- Edge scores (for weighted mode) ---</span>
+    <span class="n">edge_scores</span> <span class="o">=</span> <span class="n">edge_scores</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="c1"># --- Figure ---</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+    <span class="c1"># Left panel: all edges shown in gray (solid = activation, dashed = inhibition)</span>
+    <span class="n">_draw_network_on_ax</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">G_orig</span><span class="p">,</span> <span class="n">pos_orig</span><span class="p">,</span> <span class="n">orig_cmap</span><span class="p">,</span>
+                        <span class="n">activation_color</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="p">,</span> <span class="n">node_size</span><span class="p">,</span> <span class="n">font_size</span><span class="p">,</span>
+                        <span class="n">gray_edge_set</span><span class="o">=</span><span class="n">orig_edges</span><span class="p">,</span>
+                        <span class="n">missing_node_set</span><span class="o">=</span><span class="n">missing_nodes</span><span class="p">,</span>
+                        <span class="n">missing_edge_set</span><span class="o">=</span><span class="n">missing_edges</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Original Network&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Right panel: original edges gray, new KG edges colored and thicker</span>
+    <span class="n">_draw_network_on_ax</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">G_ext</span><span class="p">,</span> <span class="n">pos_shared</span><span class="p">,</span> <span class="n">ext_cmap</span><span class="p">,</span>
+                        <span class="n">activation_color</span><span class="p">,</span> <span class="n">inhibition_color</span><span class="p">,</span> <span class="n">node_size</span><span class="p">,</span> <span class="n">font_size</span><span class="p">,</span>
+                        <span class="n">new_node_set</span><span class="o">=</span><span class="n">new_nodes</span><span class="p">,</span> <span class="n">new_edge_set</span><span class="o">=</span><span class="n">new_edges</span><span class="p">,</span>
+                        <span class="n">gray_edge_set</span><span class="o">=</span><span class="n">orig_edges</span><span class="p">,</span> <span class="n">edge_scores</span><span class="o">=</span><span class="n">edge_scores</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Extended Network&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+    <span class="c1"># --- Per-panel legends ---</span>
+    <span class="c1"># Left panel: node colours + edge styles</span>
+    <span class="n">left_handles</span> <span class="o">=</span> <span class="p">[</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">color_node</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original nodes&#39;</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">group_name</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">gc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">node_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">left_handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">gc</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">group_name</span><span class="p">))</span>
+    <span class="n">left_handles</span> <span class="o">+=</span> <span class="p">[</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Activation&#39;</span><span class="p">),</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Inhibition&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">missing_nodes</span><span class="p">:</span>
+        <span class="n">left_handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">color_node</span> <span class="o">+</span> <span class="s1">&#39;99&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span>
+                                  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Missing nodes&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">missing_edges</span><span class="p">:</span>
+        <span class="n">left_handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#CCCCCC&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Missing edges&#39;</span><span class="p">))</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">left_handles</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                   <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># Right panel: original + new node colours + edge styles distinguishing new vs existing</span>
+    <span class="n">right_handles</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">color_node</span><span class="p">,</span>           <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span>             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original nodes&#39;</span><span class="p">),</span>
+        <span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#FFC000&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;New KG nodes&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="k">for</span> <span class="n">group_name</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">gc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">node_groups</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">right_handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Patch</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">gc</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;#333333&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">group_name</span><span class="p">))</span>
+    <span class="n">right_handles</span> <span class="o">+=</span> <span class="p">[</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span>        <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Existing activation&#39;</span><span class="p">),</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">,</span>        <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Existing inhibition&#39;</span><span class="p">),</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">activation_color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s1">&#39;New activation&#39;</span><span class="p">),</span>
+        <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">inhibition_color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;New inhibition&#39;</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">right_handles</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                   <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.01</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">return_fig</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
         </article>
       </div>

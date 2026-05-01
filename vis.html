@@ -323,25 +323,78 @@ dict: Mapping from edges to probabilities (for PBN) or empty dict (for BN)</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="KGBN.vis.vis_network">
-<span class="sig-prename descclassname"><span class="pre">KGBN.vis.</span></span><span class="sig-name descname"><span class="pre">vis_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'network_graph.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbed_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/KGBN/vis.html#vis_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#KGBN.vis.vis_network" title="Link to this definition">¶</a></dt>
-<dd><p>Visualize the logic graph using PyVis and igraph.</p>
+<span class="sig-prename descclassname"><span class="pre">KGBN.vis.</span></span><span class="sig-name descname"><span class="pre">vis_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'network_graph.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removed_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbed_nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(13,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Boolean</span> <span class="pre">Network'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hierarchical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#D73027'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inhibition_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#4575B4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/KGBN/vis.html#vis_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#KGBN.vis.vis_network" title="Link to this definition">¶</a></dt>
+<dd><p>Visualize the Boolean network.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">interactive=False</span></code> (default), produces a publication-quality
+matplotlib figure with a configurable layout and clearly distinguished
+activation / inhibition edges.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">interactive=True</span></code>, saves an interactive HTML file via PyVis.</p>
 <dl>
 <dt>Args:</dt><dd><dl class="simple">
-<dt>source: Logic rules (dict), file path (str), network string (str), </dt><dd><p>BooleanNetwork object, or ProbabilisticBN object</p>
+<dt>source: Logic rules — dict, file path (str), network string (str),</dt><dd><p>BooleanNetwork, or ProbabilisticBN object.</p>
 </dd>
 </dl>
-<p>output_html (str): Output HTML file name.
-interactive (bool): If True, return the network visualization in interactive html file
-removed_nodes (set): Set of node names that were removed (shown in grey)
-removed_edges (set): Set of edge tuples that were removed (shown in grey)
-measured_nodes (set): Set of node names that are measured (shown in orange)
-perturbed_nodes (set): Set of node names that are perturbed (shown in red)
-color_node (str): If provided, all nodes will use this color (e.g., ‘lightblue’, ‘#FF5733’)
-color_edge (str): If provided, all edges will use this color. If None, edges are colored</p>
+<p>output_html (str): Output HTML file name (interactive mode only).
+interactive (bool): If <code class="docutils literal notranslate"><span class="pre">True</span></code>, generate an interactive HTML file.
+removed_nodes (set): Nodes shown as removed (light grey).
+removed_edges (set): Edges shown as removed (interactive mode only).
+measured_nodes (set): Measured / readout nodes (orange).
+perturbed_nodes (set): Perturbed nodes (red).
+color_node (str): Uniform node colour override (interactive mode only).
+color_edge (str): Uniform edge colour override (interactive mode only).
+physics (bool): Enable physics simulation (interactive mode only).</p>
+<dl class="simple">
+<dt>figsize (tuple): Figure size <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code> in inches</dt><dd><p>(static mode only).</p>
+</dd>
+</dl>
+<p>title (str): Figure title (static mode only).
+node_groups (dict): Custom colour groups that override</p>
 <blockquote>
-<div><p>by regulation type (blue for inhibition, red for activation)</p>
+<div><p>connectivity-based defaults.  Format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">group_name</span><span class="p">:</span> <span class="p">(</span><span class="n">node_set</span><span class="p">,</span> <span class="n">color</span><span class="p">)}</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;Drug targets&#39;</span><span class="p">:</span> <span class="p">({</span><span class="s1">&#39;BCL2&#39;</span><span class="p">,</span> <span class="s1">&#39;SYK&#39;</span><span class="p">},</span> <span class="s1">&#39;#E1F2D0&#39;</span><span class="p">),</span>
+ <span class="s1">&#39;Mutations&#39;</span><span class="p">:</span>    <span class="p">({</span><span class="s1">&#39;NRAS&#39;</span><span class="p">},</span>         <span class="s1">&#39;#D783FF&#39;</span><span class="p">)}</span>
+</pre></div>
+</div>
 </div></blockquote>
-<p>physics (bool): If True, enable physics simulation</p>
+<p>layout (str): Node placement algorithm (static mode only).  Options:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'hierarchical'</span></code> <em>(default)</em> — layered top-down.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'spring'</span></code> — force-directed (dense/cyclic nets).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'kamada_kawai'</span></code> — stress-minimisation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'circular'</span></code> — evenly spaced on a circle.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'shell'</span></code> — concentric shells.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'spectral'</span></code> — eigenvector-based.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'dot'</span></code> — Graphviz <code class="docutils literal notranslate"><span class="pre">dot</span></code> (requires
+<code class="docutils literal notranslate"><span class="pre">pygraphviz</span></code> or <code class="docutils literal notranslate"><span class="pre">pydot</span></code>).</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>layout_kwargs (dict): Extra keyword arguments for the layout</dt><dd><p>algorithm.  For <code class="docutils literal notranslate"><span class="pre">'hierarchical'</span></code>, <code class="docutils literal notranslate"><span class="pre">x_gap</span></code>
+(default 3.0) and <code class="docutils literal notranslate"><span class="pre">y_gap</span></code> (default 2.5)
+control inter-node spacing.</p>
+</dd>
+</dl>
+<p>activation_color (str): Edge colour for activation (static mode only).
+inhibition_color (str): Edge colour for inhibition (static mode only).
+node_size (int): Node marker size in matplotlib units (static mode only).
+font_size (int): Label font size in points (static mode only).
+ax: Existing <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code> to draw on; a new figure</p>
+<blockquote>
+<div><p>is created when <em>None</em> (static mode only).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>return_fig (bool): If <code class="docutils literal notranslate"><span class="pre">True</span></code>, return <code class="docutils literal notranslate"><span class="pre">(fig,</span> <span class="pre">ax)</span></code> instead of</dt><dd><p>calling <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code> (static mode only).</p>
+</dd>
+</dl>
+<p>seed (int): Random seed for reproducible layouts (static mode only).</p>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code>, or <code class="docutils literal notranslate"><span class="pre">(fig,</span> <span class="pre">ax)</span></code> when <em>return_fig</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code> and
+<code class="docutils literal notranslate"><span class="pre">interactive=False</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -362,27 +415,78 @@ interactive (bool): If True, return network visualization in interactive html fi
 
 <dl class="py function">
 <dt class="sig sig-object py" id="KGBN.vis.vis_extension">
-<span class="sig-prename descclassname"><span class="pre">KGBN.vis.</span></span><span class="sig-name descname"><span class="pre">vis_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extended_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'network+KG.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lightblue'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_color_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#E1F2D0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_color_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/KGBN/vis.html#vis_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#KGBN.vis.vis_extension" title="Link to this definition">¶</a></dt>
-<dd><p>Visualize the network with KG (Knowledge Graph) extension, highlighting new nodes and edges.</p>
+<span class="sig-prename descclassname"><span class="pre">KGBN.vis.</span></span><span class="sig-name descname"><span class="pre">vis_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extended_network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_html</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'network+KG.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#AED6F1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_color_node</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#FBE1BE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension_color_edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(22,</span> <span class="pre">9)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hierarchical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layout_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#D73027'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inhibition_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'#4575B4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/KGBN/vis.html#vis_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#KGBN.vis.vis_extension" title="Link to this definition">¶</a></dt>
+<dd><p>Visualize the network with KG (Knowledge Graph) extension, highlighting
+new nodes and edges.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">interactive=True</span></code> (default), saves an interactive HTML file via
+PyVis.  When <code class="docutils literal notranslate"><span class="pre">interactive=False</span></code>, produces a side-by-side
+publication-quality matplotlib figure comparing the original and extended
+networks.</p>
 <dl>
-<dt>Args:</dt><dd><p>original_network: Original BooleanNetwork or ProbabilisticBN
-extended_network: Extended network with additional nodes/edges
-output_html (str): Output HTML file name
-interactive (bool): If True, return network visualization in interactive html file
-color_node (str): Color for nodes from the original network (e.g., ‘lightblue’, ‘#FF5733’).</p>
+<dt>Args:</dt><dd><p>original_network: Original BooleanNetwork or ProbabilisticBN.
+extended_network: Extended network with additional nodes / edges.
+output_html (str): Output HTML file name (interactive mode only).
+interactive (bool): If <code class="docutils literal notranslate"><span class="pre">True</span></code>, generate an interactive HTML file.
+color_node (str): Fill colour for original-network nodes.
+color_edge (str): Uniform edge colour override (interactive mode only).
+extension_color_node (str): Fill colour for nodes added by the KG.
+extension_color_edge (str): Edge colour override for KG-added edges</p>
 <blockquote>
-<div><p>If None, nodes are colored by type (input/output/intermediate)</p>
+<div><p>(interactive mode only).</p>
 </div></blockquote>
+<p>physics (bool): Enable physics simulation (interactive mode only).</p>
 <dl class="simple">
-<dt>color_edge (str): Color for edges from the original network. If None, edges are colored</dt><dd><p>by regulation type (blue for inhibition, red for activation)</p>
+<dt>figsize (tuple): Overall figure size <code class="docutils literal notranslate"><span class="pre">(width,</span> <span class="pre">height)</span></code> in inches</dt><dd><p>(static mode only).</p>
 </dd>
 </dl>
-<p>extension_color_node (str): Color for new nodes present only in KG (e.g., ‘#E1F2D0’)
-extension_color_edge (str): Color for new edges present only in KG. If None, edges are</p>
+<p>title (str): Super-title above both panels (static mode only).
+node_groups (dict): Optional extra colour groups applied to both</p>
 <blockquote>
-<div><p>colored by regulation type (blue for inhibition, red for activation)</p>
+<div><p>panels, overriding <em>color_node</em> /
+<em>extension_color_node</em> for the listed nodes.
+Format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="n">group_name</span><span class="p">:</span> <span class="p">(</span><span class="n">node_set</span><span class="p">,</span> <span class="n">color</span><span class="p">)}</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;Drug targets&#39;</span><span class="p">:</span> <span class="p">({</span><span class="s1">&#39;BCL2&#39;</span><span class="p">,</span> <span class="s1">&#39;SYK&#39;</span><span class="p">},</span> <span class="s1">&#39;#FBE1BE&#39;</span><span class="p">),</span>
+ <span class="s1">&#39;Mutations&#39;</span><span class="p">:</span>    <span class="p">({</span><span class="s1">&#39;NRAS&#39;</span><span class="p">},</span>         <span class="s1">&#39;#D783FF&#39;</span><span class="p">)}</span>
+</pre></div>
+</div>
 </div></blockquote>
-<p>physics (bool): If True, enable physics simulation</p>
+<dl>
+<dt>layout (str): Node placement algorithm shared by both panels</dt><dd><p>(static mode only).  See <a class="reference internal" href="#KGBN.vis.vis_network" title="KGBN.vis.vis_network"><code class="xref py py-func docutils literal notranslate"><span class="pre">vis_network()</span></code></a> for
+available options.</p>
+</dd>
+<dt>layout_kwargs (dict): Extra keyword arguments for the layout</dt><dd><p>algorithm (static mode only).</p>
+</dd>
+<dt>edge_scores (dict): Optional <code class="docutils literal notranslate"><span class="pre">{(src,</span> <span class="pre">tgt):</span> <span class="pre">score}</span></code> mapping used to</dt><dd><p>scale new-edge line widths by evidence score
+(static mode only).  Build this from the
+<code class="docutils literal notranslate"><span class="pre">all_relations</span></code> list returned by
+<code class="xref py py-func docutils literal notranslate"><span class="pre">load_signor_network()</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">relations</span> <span class="o">=</span> <span class="n">load_signor_network</span><span class="p">(</span><span class="n">genes</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">edge_scores</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">):</span> <span class="n">score</span>
+    <span class="k">for</span> <span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">relations</span>
+    <span class="k">if</span> <span class="n">score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Width is mapped as <code class="docutils literal notranslate"><span class="pre">0.5</span> <span class="pre">+</span> <span class="pre">score</span> <span class="pre">×</span> <span class="pre">4</span></code>.</p>
+</dd>
+</dl>
+<p>activation_color (str): Colour for activation edges (static mode only).
+inhibition_color (str): Colour for inhibition edges (static mode only).
+node_size (int): Node marker size (static mode only).
+font_size (int): Label font size in points (static mode only).
+return_fig (bool): If <code class="docutils literal notranslate"><span class="pre">True</span></code>, return <code class="docutils literal notranslate"><span class="pre">(fig,</span> <span class="pre">axes)</span></code> instead of</p>
+<blockquote>
+<div><p>calling <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code> (static mode only).</p>
+</div></blockquote>
+<p>seed (int): Random seed for reproducible layouts (static mode only).</p>
+</dd>
+<dt>Returns:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">None</span></code>, or <code class="docutils literal notranslate"><span class="pre">(fig,</span> <span class="pre">axes)</span></code> when <em>return_fig</em> is <code class="docutils literal notranslate"><span class="pre">True</span></code> and
+<code class="docutils literal notranslate"><span class="pre">interactive=False</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
