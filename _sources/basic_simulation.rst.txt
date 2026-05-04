@@ -6,7 +6,7 @@ Welcome to KGBN! This guide will help you get started with Boolean Network and P
 Installation
 ------------
 
-To install KGBN, navigate to the KGBN directory and run:
+To install KGBN for development, navigate to the KGBN directory and run:
 
 .. code-block:: bash
 
@@ -18,13 +18,15 @@ Dependencies
 
 KGBN requires the following packages:
 
-- pandas
-- numpy
-- typing
-- dataclasses
-- networkx
-- scipy == 1.15.2
-- pyswarms == 1.3.0
+- ``numpy``
+- ``pandas``
+- ``scipy``
+- ``networkx``
+- ``igraph``
+- ``pyvis``
+- ``matplotlib``
+- ``boolean.py``
+- ``pyswarms``
 
 These will be installed automatically when you install KGBN using the command above.
 
@@ -289,4 +291,4 @@ Check the ``Examples/`` directory for Jupyter notebooks:
 Applications
 ------------
 
-See the ``pancreatic_cancer_simulation/`` directory for real-world application examples on pancreatic cancer models.
+See ``Examples/KGBN_workflow_toy.ipynb`` for a compact workflow example.

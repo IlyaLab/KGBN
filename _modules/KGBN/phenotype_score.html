@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
-        <title>KGBN.phenotype_score - KGBN 0.2 documentation</title>
+        <title>KGBN.phenotype_score - KGBN 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -160,7 +160,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">KGBN 0.2 documentation</div></a>
+      <a href="../../index.html"><div class="brand">KGBN 0.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -181,7 +181,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">KGBN 0.2 documentation</span>
+  <span class="sidebar-brand-text">KGBN 0.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -204,6 +204,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../PBN.html">KGBN.PBN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../steady_state.html">KGBN.steady_state</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../vis.html">KGBN.vis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../build_bn_from_kg.html">KGBN.KG_BN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../model_parser.html">KGBN.model_parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../phenotype_score.html">KGBN.phenotype_score</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../parameter_optimizer.html">KGBN.parameter_optimizer</a></li>
@@ -248,12 +249,10 @@
           <h1>Source code for KGBN.phenotype_score</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="n">base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
-<span class="n">folder_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">base_dir</span><span class="p">)),</span> <span class="s1">&#39;KG_files&#39;</span><span class="p">)</span>
-<span class="n">file_name</span> <span class="o">=</span> <span class="s1">&#39;significant_paths_to_phenotypes.txt&#39;</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_path</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">data_path</span>
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="n">data_path</span><span class="p">(</span><span class="s1">&#39;significant_paths_to_phenotypes.txt&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="get_phenotypes">
 <a class="viewcode-back" href="../../phenotype_score.html#KGBN.phenotype_score.get_phenotypes">[docs]</a>
@@ -552,7 +551,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, IlyaLab
+                Copyright &#169; 2026, KGBN contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -572,7 +571,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=10f1778b"></script>
+</div><script src="../../_static/documentation_options.js?v=01f34227"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

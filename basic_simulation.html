@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Knowledge Graph Augmentation" href="knowledge_graph_guide.html"><link rel="prev" title="Welcome to KGBN’s documentation!" href="index.html">
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
-        <title>Basic Simulation - KGBN 0.2 documentation</title>
+        <title>Basic Simulation - KGBN 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">KGBN 0.2 documentation</div></a>
+      <a href="index.html"><div class="brand">KGBN 0.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">KGBN 0.2 documentation</span>
+  <span class="sidebar-brand-text">KGBN 0.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -205,6 +205,7 @@
 <li class="toctree-l2"><a class="reference internal" href="PBN.html">KGBN.PBN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steady_state.html">KGBN.steady_state</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vis.html">KGBN.vis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build_bn_from_kg.html">KGBN.KG_BN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_parser.html">KGBN.model_parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="phenotype_score.html">KGBN.phenotype_score</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parameter_optimizer.html">KGBN.parameter_optimizer</a></li>
@@ -257,7 +258,7 @@
 <p>Welcome to KGBN! This guide will help you get started with Boolean Network and Probabilistic Boolean Network modeling.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
-<p>To install KGBN, navigate to the KGBN directory and run:</p>
+<p>To install KGBN for development, navigate to the KGBN directory and run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>KGBN
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
@@ -266,13 +267,15 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h3>
 <p>KGBN requires the following packages:</p>
 <ul class="simple">
-<li><p>pandas</p></li>
-<li><p>numpy</p></li>
-<li><p>typing</p></li>
-<li><p>dataclasses</p></li>
-<li><p>networkx</p></li>
-<li><p>scipy == 1.15.2</p></li>
-<li><p>pyswarms == 1.3.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scipy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">networkx</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">igraph</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyvis</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boolean.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pyswarms</span></code></p></li>
 </ul>
 <p>These will be installed automatically when you install KGBN using the command above.</p>
 </section>
@@ -505,7 +508,7 @@ GeneB = GeneA
 </section>
 <section id="applications">
 <h2>Applications<a class="headerlink" href="#applications" title="Link to this heading">¶</a></h2>
-<p>See the <code class="docutils literal notranslate"><span class="pre">pancreatic_cancer_simulation/</span></code> directory for real-world application examples on pancreatic cancer models.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">Examples/KGBN_workflow_toy.ipynb</span></code> for a compact workflow example.</p>
 </section>
 </section>
 
@@ -538,7 +541,7 @@ GeneB = GeneA
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, IlyaLab
+                Copyright &#169; 2026, KGBN contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -607,7 +610,7 @@ GeneB = GeneA
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=10f1778b"></script>
+</div><script src="_static/documentation_options.js?v=01f34227"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

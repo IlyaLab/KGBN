@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="KGBN.model_parser" href="model_parser.html"><link rel="prev" title="KGBN.vis" href="vis.html">
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
-        <title>KGBN.KG_BN - KGBN 0.2 documentation</title>
+        <title>KGBN.KG_BN - KGBN 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">KGBN 0.2 documentation</div></a>
+      <a href="index.html"><div class="brand">KGBN 0.1.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">KGBN 0.2 documentation</span>
+  <span class="sidebar-brand-text">KGBN 0.1.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -198,13 +198,14 @@
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="api.html">API Reference</a><input aria-label="Toggle navigation of API Reference" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="bmatrix.html">KGBN.BMatrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="booleanNetwork.html">KGBN.booleanNetwork</a></li>
 <li class="toctree-l2"><a class="reference internal" href="PBN.html">KGBN.PBN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="steady_state.html">KGBN.steady_state</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vis.html">KGBN.vis</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">KGBN.KG_BN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_parser.html">KGBN.model_parser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="phenotype_score.html">KGBN.phenotype_score</a></li>
 <li class="toctree-l2"><a class="reference internal" href="parameter_optimizer.html">KGBN.parameter_optimizer</a></li>
@@ -268,7 +269,8 @@
 <dt>Args:</dt><dd><p>gene_list - list of gene symbols, gene ids, or uniprot ids.
 input_format - “symbol”, “id”, or “uniprot”
 joiner - “&amp;”, “|”, “inhibitor_wins”, or “majority”, or “plurality” (difference between the last two: in plurality, a tie indicates 1, in majority, a tie indicates 0)
-kg_filename - “SIGNOR_2025_08_14.tsv” by default. “SIGNOR_formatted.tsv” can also be used (this is an older version of SigNOR).
+kg_filename - “SIGNOR_2025_08_14.tsv” by default. Pass a packaged data
+file name or an explicit path to use another SIGNOR-like edge table.
 only_proteins - whether to only use protein nodes in SIGNOR for getting the subgraph (default: True)
 score_cutoff - minimum score threshold for edges to be included (default: None, includes all edges)
 saveto - if provided, save all edge attributes (source, target, direction, predicate,</p>
@@ -326,13 +328,31 @@ and all_relations is a list of (source, target, direction, score) tuples.</p>
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="model_parser.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">KGBN.model_parser</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="vis.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">KGBN.vis</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, IlyaLab
+                Copyright &#169; 2026, KGBN contributors
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -374,7 +394,7 @@ and all_relations is a list of (source, target, direction, score) tuples.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=10f1778b"></script>
+</div><script src="_static/documentation_options.js?v=01f34227"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

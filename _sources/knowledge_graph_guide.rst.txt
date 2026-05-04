@@ -72,7 +72,11 @@ Extend networks by adding KG-informed rules for selected nodes:
 .. code-block:: python
 
    # Load original model
-   orig_bn = KGBN.load_network('Vundavilli2020_standardized.txt')
+   orig_bn = KGBN.load_network("""
+   TP53 = CDKN2A
+   MYC = !TP53
+   CDKN2A = CDKN2A
+   """)
    
    # Build KG model for same genes
    orig_genes = list(orig_bn.nodeDict.keys())
@@ -87,7 +91,7 @@ Extend networks by adding KG-informed rules for selected nodes:
    extended_pbn = KGBN.extend_networks(
        orig_bn, 
        kg_bn, 
-       nodes_to_extend=['AKT1', 'PIK3CA'], 
+       nodes_to_extend=['TP53'], 
        prob=0.3,  # probability for KG rules
        descriptive=True
    )
