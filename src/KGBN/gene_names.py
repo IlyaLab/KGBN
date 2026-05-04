@@ -1,9 +1,6 @@
-# extremely simple way of converting gene names
 import gzip
 import os
-
-base_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(os.path.dirname(os.path.dirname(base_dir)), 'KG_files')
+from .resources import data_path
 
 ID_TO_SYMBOL = {}
 SYMBOL_TO_ID = {}
@@ -14,7 +11,7 @@ ENSEMBL_TO_ID = {}
 
 
 def _load_gene_info():
-    with gzip.open(os.path.join(file_path, 'Homo_sapiens.gene_info.gz'), 'rt') as f:
+    with gzip.open(data_path('Homo_sapiens.gene_info.gz'), 'rt') as f:
         for row in f.readlines():
             row = row.split('\t')
             if row[0] == '#tax_id':
@@ -29,7 +26,7 @@ def _load_gene_info():
                     SYMBOL_TO_ID[s] = gene_id
 
 def _load_uniprot_info():
-    with open(os.path.join(file_path, 'gene_uniprot.txt')) as f:
+    with open(data_path('gene_uniprot.txt')) as f:
         for row in f.readlines():
             row = row.split()
             gene_id = int(row[0])
@@ -37,7 +34,7 @@ def _load_uniprot_info():
                 ID_TO_UNIPROT[gene_id] = row[1]
             if row[1] not in UNIPROT_TO_ID:
                 UNIPROT_TO_ID[row[1]] = gene_id
-    with open(os.path.join(file_path, 'uniprot_genes.txt')) as f:
+    with open(data_path('uniprot_genes.txt')) as f:
         for row in f.readlines():
             row = row.strip().split()
             gene_id = int(row[1])
@@ -45,7 +42,13 @@ def _load_uniprot_info():
                 UNIPROT_TO_ID[row[0]] = gene_id
 
 def _load_ensembl_info():
-    with open(os.path.join(file_path, 'geneid_ensembl.txt')) as f:
+    ensembl_path = data_path('geneid_ensembl.txt')
+    if not os.path.exists(ensembl_path):
+        raise FileNotFoundError(
+            "geneid_ensembl.txt is not bundled with KGBN. "
+            "Provide this resource before using Ensembl conversion helpers."
+        )
+    with open(ensembl_path) as f:
         for row in f.readlines():
             row = row.split()
             gene_id = int(row[0])

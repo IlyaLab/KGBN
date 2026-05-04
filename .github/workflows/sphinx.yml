@@ -1,9 +1,11 @@
-name: "Sphinx: Render docs"
+name: "Tests and docs"
 
-on: push
+on:
+  push:
+  pull_request:
 
 jobs:
-  build:
+  test-docs-package:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -16,14 +18,16 @@ jobs:
       with:
         python-version: '3.10'
     - name: Install Sphinx & Dependencies
-      run: pip install -r docs/requirements.txt
-    - name: Install current package
-      run: pip install .
+      run: pip install -e ".[all]"
+    - name: Run tests
+      run: pytest
     - name: Build Documentation
       run: cd "$GITHUB_WORKSPACE/docs" && make html
+    - name: Build package
+      run: python -m build
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v4
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/build/html

@@ -26,7 +26,7 @@ Knowledge Graph Integration
 .. toctree::
    :maxdepth: 2
 
-   KG_BN
+   build_bn_from_kg
    model_parser
    phenotype_score
 

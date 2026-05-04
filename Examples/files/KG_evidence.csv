@@ -1,0 +1,16 @@
+source,target,direction,predicate,Primary_Knowledge_Source,Knowledge_Source,publications,score
+MDM2,GNAS,inhibit,down-regulates activity,SIGNOR,SIGNOR,18948082,0.395
+TP53,MDM2,activate,up-regulates quantity by expression,SIGNOR,SIGNOR,7958853,0.968
+GSK3B,GSK3B,activate,up-regulates activity,SIGNOR,SIGNOR,20331603,0.2
+GNAS,SRC,activate,up-regulates activity,SIGNOR,SIGNOR,11007482,0.506
+GSK3B,SRC,activate,up-regulates activity,SIGNOR,SIGNOR,33388549,0.383
+SRC,SRC,activate,up-regulates,SIGNOR,SIGNOR,7578094,0.2
+MDM2,TP53,inhibit,down-regulates quantity by destabilization,SIGNOR,SIGNOR,23150757,0.968
+GSK3B,TP53,activate,up-regulates activity,SIGNOR,SIGNOR,11483158,0.727
+SRC,TP53,inhibit,down-regulates quantity by destabilization,SIGNOR,SIGNOR,25071020,0.524
+RNF43,TP53,inhibit,down-regulates quantity by destabilization,SIGNOR,SIGNOR,25996295,0.452
+GSK3B,MYC,inhibit,down-regulates quantity by destabilization,SIGNOR,SIGNOR,16023596,0.719
+SMAD4,MYC,inhibit,down-regulates quantity by repression,SIGNOR,SIGNOR,11689553,0.638
+MYC,CDKN2A,inhibit,down-regulates quantity by repression,SIGNOR,SIGNOR,20551174,0.765
+SRC,KRAS,activate,up-regulates activity,SIGNOR,SIGNOR,34725361,0.656
+GSK3B,SMAD4,inhibit,down-regulates quantity by destabilization,SIGNOR,SIGNOR,25373906,0.397

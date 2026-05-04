@@ -1,11 +1,9 @@
 import pandas as pd
 import numpy as np
-import os
 from typing import Union, Dict, List
-base_dir = os.path.dirname(os.path.abspath(__file__))
-folder_path = os.path.join(os.path.dirname(os.path.dirname(base_dir)), 'KG_files')
-file_name = 'significant_paths_to_phenotypes.txt'
-file_path = os.path.join(folder_path, file_name)
+from .resources import data_path
+
+file_path = data_path('significant_paths_to_phenotypes.txt')
 
 def get_phenotypes(file_path = file_path):
     df = pd.read_csv(file_path, sep='\t')

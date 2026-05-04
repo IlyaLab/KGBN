@@ -15,10 +15,10 @@ sys.path.insert(0, os.path.abspath('../../src'))
 import KGBN
 
 project = 'KGBN'
-copyright = '2025, IlyaLab'
+copyright = '2026, KGBN contributors'
 author = 'IlyaLab'
-release = '0.2'
-version = '0.2'
+release = KGBN.__version__
+version = KGBN.__version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -6,14 +6,13 @@ import zipfile
 import igraph as ig
 import numpy as np
 import pandas as pd
+from .resources import data_files, data_path
 
 PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-DATA_PATH = os.path.join(PATH, 'KG_files')
 MSIGDB_PATH = os.path.join(PATH, 'raw_graphs/msigdb_v2023.1.Hs_json_files_to_download_locally.zip')
 
 def get_available_graphs():
-    files = os.listdir(DATA_PATH)
-    return files
+    return data_files()
 
 def get_available_msigdb():
     f = zipfile.ZipFile(MSIGDB_PATH)
@@ -23,13 +22,16 @@ def get_available_msigdb():
 
 
 def load_graph(filename):
-    files = os.listdir(DATA_PATH)
+    files = data_files()
     if filename not in files:
         # if filename not in files, try opening it as a path
         if not os.path.exists(filename):
-            raise FileNotFoundError()
+            raise FileNotFoundError(
+                f"{filename!r} is not a packaged KGBN data file and does not exist as a path."
+            )
     else:
-        filename = os.path.join(DATA_PATH, filename)
+        filename = data_path(filename)
+    filename = str(filename)
     if 'tsv' in filename:
         df = pd.read_csv(filename, sep='\t')
     else:

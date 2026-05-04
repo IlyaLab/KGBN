@@ -1,3 +1,0 @@
-FLT3 = 1
-DNMT3A = 0
-NPM1 = 1

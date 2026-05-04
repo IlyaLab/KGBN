@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use KGBN, please cite the KGBN manuscript."
+title: "KGBN: Augmenting and optimizing logical gene regulatory networks using knowledge graphs"
+authors:
+  - family-names: Li
+    given-names: Luna Xingyu
+  - family-names: Zhang
+    given-names: Yue
+  - family-names: Aguilar
+    given-names: Boris
+  - family-names: Shah
+    given-names: Tazein
+  - family-names: Gennari
+    given-names: John H
+  - family-names: Qin
+    given-names: Guangrong
+repository-code: "https://github.com/IlyaLab/KGBN"
+date-released: 2026-05-04
+license: MIT

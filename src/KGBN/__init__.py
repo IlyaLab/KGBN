@@ -1,5 +1,7 @@
 
 # Simulation module
+__version__ = "0.1.0"
+
 from .BMatrix import load_network, load_network_from_file, load_network_from_string, load_pbn_from_file, load_pbn_from_string
 from .steady_state import SteadyStateCalculator
 from .vis import vis_network, vis_compression, vis_extension

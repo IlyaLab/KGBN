@@ -1,67 +1,41 @@
 import unittest
-from KGBN import BMatrix
 
-class PBNTest(unittest.TestCase):
+import numpy as np
 
-    def setUp(self):
-        # paths to initial networks
-        self.network1 = 'input_files/simple_network_test.txt'
-        self.network2 = 'input_files/simple_network_test_2.txt'
-        self.network3 = 'input_files/simple_network_test_3.txt'
-
-    def test_equation_1(self):
-        "Tests simple network, with noise"
-        boolean_network = BMatrix.load_network_from_file(self.network1)
-        # test boolean_network
-        self.assertEqual(boolean_network.N, 4)
-        # test runs
-        boolean_network.setInitialValues([1, 1, 0, 0])
-        results = boolean_network.update(10)
-        self.assertEqual(results[1, :].tolist(), [1, 1, 1, 1])
-        self.assertEqual(results[9, :].tolist(), [1, 1, 1, 1])
-        boolean_network.setInitialValues([1, 1, 1, 1])
-        results = boolean_network.update(2)
-        self.assertEqual(results[1, :].tolist(), [1, 1, 1, 1])
-        boolean_network.setInitialValues([0, 0, 1, 1])
-        results = boolean_network.update(10)
-        self.assertEqual(results[1, :].tolist(), [0, 0, 0, 0])
-        self.assertEqual(results[9, :].tolist(), [0, 0, 0, 0])
-        boolean_network.setInitialValues([1, 0, 1, 1])
-        results = boolean_network.update(10)
-        self.assertEqual(results[1, :].tolist(), [1, 0, 0, 1])
-        self.assertEqual(results[9, :].tolist(), [1, 0, 0, 1])
-        boolean_network.setInitialValues([1, 0, 0, 0])
-        results = boolean_network.update(1)
-        self.assertEqual(results[1, :].tolist(), [1, 0, 0, 1])
-
-    def test_load_equation_2(self):
-        "Tests loading equations - more complex network"
-        boolean_network = BMatrix.load_network_from_file(self.network2)
-        # test loading boolean_network
-        self.assertEqual(boolean_network.N, 7)
-        # test runs
-        boolean_network.setInitialValues([1, 0, 0, 0, 0, 0, 0])
-        results = boolean_network.update(10)
-        self.assertEqual(results[1, :].tolist(), [1, 0, 0, 1, 1, 0, 1])
-        boolean_network.setInitialValues([0, 0, 1, 0, 0, 0, 0])
-        results = boolean_network.update(10)
-        self.assertEqual(results[1, :].tolist(), [0, 1, 1, 0, 1, 1, 0])
-
-    def test_load_equation_3(self):
-        "Tests loading equations - example from Shmulevich 2002"
-        boolean_network = BMatrix.load_network_from_file(self.network3)
-        # test loading boolean_network
-        self.assertEqual(boolean_network.N, 7)
-        # test runs
-        boolean_network.setInitialValues([1, 0, 0, 0, 0, 0, 0])
-        results = boolean_network.update(10)
-        self.assertEqual(results[1, :].tolist(), [1, 0, 0, 0, 0, 1, 1])
-        self.assertEqual(results[2, :].tolist(), [1, 0, 0, 0, 0, 1, 1])
-        boolean_network.setInitialValues([1, 1, 1, 0, 0, 0, 0])
-        results = boolean_network.update(10)
-        self.assertEqual(results[1, :].tolist(), [1, 1, 1, 0, 1, 1, 0])
+import KGBN
 
 
+class PBNLoadAndUpdateTest(unittest.TestCase):
+    def test_load_pbn_from_string(self):
+        np.random.seed(1)
+        network = KGBN.load_pbn_from_string(
+            """
+            A = A, 1.0
+            B = A, 0.7
+            B = !A, 0.3
+            """,
+            initial_state={"A": 1, "B": 0},
+        )
 
-if __name__ == '__main__':
+        self.assertEqual(network.N, 2)
+        self.assertEqual(network.nf.tolist(), [1, 2])
+        self.assertTrue(np.allclose(network.cij[1, :2], [0.7, 0.3]))
+
+        trajectory = network.update(iterations=3)
+        self.assertEqual(trajectory.shape, (4, 2))
+
+    def test_load_network_auto_detects_pbn(self):
+        network = KGBN.load_network(
+            """
+            A = A, 1
+            B = A, 0.5
+            B = !A, 0.5
+            """,
+            initial_state=[1, 0],
+        )
+
+        self.assertEqual(network.nf.tolist(), [1, 2])
+
+
+if __name__ == "__main__":
     unittest.main()

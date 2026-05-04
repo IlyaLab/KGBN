@@ -30,7 +30,8 @@ def load_signor_network(gene_list, input_format="symbol", joiner='&', kg_filenam
         gene_list - list of gene symbols, gene ids, or uniprot ids.
         input_format - "symbol", "id", or "uniprot"
         joiner - "&", "|", "inhibitor_wins", or "majority", or "plurality" (difference between the last two: in plurality, a tie indicates 1, in majority, a tie indicates 0)
-        kg_filename - "SIGNOR_2025_08_14.tsv" by default. "SIGNOR_formatted.tsv" can also be used (this is an older version of SigNOR).
+        kg_filename - "SIGNOR_2025_08_14.tsv" by default. Pass a packaged data
+        file name or an explicit path to use another SIGNOR-like edge table.
         only_proteins - whether to only use protein nodes in SIGNOR for getting the subgraph (default: True)
         score_cutoff - minimum score threshold for edges to be included (default: None, includes all edges)
         saveto - if provided, save all edge attributes (source, target, direction, predicate,

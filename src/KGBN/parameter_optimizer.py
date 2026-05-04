@@ -86,8 +86,19 @@ class ParameterOptimizer:
         # Initialize evaluator
         self.evaluator = SimulationEvaluator(pbn, self.experiments, config, nodes_to_optimize, normalize=normalize)
         
-        # Set configuration
-        self.config = config or self._default_config()
+        # Set configuration: merge user config on top of defaults
+        defaults = self._default_config()
+        if config:
+            for key, default_val in defaults.items():
+                if key not in config:
+                    config[key] = default_val
+                elif isinstance(default_val, dict) and isinstance(config[key], dict):
+                    merged = default_val.copy()
+                    merged.update(config[key])
+                    config[key] = merged
+            self.config = config
+        else:
+            self.config = defaults
         
         # Initialize tracking variables
         self._iteration_count = 0
@@ -252,6 +263,7 @@ class ParameterOptimizer:
         
         de_params = self.config['de_params'].copy()
         de_params.pop('early_stopping', None)
+        de_params.pop('success_threshold', None)
         self._max_iter = de_params.get('maxiter', 500)
         
         # Add seed for reproducibility

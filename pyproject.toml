@@ -1,35 +1,105 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "KGBN"
-version = "0.0.1"
-authors = [
-  { name="Boris Aguilar", email="boris.aguilar@isbscience.org" },
-]
-description = "Boolean network models in python"
+version = "0.1.0"
+description = "Knowledge graph-augmented Boolean and probabilistic Boolean network modeling"
 readme = "README.md"
-requires-python = ">=3.7"
-dependencies = [
-    "numpy",
-    "pandas",
-    "igraph",
-    "pyvis",
-    "matplotlib",
-    "scipy>=1.15.2",
-    "pyswarms>=1.3.0",
-    "boolean"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Luna Xingyu Li" },
+  { name = "Yue Zhang" },
+  { name = "Boris Aguilar" },
+  { name = "Tazein Shah" },
+  { name = "John H Gennari" },
+  { name = "Guangrong Qin" },
+]
+keywords = [
+  "boolean networks",
+  "probabilistic boolean networks",
+  "knowledge graphs",
+  "systems biology",
+  "gene regulatory networks",
 ]
 classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+  "boolean.py>=4.0",
+  "igraph",
+  "matplotlib",
+  "networkx",
+  "numpy",
+  "pandas",
+  "pyswarms>=1.3.0",
+  "pyvis",
+  "scipy>=1.15.2",
+]
+
+[project.optional-dependencies]
+sensitivity = [
+  "SALib",
+  "tqdm",
+]
+docs = [
+  "furo",
+  "myst-parser",
+  "numpydoc",
+  "sphinx",
+  "sphinx-markdown-builder",
+  "standard-imghdr",
+]
+dev = [
+  "build",
+  "pytest",
+  "twine",
+]
+all = [
+  "SALib",
+  "build",
+  "furo",
+  "myst-parser",
+  "numpydoc",
+  "pytest",
+  "sphinx",
+  "sphinx-markdown-builder",
+  "standard-imghdr",
+  "tqdm",
+  "twine",
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/IlyaLab/KGBN"
-"Bug Tracker" = "https://github.com/IlyaLab/KGBN/issues"
+Homepage = "https://github.com/IlyaLab/KGBN"
+Documentation = "https://ilyalab.github.io/KGBN/"
+Issues = "https://github.com/IlyaLab/KGBN/issues"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"KGBN.data" = [
+  "Homo_sapiens.gene_info.gz",
+  "SIGNOR_2025_08_14.tsv",
+  "gene_uniprot.txt",
+  "significant_paths_to_phenotypes.txt",
+  "uniprot_genes.txt",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["test", "tests"]
+pythonpath = ["src"]

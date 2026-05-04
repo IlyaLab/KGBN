@@ -1,3 +1,0 @@
-Apoptosis = TP53 & ! ( BCL2 )
-Differentiation = ( CEBPA | ETV6 ) & ! ( MEIS1 )
-Proliferation = ( MYC | CCND1 | SOX4 | MEIS1 | STAT5A )
