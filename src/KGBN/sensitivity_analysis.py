@@ -842,7 +842,7 @@ def influence_analysis(
         'batch_size': 1024,
     }
     if config:
-        cfg.update(cfg)
+        cfg.update(config)
     
     if verbose:
         print("="*60)
