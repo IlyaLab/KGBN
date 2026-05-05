@@ -1,0 +1,30 @@
+============================================================
+PBN EVALUATION REPORT
+============================================================
+
+OVERALL PERFORMANCE:
+--------------------
+Pearson Correlation: 0.6015
+P-value: 3.644581e-08
+R-squared: -16.1501
+Mean Squared Error: 0.743885
+Root Mean Squared Error: 0.862488
+Mean Absolute Error: 0.715980
+Number of data points: 70
+
+CONFIGURATION:
+--------------------
+pso_params: {'n_particles': 100, 'iters': 2000, 'options': {'c1': 0.5, 'c2': 0.3, 'w': 0.9}, 'ftol': -1, 'ftol_iter': 5}
+de_params: {'strategy': 'best1bin', 'maxiter': 1000, 'popsize': 20, 'tol': 0.001, 'atol': 0, 'mutation': (0.5, 1.5), 'recombination': 0.7, 'seed': None, 'disp': False, 'init': 'sobol', 'updating': 'deferred', 'workers': -1, 'early_stopping': False}
+steady_state: {'method': 'tsmc', 'tsmc_params': {'epsilon': 0.05, 'r': 0.1, 's': 0.85, 'p_mir': 0.01, 'initial_nsteps': 100, 'max_iterations': 1000, 'freeze_constant': True, 'seed': 9}}
+max_try: 3
+success_threshold: 0.1
+seed: 9
+
+PER-NODE PERFORMANCE:
+--------------------
+Formula:
+  Correlation: 0.6015 (p = 3.6446e-08)
+  MSE: 0.743885
+  MAE: 0.715980
+  Data points: 70

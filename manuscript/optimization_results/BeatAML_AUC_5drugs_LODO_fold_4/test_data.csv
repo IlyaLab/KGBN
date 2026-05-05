@@ -1,0 +1,9 @@
+Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values,n_patients,std,drug,mutation_profile
+1,,,BCL2,1,AUC,155.79,180,74.36,Venetoclax,No mutation
+6,FLT3,1.0,BCL2,1,AUC,106.12,35,85.32,Venetoclax,FLT3_ITD
+11,,,"BCL2,NPM1","1,1",AUC,137.37,44,82.65,Venetoclax,NPM1
+16,,,"BCL2,DNMT3A","1,1",AUC,163.84,28,62.12,Venetoclax,DNMT3A
+21,FLT3,1.0,"BCL2,NPM1","1,1",AUC,95.32,19,64.62,Venetoclax,"FLT3_ITD,NPM1"
+26,FLT3,1.0,"BCL2,DNMT3A","1,1",AUC,151.24,5,91.16,Venetoclax,"DNMT3A,FLT3_ITD"
+31,,,"BCL2,DNMT3A,NPM1","1,1,1",AUC,185.21,15,73.77,Venetoclax,"DNMT3A,NPM1"
+36,FLT3,1.0,"BCL2,DNMT3A,NPM1","1,1,1",AUC,151.12,26,73.91,Venetoclax,"DNMT3A,FLT3_ITD,NPM1"

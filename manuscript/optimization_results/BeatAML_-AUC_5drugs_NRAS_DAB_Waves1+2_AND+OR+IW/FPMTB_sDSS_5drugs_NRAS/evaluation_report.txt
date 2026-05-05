@@ -1,0 +1,33 @@
+============================================================
+PBN EVALUATION REPORT
+============================================================
+
+OVERALL PERFORMANCE:
+--------------------
+Pearson Correlation: -0.2538
+P-value: 5.679471e-02
+R-squared: -36.0381
+Mean Squared Error: 2.187970
+Root Mean Squared Error: 1.479179
+Mean Absolute Error: 1.338949
+Number of data points: 57
+
+CONFIGURATION:
+--------------------
+sensitivity_method: morris
+morris_trajectories: 200
+sobol_samples: 512
+sobol_second_order: False
+parallel: True
+n_workers: -1
+batch_size: 50
+seed: 9
+steady_state: {'method': 'tsmc', 'tsmc_params': {'epsilon': 0.05, 'r': 0.1, 's': 0.85, 'p_mir': 0.01, 'initial_nsteps': 100, 'max_iterations': 1000, 'freeze_constant': True, 'seed': 9}}
+
+PER-NODE PERFORMANCE:
+--------------------
+Formula:
+  Correlation: -0.2538 (p = 5.6795e-02)
+  MSE: 2.187970
+  MAE: 1.338949
+  Data points: 57

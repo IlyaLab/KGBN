@@ -1,0 +1,9 @@
+Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values,n_patients,std,drug,mutation_profile
+3,,,SYK,1,AUC,190.9,145,49.58,Entospletinib,No mutation
+8,FLT3,1.0,SYK,1,AUC,152.86,29,61.2,Entospletinib,FLT3_ITD
+13,,,"NPM1,SYK","1,1",AUC,181.86,35,42.07,Entospletinib,NPM1
+18,,,"DNMT3A,SYK","1,1",AUC,190.34,22,39.74,Entospletinib,DNMT3A
+23,FLT3,1.0,"NPM1,SYK","1,1",AUC,136.91,19,51.73,Entospletinib,"FLT3_ITD,NPM1"
+28,FLT3,1.0,"DNMT3A,SYK","1,1",AUC,187.2,5,22.41,Entospletinib,"DNMT3A,FLT3_ITD"
+33,,,"DNMT3A,NPM1,SYK","1,1,1",AUC,147.46,13,54.55,Entospletinib,"DNMT3A,NPM1"
+38,FLT3,1.0,"DNMT3A,NPM1,SYK","1,1,1",AUC,151.1,24,48.44,Entospletinib,"DNMT3A,FLT3_ITD,NPM1"

@@ -1,0 +1,744 @@
+Drug_name,sample_id,DSS,mutation_profile
+Selumetinib,AML_084_04,15.46,set()
+Trametinib,AML_084_04,16.54,set()
+Midostaurin,AML_084_04,-0.96,set()
+Ibrutinib,AML_084_04,0.0,set()
+Venetoclax,AML_084_04,-2.14,set()
+Selumetinib,AML_098_01,3.95,set()
+Trametinib,AML_098_01,5.73,set()
+Midostaurin,AML_098_01,2.53,set()
+Ibrutinib,AML_098_01,0.0,set()
+Venetoclax,AML_098_01,0.0,set()
+Entospletinib,AML_098_01,0.0,set()
+Selumetinib,AML_100_01,3.35,set()
+Trametinib,AML_100_01,5.93,set()
+Midostaurin,AML_100_01,3.63,set()
+Ibrutinib,AML_100_01,0.0,set()
+Venetoclax,AML_100_01,13.2,set()
+Entospletinib,AML_100_01,0.0,set()
+Selumetinib,AML_101_01,8.45,set()
+Trametinib,AML_101_01,15.03,set()
+Midostaurin,AML_101_01,12.73,set()
+Ibrutinib,AML_101_01,1.5,set()
+Venetoclax,AML_101_01,5.6,set()
+Entospletinib,AML_101_01,4.6,set()
+Selumetinib,AML_103_01,7.55,set()
+Trametinib,AML_103_01,13.33,set()
+Midostaurin,AML_103_01,5.93,set()
+Ibrutinib,AML_103_01,0.0,set()
+Venetoclax,AML_103_01,0.0,set()
+Entospletinib,AML_103_01,0.0,set()
+Selumetinib,AML_108_01,5.75,set()
+Trametinib,AML_108_01,11.13,set()
+Midostaurin,AML_108_01,9.03,set()
+Ibrutinib,AML_108_01,1.5,set()
+Venetoclax,AML_108_01,0.0,set()
+Entospletinib,AML_108_01,1.3,set()
+Selumetinib,AML_109_01,2.45,{'FLT3'}
+Trametinib,AML_109_01,2.43,{'FLT3'}
+Midostaurin,AML_109_01,2.03,{'FLT3'}
+Ibrutinib,AML_109_01,0.0,{'FLT3'}
+Venetoclax,AML_109_01,16.1,{'FLT3'}
+Entospletinib,AML_109_01,0.0,{'FLT3'}
+Selumetinib,AML_110_01,6.05,set()
+Trametinib,AML_110_01,6.13,set()
+Midostaurin,AML_110_01,9.73,set()
+Ibrutinib,AML_110_01,2.8,set()
+Venetoclax,AML_110_01,0.9,set()
+Entospletinib,AML_110_01,1.6,set()
+Selumetinib,AML_112_01,3.95,set()
+Trametinib,AML_112_01,5.83,set()
+Midostaurin,AML_112_01,7.13,set()
+Ibrutinib,AML_112_01,0.0,set()
+Venetoclax,AML_112_01,3.9,set()
+Entospletinib,AML_112_01,0.5,set()
+Selumetinib,AML_113_01,6.05,set()
+Trametinib,AML_113_01,8.13,set()
+Midostaurin,AML_113_01,16.93,set()
+Ibrutinib,AML_113_01,0.5,set()
+Venetoclax,AML_113_01,13.6,set()
+Entospletinib,AML_113_01,5.5,set()
+Selumetinib,AML_114_01,7.95,set()
+Trametinib,AML_114_01,11.33,set()
+Midostaurin,AML_114_01,4.03,set()
+Ibrutinib,AML_114_01,0.0,set()
+Venetoclax,AML_114_01,3.1,set()
+Entospletinib,AML_114_01,0.0,set()
+Selumetinib,AML_115_01,11.65,set()
+Trametinib,AML_115_01,18.73,set()
+Midostaurin,AML_115_01,15.03,set()
+Ibrutinib,AML_115_01,0.1,set()
+Venetoclax,AML_115_01,17.8,set()
+Entospletinib,AML_115_01,0.0,set()
+Selumetinib,AML_117_01,-0.75,set()
+Trametinib,AML_117_01,0.13,set()
+Midostaurin,AML_117_01,2.53,set()
+Ibrutinib,AML_117_01,0.2,set()
+Venetoclax,AML_117_01,12.6,set()
+Entospletinib,AML_117_01,0.0,set()
+Selumetinib,AML_118_01,0.95,set()
+Trametinib,AML_118_01,2.43,set()
+Midostaurin,AML_118_01,3.03,set()
+Ibrutinib,AML_118_01,0.0,set()
+Venetoclax,AML_118_01,3.8,set()
+Entospletinib,AML_118_01,0.0,set()
+Selumetinib,AML_119_01,0.75,"{'DNMT3A', 'NPM1'}"
+Trametinib,AML_119_01,8.43,"{'DNMT3A', 'NPM1'}"
+Midostaurin,AML_119_01,6.43,"{'DNMT3A', 'NPM1'}"
+Ibrutinib,AML_119_01,0.0,"{'DNMT3A', 'NPM1'}"
+Venetoclax,AML_119_01,2.3,"{'DNMT3A', 'NPM1'}"
+Entospletinib,AML_119_01,0.2,"{'DNMT3A', 'NPM1'}"
+Selumetinib,AML_122_01,2.75,{'NPM1'}
+Trametinib,AML_122_01,7.33,{'NPM1'}
+Midostaurin,AML_122_01,8.03,{'NPM1'}
+Ibrutinib,AML_122_01,0.0,{'NPM1'}
+Venetoclax,AML_122_01,0.3,{'NPM1'}
+Entospletinib,AML_122_01,0.0,{'NPM1'}
+Selumetinib,AML_123_01,2.95,{'DNMT3A'}
+Trametinib,AML_123_01,9.03,{'DNMT3A'}
+Midostaurin,AML_123_01,4.93,{'DNMT3A'}
+Ibrutinib,AML_123_01,0.0,{'DNMT3A'}
+Venetoclax,AML_123_01,4.4,{'DNMT3A'}
+Entospletinib,AML_123_01,0.0,{'DNMT3A'}
+Selumetinib,AML_124_01,7.55,set()
+Trametinib,AML_124_01,9.93,set()
+Midostaurin,AML_124_01,13.43,set()
+Ibrutinib,AML_124_01,0.0,set()
+Venetoclax,AML_124_01,5.4,set()
+Entospletinib,AML_124_01,0.0,set()
+Selumetinib,AML_125_01,-0.95,set()
+Trametinib,AML_125_01,7.63,set()
+Midostaurin,AML_125_01,4.43,set()
+Ibrutinib,AML_125_01,0.0,set()
+Venetoclax,AML_125_01,13.5,set()
+Entospletinib,AML_125_01,0.0,set()
+Selumetinib,AML_126_01,3.85,{'NPM1'}
+Trametinib,AML_126_01,9.03,{'NPM1'}
+Midostaurin,AML_126_01,9.63,{'NPM1'}
+Ibrutinib,AML_126_01,1.6,{'NPM1'}
+Venetoclax,AML_126_01,17.8,{'NPM1'}
+Entospletinib,AML_126_01,5.6,{'NPM1'}
+Selumetinib,AML_127_01,4.25,{'NPM1'}
+Trametinib,AML_127_01,8.03,{'NPM1'}
+Midostaurin,AML_127_01,10.03,{'NPM1'}
+Ibrutinib,AML_127_01,0.0,{'NPM1'}
+Venetoclax,AML_127_01,2.2,{'NPM1'}
+Entospletinib,AML_127_01,0.0,{'NPM1'}
+Selumetinib,AML_128_01,1.35,set()
+Trametinib,AML_128_01,1.43,set()
+Midostaurin,AML_128_01,5.63,set()
+Ibrutinib,AML_128_01,0.0,set()
+Venetoclax,AML_128_01,12.1,set()
+Entospletinib,AML_128_01,0.0,set()
+Selumetinib,AML_131_01,2.55,set()
+Trametinib,AML_131_01,7.63,set()
+Midostaurin,AML_131_01,4.33,set()
+Ibrutinib,AML_131_01,0.0,set()
+Venetoclax,AML_131_01,0.0,set()
+Entospletinib,AML_131_01,0.0,set()
+Selumetinib,AML_133_01,10.95,"{'DNMT3A', 'NPM1'}"
+Trametinib,AML_133_01,16.33,"{'DNMT3A', 'NPM1'}"
+Midostaurin,AML_133_01,1.83,"{'DNMT3A', 'NPM1'}"
+Ibrutinib,AML_133_01,0.3,"{'DNMT3A', 'NPM1'}"
+Entospletinib,AML_133_01,0.0,"{'DNMT3A', 'NPM1'}"
+Selumetinib,AML_134_01,7.45,set()
+Trametinib,AML_134_01,12.03,set()
+Midostaurin,AML_134_01,-0.88,set()
+Ibrutinib,AML_134_01,0.0,set()
+Entospletinib,AML_134_01,0.0,set()
+Selumetinib,AML_135_01,13.55,set()
+Trametinib,AML_135_01,14.93,set()
+Midostaurin,AML_135_01,6.13,set()
+Ibrutinib,AML_135_01,2.2,set()
+Entospletinib,AML_135_01,0.5,set()
+Selumetinib,AML_138_01,10.35,set()
+Trametinib,AML_138_01,14.13,set()
+Midostaurin,AML_138_01,10.13,set()
+Ibrutinib,AML_138_01,0.0,set()
+Entospletinib,AML_138_01,0.0,set()
+Selumetinib,AML_139_01,4.15,set()
+Trametinib,AML_139_01,5.43,set()
+Midostaurin,AML_139_01,11.33,set()
+Ibrutinib,AML_139_01,0.0,set()
+Entospletinib,AML_139_01,0.0,set()
+Selumetinib,AML_140_01,4.05,set()
+Trametinib,AML_140_01,7.33,set()
+Midostaurin,AML_140_01,10.43,set()
+Ibrutinib,AML_140_01,0.0,set()
+Entospletinib,AML_140_01,0.0,set()
+Selumetinib,AML_142_01,0.65,"{'NPM1', 'FLT3'}"
+Trametinib,AML_142_01,7.43,"{'NPM1', 'FLT3'}"
+Midostaurin,AML_142_01,9.73,"{'NPM1', 'FLT3'}"
+Ibrutinib,AML_142_01,1.0,"{'NPM1', 'FLT3'}"
+Venetoclax,AML_142_01,29.6,"{'NPM1', 'FLT3'}"
+Entospletinib,AML_142_01,0.0,"{'NPM1', 'FLT3'}"
+Selumetinib,AML_143_01,0.15,set()
+Trametinib,AML_143_01,2.63,set()
+Midostaurin,AML_143_01,3.63,set()
+Ibrutinib,AML_143_01,0.0,set()
+Venetoclax,AML_143_01,7.9,set()
+Entospletinib,AML_143_01,0.0,set()
+Selumetinib,AML_144_01,14.05,set()
+Trametinib,AML_144_01,18.33,set()
+Midostaurin,AML_144_01,4.63,set()
+Ibrutinib,AML_144_01,0.0,set()
+Venetoclax,AML_144_01,0.6,set()
+Entospletinib,AML_144_01,0.0,set()
+Selumetinib,AML_146_01,1.95,set()
+Trametinib,AML_146_01,4.73,set()
+Midostaurin,AML_146_01,2.43,set()
+Ibrutinib,AML_146_01,0.0,set()
+Venetoclax,AML_146_01,0.0,set()
+Entospletinib,AML_146_01,0.0,set()
+Selumetinib,AML_147_01,5.25,set()
+Trametinib,AML_147_01,10.83,set()
+Midostaurin,AML_147_01,6.33,set()
+Ibrutinib,AML_147_01,0.0,set()
+Venetoclax,AML_147_01,9.6,set()
+Entospletinib,AML_147_01,0.0,set()
+Selumetinib,AML_151_01,9.55,set()
+Trametinib,AML_151_01,16.13,set()
+Midostaurin,AML_151_01,8.53,set()
+Ibrutinib,AML_151_01,0.7,set()
+Venetoclax,AML_151_01,11.7,set()
+Entospletinib,AML_151_01,0.0,set()
+Selumetinib,AML_152_01,1.85,set()
+Trametinib,AML_152_01,4.03,set()
+Midostaurin,AML_152_01,7.93,set()
+Ibrutinib,AML_152_01,0.0,set()
+Venetoclax,AML_152_01,0.0,set()
+Entospletinib,AML_152_01,0.0,set()
+Selumetinib,AML_153_01,0.25,{'DNMT3A'}
+Trametinib,AML_153_01,-0.58,{'DNMT3A'}
+Midostaurin,AML_153_01,-0.88,{'DNMT3A'}
+Ibrutinib,AML_153_01,0.0,{'DNMT3A'}
+Venetoclax,AML_153_01,15.4,{'DNMT3A'}
+Entospletinib,AML_153_01,0.0,{'DNMT3A'}
+Selumetinib,AML_154_01,9.55,{'DNMT3A'}
+Trametinib,AML_154_01,10.23,{'DNMT3A'}
+Midostaurin,AML_154_01,-0.88,{'DNMT3A'}
+Ibrutinib,AML_154_01,2.8,{'DNMT3A'}
+Venetoclax,AML_154_01,8.3,{'DNMT3A'}
+Entospletinib,AML_154_01,0.0,{'DNMT3A'}
+Selumetinib,AML_156_01,4.85,set()
+Trametinib,AML_156_01,11.13,set()
+Midostaurin,AML_156_01,10.43,set()
+Ibrutinib,AML_156_01,0.0,set()
+Venetoclax,AML_156_01,15.9,set()
+Entospletinib,AML_156_01,3.5,set()
+Selumetinib,AML_157_01,8.05,"{'NPM1', 'FLT3'}"
+Trametinib,AML_157_01,8.53,"{'NPM1', 'FLT3'}"
+Midostaurin,AML_157_01,16.03,"{'NPM1', 'FLT3'}"
+Ibrutinib,AML_157_01,0.5,"{'NPM1', 'FLT3'}"
+Venetoclax,AML_157_01,6.7,"{'NPM1', 'FLT3'}"
+Entospletinib,AML_157_01,0.0,"{'NPM1', 'FLT3'}"
+Selumetinib,AML_158_01,3.65,set()
+Trametinib,AML_158_01,8.23,set()
+Midostaurin,AML_158_01,6.23,set()
+Ibrutinib,AML_158_01,0.0,set()
+Venetoclax,AML_158_01,9.2,set()
+Entospletinib,AML_158_01,0.0,set()
+Selumetinib,AML_159_01,6.35,set()
+Trametinib,AML_159_01,10.13,set()
+Midostaurin,AML_159_01,9.43,set()
+Ibrutinib,AML_159_01,0.0,set()
+Venetoclax,AML_159_01,15.1,set()
+Entospletinib,AML_159_01,0.0,set()
+Selumetinib,AML_160_01,4.75,set()
+Trametinib,AML_160_01,12.33,set()
+Midostaurin,AML_160_01,7.93,set()
+Ibrutinib,AML_160_01,0.0,set()
+Venetoclax,AML_160_01,3.2,set()
+Entospletinib,AML_160_01,0.0,set()
+Selumetinib,AML_161_01,5.35,set()
+Trametinib,AML_161_01,9.43,set()
+Midostaurin,AML_161_01,15.33,set()
+Ibrutinib,AML_161_01,0.0,set()
+Venetoclax,AML_161_01,0.0,set()
+Entospletinib,AML_161_01,3.5,set()
+Selumetinib,AML_162_01,-0.45,set()
+Trametinib,AML_162_01,-0.38,set()
+Midostaurin,AML_162_01,3.33,set()
+Ibrutinib,AML_162_01,0.0,set()
+Venetoclax,AML_162_01,0.3,set()
+Entospletinib,AML_162_01,0.0,set()
+Selumetinib,AML_163_01,6.65,{'NPM1'}
+Trametinib,AML_163_01,9.43,{'NPM1'}
+Midostaurin,AML_163_01,9.73,{'NPM1'}
+Ibrutinib,AML_163_01,0.0,{'NPM1'}
+Venetoclax,AML_163_01,2.1,{'NPM1'}
+Entospletinib,AML_163_01,0.8,{'NPM1'}
+Selumetinib,AML_164_01,4.85,set()
+Trametinib,AML_164_01,11.43,set()
+Midostaurin,AML_164_01,-0.88,set()
+Ibrutinib,AML_164_01,4.1,set()
+Venetoclax,AML_164_01,4.5,set()
+Entospletinib,AML_164_01,0.4,set()
+Selumetinib,AML_001_01,-1.13,set()
+Trametinib,AML_001_01,-1.47,set()
+Midostaurin,AML_001_01,-2.2,set()
+Selumetinib,AML_002_01,5.57,set()
+Trametinib,AML_002_01,6.73,set()
+Midostaurin,AML_002_01,0.3,set()
+Selumetinib,AML_007_01,15.15,set()
+Trametinib,AML_007_01,19.45,set()
+Midostaurin,AML_007_01,5.75,set()
+Ibrutinib,AML_007_01,0.0,set()
+Selumetinib,AML_012_01,-0.05,{'NPM1'}
+Trametinib,AML_012_01,0.05,{'NPM1'}
+Midostaurin,AML_012_01,17.85,{'NPM1'}
+Ibrutinib,AML_012_01,1.7,{'NPM1'}
+Selumetinib,AML_014_01,12.75,{'DNMT3A'}
+Trametinib,AML_014_01,12.05,{'DNMT3A'}
+Midostaurin,AML_014_01,11.15,{'DNMT3A'}
+Ibrutinib,AML_014_01,0.0,{'DNMT3A'}
+Selumetinib,AML_018_01,0.76,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Trametinib,AML_018_01,16.74,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Midostaurin,AML_018_01,23.54,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Ibrutinib,AML_018_01,2.3,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Venetoclax,AML_018_01,14.46,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Selumetinib,AML_020_01,-6.44,set()
+Trametinib,AML_020_01,-5.16,set()
+Midostaurin,AML_020_01,-6.06,set()
+Ibrutinib,AML_020_01,0.0,set()
+Venetoclax,AML_020_01,20.96,set()
+Selumetinib,AML_024_01,1.16,set()
+Trametinib,AML_024_01,-1.26,set()
+Midostaurin,AML_024_01,2.94,set()
+Ibrutinib,AML_024_01,0.0,set()
+Venetoclax,AML_024_01,-1.84,set()
+Selumetinib,AML_036_01,-5.34,set()
+Trametinib,AML_036_01,-1.36,set()
+Midostaurin,AML_036_01,0.54,set()
+Ibrutinib,AML_036_01,0.0,set()
+Venetoclax,AML_036_01,-5.64,set()
+Selumetinib,AML_041_01,5.23,set()
+Trametinib,AML_041_01,5.5,set()
+Midostaurin,AML_041_01,6.77,set()
+Ibrutinib,AML_041_01,5.7,set()
+Venetoclax,AML_041_01,0.77,set()
+Selumetinib,AML_053_01,-6.44,set()
+Trametinib,AML_053_01,-4.76,set()
+Midostaurin,AML_053_01,0.34,set()
+Ibrutinib,AML_053_01,0.0,set()
+Venetoclax,AML_053_01,5.66,set()
+Selumetinib,AML_054_01,-6.44,set()
+Trametinib,AML_054_01,-4.76,set()
+Midostaurin,AML_054_01,-6.06,set()
+Ibrutinib,AML_054_01,2.2,set()
+Venetoclax,AML_054_01,29.46,set()
+Selumetinib,AML_057_01,11.23,set()
+Trametinib,AML_057_01,15.4,set()
+Midostaurin,AML_057_01,4.67,set()
+Ibrutinib,AML_057_01,6.1,set()
+Venetoclax,AML_057_01,2.37,set()
+Selumetinib,AML_058_01,9.23,{'NPM1'}
+Trametinib,AML_058_01,4.2,{'NPM1'}
+Midostaurin,AML_058_01,4.17,{'NPM1'}
+Ibrutinib,AML_058_01,0.0,{'NPM1'}
+Venetoclax,AML_058_01,13.47,{'NPM1'}
+Selumetinib,AML_059_01,1.53,{'FLT3'}
+Trametinib,AML_059_01,3.1,{'FLT3'}
+Midostaurin,AML_059_01,5.17,{'FLT3'}
+Ibrutinib,AML_059_01,3.6,{'FLT3'}
+Venetoclax,AML_059_01,24.17,{'FLT3'}
+Selumetinib,AML_060_01,-1.17,"{'DNMT3A', 'NPM1'}"
+Trametinib,AML_060_01,-0.6,"{'DNMT3A', 'NPM1'}"
+Midostaurin,AML_060_01,-2.23,"{'DNMT3A', 'NPM1'}"
+Ibrutinib,AML_060_01,0.0,"{'DNMT3A', 'NPM1'}"
+Venetoclax,AML_060_01,30.57,"{'DNMT3A', 'NPM1'}"
+Selumetinib,AML_061_01,7.03,{'DNMT3A'}
+Trametinib,AML_061_01,3.8,{'DNMT3A'}
+Midostaurin,AML_061_01,0.37,{'DNMT3A'}
+Ibrutinib,AML_061_01,0.0,{'DNMT3A'}
+Venetoclax,AML_061_01,24.67,{'DNMT3A'}
+Selumetinib,AML_062_01,15.03,set()
+Trametinib,AML_062_01,13.6,set()
+Midostaurin,AML_062_01,10.87,set()
+Ibrutinib,AML_062_01,5.3,set()
+Venetoclax,AML_062_01,6.47,set()
+Selumetinib,AML_064_01,19.23,set()
+Trametinib,AML_064_01,20.5,set()
+Midostaurin,AML_064_01,-1.23,set()
+Ibrutinib,AML_064_01,0.0,set()
+Venetoclax,AML_064_01,-1.73,set()
+Selumetinib,AML_065_01,18.73,set()
+Trametinib,AML_065_01,22.6,set()
+Midostaurin,AML_065_01,9.67,set()
+Ibrutinib,AML_065_01,5.4,set()
+Venetoclax,AML_065_01,16.47,set()
+Selumetinib,AML_067_01,10.33,set()
+Trametinib,AML_067_01,9.9,set()
+Midostaurin,AML_067_01,10.67,set()
+Ibrutinib,AML_067_01,0.3,set()
+Venetoclax,AML_067_01,4.97,set()
+Selumetinib,AML_072_01,0.33,"{'DNMT3A', 'NPM1'}"
+Trametinib,AML_072_01,-0.6,"{'DNMT3A', 'NPM1'}"
+Midostaurin,AML_072_01,-2.23,"{'DNMT3A', 'NPM1'}"
+Ibrutinib,AML_072_01,0.0,"{'DNMT3A', 'NPM1'}"
+Venetoclax,AML_072_01,18.97,"{'DNMT3A', 'NPM1'}"
+Selumetinib,AML_075_01,12.33,set()
+Trametinib,AML_075_01,12.9,set()
+Midostaurin,AML_075_01,3.57,set()
+Ibrutinib,AML_075_01,0.0,set()
+Venetoclax,AML_075_01,5.87,set()
+Selumetinib,AML_076_01,1.43,set()
+Trametinib,AML_076_01,4.6,set()
+Midostaurin,AML_076_01,5.67,set()
+Ibrutinib,AML_076_01,0.5,set()
+Venetoclax,AML_076_01,0.27,set()
+Selumetinib,AML_077_01,6.73,"{'DNMT3A', 'FLT3'}"
+Trametinib,AML_077_01,9.4,"{'DNMT3A', 'FLT3'}"
+Midostaurin,AML_077_01,8.57,"{'DNMT3A', 'FLT3'}"
+Ibrutinib,AML_077_01,0.2,"{'DNMT3A', 'FLT3'}"
+Venetoclax,AML_077_01,0.17,"{'DNMT3A', 'FLT3'}"
+Selumetinib,AML_078_01,1.33,{'DNMT3A'}
+Trametinib,AML_078_01,4.6,{'DNMT3A'}
+Midostaurin,AML_078_01,0.97,{'DNMT3A'}
+Ibrutinib,AML_078_01,0.0,{'DNMT3A'}
+Venetoclax,AML_078_01,-1.73,{'DNMT3A'}
+Selumetinib,AML_079_01,1.65,set()
+Trametinib,AML_079_01,3.13,set()
+Midostaurin,AML_079_01,7.13,set()
+Ibrutinib,AML_079_01,0.0,set()
+Venetoclax,AML_079_01,30.0,set()
+Entospletinib,AML_079_01,0.0,set()
+Selumetinib,AML_084_02,17.66,set()
+Trametinib,AML_084_02,12.04,set()
+Midostaurin,AML_084_02,-5.46,set()
+Ibrutinib,AML_084_02,0.0,set()
+Venetoclax,AML_084_02,13.86,set()
+Selumetinib,AML_084_03,10.46,set()
+Trametinib,AML_084_03,6.94,set()
+Midostaurin,AML_084_03,6.64,set()
+Ibrutinib,AML_084_03,0.0,set()
+Venetoclax,AML_084_03,27.86,set()
+Selumetinib,AML_087_01,8.65,set()
+Trametinib,AML_087_01,15.73,set()
+Midostaurin,AML_087_01,7.63,set()
+Ibrutinib,AML_087_01,0.0,set()
+Venetoclax,AML_087_01,5.9,set()
+Entospletinib,AML_087_01,0.0,set()
+Selumetinib,AML_090_01,20.15,set()
+Trametinib,AML_090_01,24.83,set()
+Midostaurin,AML_090_01,6.93,set()
+Ibrutinib,AML_090_01,0.0,set()
+Entospletinib,AML_090_01,0.0,set()
+Selumetinib,AML_090_02,15.35,set()
+Trametinib,AML_090_02,17.53,set()
+Midostaurin,AML_090_02,8.13,set()
+Ibrutinib,AML_090_02,0.0,set()
+Venetoclax,AML_090_02,19.5,set()
+Entospletinib,AML_090_02,0.0,set()
+Selumetinib,AML_033_02,4.85,"{'DNMT3A', 'NPM1'}"
+Trametinib,AML_033_02,8.33,"{'DNMT3A', 'NPM1'}"
+Midostaurin,AML_033_02,12.33,"{'DNMT3A', 'NPM1'}"
+Ibrutinib,AML_033_02,1.8,"{'DNMT3A', 'NPM1'}"
+Venetoclax,AML_033_02,3.5,"{'DNMT3A', 'NPM1'}"
+Entospletinib,AML_033_02,2.3,"{'DNMT3A', 'NPM1'}"
+Selumetinib,AML_102_01,16.25,set()
+Trametinib,AML_102_01,20.03,set()
+Midostaurin,AML_102_01,2.83,set()
+Ibrutinib,AML_102_01,0.0,set()
+Venetoclax,AML_102_01,0.0,set()
+Entospletinib,AML_102_01,0.0,set()
+Selumetinib,AML_103_02,13.85,set()
+Trametinib,AML_103_02,14.43,set()
+Midostaurin,AML_103_02,8.33,set()
+Ibrutinib,AML_103_02,2.4,set()
+Entospletinib,AML_103_02,0.0,set()
+Selumetinib,AML_116_01,4.15,{'DNMT3A'}
+Trametinib,AML_116_01,7.03,{'DNMT3A'}
+Midostaurin,AML_116_01,7.63,{'DNMT3A'}
+Ibrutinib,AML_116_01,3.8,{'DNMT3A'}
+Venetoclax,AML_116_01,11.2,{'DNMT3A'}
+Entospletinib,AML_116_01,1.8,{'DNMT3A'}
+Selumetinib,AML_006_02,1.15,{'DNMT3A'}
+Trametinib,AML_006_02,1.35,{'DNMT3A'}
+Midostaurin,AML_006_02,0.05,{'DNMT3A'}
+Ibrutinib,AML_006_02,0.0,{'DNMT3A'}
+Selumetinib,AML_007_02,15.25,set()
+Trametinib,AML_007_02,17.05,set()
+Midostaurin,AML_007_02,2.05,set()
+Ibrutinib,AML_007_02,0.0,set()
+Selumetinib,AML_015_03,9.26,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Trametinib,AML_015_03,13.04,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Midostaurin,AML_015_03,23.54,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Ibrutinib,AML_015_03,0.0,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Venetoclax,AML_015_03,7.56,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Selumetinib,AML_016_02,7.86,set()
+Trametinib,AML_016_02,-3.96,set()
+Midostaurin,AML_016_02,3.24,set()
+Ibrutinib,AML_016_02,0.0,set()
+Venetoclax,AML_016_02,5.56,set()
+Selumetinib,AML_023_01,7.17,set()
+Trametinib,AML_023_01,14.23,set()
+Midostaurin,AML_023_01,6.8,set()
+Selumetinib,AML_023_03,1.87,{'FLT3'}
+Trametinib,AML_023_03,3.13,{'FLT3'}
+Midostaurin,AML_023_03,2.6,{'FLT3'}
+Selumetinib,AML_023_04,1.25,{'FLT3'}
+Trametinib,AML_023_04,4.25,{'FLT3'}
+Midostaurin,AML_023_04,8.05,{'FLT3'}
+Ibrutinib,AML_023_04,0.0,{'FLT3'}
+Selumetinib,AML_028_01,-6.14,set()
+Trametinib,AML_028_01,-3.36,set()
+Midostaurin,AML_028_01,4.24,set()
+Ibrutinib,AML_028_01,0.0,set()
+Venetoclax,AML_028_01,12.96,set()
+Selumetinib,AML_035_02,5.66,set()
+Trametinib,AML_035_02,6.44,set()
+Midostaurin,AML_035_02,5.64,set()
+Ibrutinib,AML_035_02,0.0,set()
+Venetoclax,AML_035_02,-9.04,set()
+Selumetinib,AML_035_04,2.46,set()
+Trametinib,AML_035_04,6.64,set()
+Midostaurin,AML_035_04,4.74,set()
+Ibrutinib,AML_035_04,0.0,set()
+Venetoclax,AML_035_04,-9.04,set()
+Selumetinib,AML_040_01,6.86,set()
+Trametinib,AML_040_01,9.34,set()
+Midostaurin,AML_040_01,6.34,set()
+Ibrutinib,AML_040_01,2.8,set()
+Venetoclax,AML_040_01,5.16,set()
+Selumetinib,AML_049_02,1.93,{'NPM1'}
+Trametinib,AML_049_02,2.9,{'NPM1'}
+Midostaurin,AML_049_02,6.47,{'NPM1'}
+Ibrutinib,AML_049_02,0.6,{'NPM1'}
+Venetoclax,AML_049_02,22.77,{'NPM1'}
+Selumetinib,AML_051_01,-6.44,set()
+Trametinib,AML_051_01,-4.86,set()
+Midostaurin,AML_051_01,-6.06,set()
+Ibrutinib,AML_051_01,0.0,set()
+Venetoclax,AML_051_01,8.56,set()
+Selumetinib,AML_129_02,3.67,set()
+Trametinib,AML_129_02,10.23,set()
+Selumetinib,AML_184_01,12.37,set()
+Trametinib,AML_184_01,17.83,set()
+Selumetinib,AML_185_01,10.57,set()
+Trametinib,AML_185_01,16.03,set()
+Selumetinib,AML_083_01,4.43,set()
+Trametinib,AML_083_01,3.4,set()
+Midostaurin,AML_083_01,-2.23,set()
+Ibrutinib,AML_083_01,2.4,set()
+Venetoclax,AML_083_01,31.67,set()
+Selumetinib,AML_085_01,6.06,{'DNMT3A'}
+Trametinib,AML_085_01,10.74,{'DNMT3A'}
+Midostaurin,AML_085_01,-0.86,{'DNMT3A'}
+Ibrutinib,AML_085_01,0.0,{'DNMT3A'}
+Venetoclax,AML_085_01,-6.24,{'DNMT3A'}
+Selumetinib,AML_086_02,2.95,set()
+Trametinib,AML_086_02,5.93,set()
+Midostaurin,AML_086_02,9.43,set()
+Ibrutinib,AML_086_02,0.0,set()
+Venetoclax,AML_086_02,13.9,set()
+Entospletinib,AML_086_02,0.0,set()
+Selumetinib,AML_086_01,3.85,set()
+Trametinib,AML_086_01,6.53,set()
+Midostaurin,AML_086_01,4.23,set()
+Ibrutinib,AML_086_01,0.0,set()
+Venetoclax,AML_086_01,9.5,set()
+Entospletinib,AML_086_01,0.0,set()
+Selumetinib,AML_091_01,0.65,{'DNMT3A'}
+Trametinib,AML_091_01,2.13,{'DNMT3A'}
+Midostaurin,AML_091_01,3.83,{'DNMT3A'}
+Ibrutinib,AML_091_01,0.0,{'DNMT3A'}
+Entospletinib,AML_091_01,0.0,{'DNMT3A'}
+Selumetinib,AML_092_01,2.05,"{'DNMT3A', 'FLT3'}"
+Trametinib,AML_092_01,6.83,"{'DNMT3A', 'FLT3'}"
+Midostaurin,AML_092_01,14.13,"{'DNMT3A', 'FLT3'}"
+Ibrutinib,AML_092_01,0.0,"{'DNMT3A', 'FLT3'}"
+Venetoclax,AML_092_01,27.1,"{'DNMT3A', 'FLT3'}"
+Entospletinib,AML_092_01,0.7,"{'DNMT3A', 'FLT3'}"
+Selumetinib,AML_019_01,4.35,{'FLT3'}
+Trametinib,AML_019_01,-0.58,{'FLT3'}
+Midostaurin,AML_019_01,5.93,{'FLT3'}
+Ibrutinib,AML_019_01,0.0,{'FLT3'}
+Entospletinib,AML_019_01,0.0,{'FLT3'}
+Selumetinib,AML_025_01,7.65,{'DNMT3A'}
+Trametinib,AML_025_01,9.63,{'DNMT3A'}
+Midostaurin,AML_025_01,5.23,{'DNMT3A'}
+Ibrutinib,AML_025_01,0.0,{'DNMT3A'}
+Entospletinib,AML_025_01,0.1,{'DNMT3A'}
+Selumetinib,AML_026_01,3.75,set()
+Trametinib,AML_026_01,6.73,set()
+Midostaurin,AML_026_01,2.63,set()
+Ibrutinib,AML_026_01,0.0,set()
+Venetoclax,AML_026_01,10.1,set()
+Entospletinib,AML_026_01,0.0,set()
+Selumetinib,AML_029_01,5.95,set()
+Trametinib,AML_029_01,8.73,set()
+Midostaurin,AML_029_01,2.53,set()
+Ibrutinib,AML_029_01,0.0,set()
+Entospletinib,AML_029_01,0.0,set()
+Selumetinib,AML_030_01,0.95,set()
+Trametinib,AML_030_01,3.13,set()
+Midostaurin,AML_030_01,5.03,set()
+Ibrutinib,AML_030_01,0.0,set()
+Venetoclax,AML_030_01,11.8,set()
+Entospletinib,AML_030_01,0.0,set()
+Selumetinib,AML_033_01,5.25,"{'DNMT3A', 'NPM1'}"
+Trametinib,AML_033_01,14.23,"{'DNMT3A', 'NPM1'}"
+Midostaurin,AML_033_01,12.73,"{'DNMT3A', 'NPM1'}"
+Ibrutinib,AML_033_01,1.5,"{'DNMT3A', 'NPM1'}"
+Venetoclax,AML_033_01,10.8,"{'DNMT3A', 'NPM1'}"
+Entospletinib,AML_033_01,3.6,"{'DNMT3A', 'NPM1'}"
+Selumetinib,AML_052_01,0.15,{'NPM1'}
+Trametinib,AML_052_01,1.03,{'NPM1'}
+Midostaurin,AML_052_01,5.13,{'NPM1'}
+Ibrutinib,AML_052_01,0.0,{'NPM1'}
+Entospletinib,AML_052_01,0.0,{'NPM1'}
+Selumetinib,AML_070_01,-0.75,set()
+Trametinib,AML_070_01,2.03,set()
+Midostaurin,AML_070_01,0.23,set()
+Ibrutinib,AML_070_01,0.0,set()
+Venetoclax,AML_070_01,11.2,set()
+Entospletinib,AML_070_01,0.0,set()
+Selumetinib,AML_074_01,3.05,set()
+Trametinib,AML_074_01,8.13,set()
+Midostaurin,AML_074_01,3.33,set()
+Ibrutinib,AML_074_01,0.0,set()
+Venetoclax,AML_074_01,5.8,set()
+Entospletinib,AML_074_01,0.0,set()
+Selumetinib,AML_101_02,-0.25,set()
+Trametinib,AML_101_02,-0.58,set()
+Midostaurin,AML_101_02,2.43,set()
+Ibrutinib,AML_101_02,0.0,set()
+Venetoclax,AML_101_02,4.1,set()
+Entospletinib,AML_101_02,0.7,set()
+Selumetinib,AML_104_01,3.75,set()
+Trametinib,AML_104_01,6.73,set()
+Midostaurin,AML_104_01,9.63,set()
+Ibrutinib,AML_104_01,0.0,set()
+Venetoclax,AML_104_01,0.3,set()
+Entospletinib,AML_104_01,0.0,set()
+Selumetinib,AML_112_02,7.35,set()
+Trametinib,AML_112_02,10.63,set()
+Midostaurin,AML_112_02,6.43,set()
+Ibrutinib,AML_112_02,0.0,set()
+Entospletinib,AML_112_02,0.0,set()
+Selumetinib,AML_157_02,11.05,"{'NPM1', 'FLT3'}"
+Trametinib,AML_157_02,13.13,"{'NPM1', 'FLT3'}"
+Midostaurin,AML_157_02,13.43,"{'NPM1', 'FLT3'}"
+Ibrutinib,AML_157_02,0.0,"{'NPM1', 'FLT3'}"
+Venetoclax,AML_157_02,2.1,"{'NPM1', 'FLT3'}"
+Entospletinib,AML_157_02,0.0,"{'NPM1', 'FLT3'}"
+Selumetinib,AML_001_03,18.46,set()
+Trametinib,AML_001_03,21.54,set()
+Midostaurin,AML_001_03,5.44,set()
+Ibrutinib,AML_001_03,0.0,set()
+Venetoclax,AML_001_03,-7.84,set()
+Selumetinib,AML_003_02,13.36,set()
+Trametinib,AML_003_02,11.44,set()
+Midostaurin,AML_003_02,0.54,set()
+Ibrutinib,AML_003_02,0.0,set()
+Venetoclax,AML_003_02,9.56,set()
+Selumetinib,AML_004_01,3.13,set()
+Trametinib,AML_004_01,5.6,set()
+Midostaurin,AML_004_01,3.97,set()
+Ibrutinib,AML_004_01,0.0,set()
+Venetoclax,AML_004_01,20.57,set()
+Selumetinib,AML_013_01,-2.54,set()
+Trametinib,AML_013_01,8.54,set()
+Midostaurin,AML_013_01,16.14,set()
+Ibrutinib,AML_013_01,2.9,set()
+Venetoclax,AML_013_01,25.56,set()
+Selumetinib,AML_015_04,4.66,"{'DNMT3A', 'FLT3'}"
+Trametinib,AML_015_04,6.64,"{'DNMT3A', 'FLT3'}"
+Midostaurin,AML_015_04,28.34,"{'DNMT3A', 'FLT3'}"
+Ibrutinib,AML_015_04,1.5,"{'DNMT3A', 'FLT3'}"
+Venetoclax,AML_015_04,26.16,"{'DNMT3A', 'FLT3'}"
+Selumetinib,AML_015_02,4.56,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Trametinib,AML_015_02,7.74,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Midostaurin,AML_015_02,15.34,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Ibrutinib,AML_015_02,0.0,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Venetoclax,AML_015_02,-4.74,"{'DNMT3A', 'NPM1', 'FLT3'}"
+Selumetinib,AML_015_01,1.86,"{'DNMT3A', 'FLT3'}"
+Trametinib,AML_015_01,7.64,"{'DNMT3A', 'FLT3'}"
+Midostaurin,AML_015_01,14.24,"{'DNMT3A', 'FLT3'}"
+Ibrutinib,AML_015_01,1.1,"{'DNMT3A', 'FLT3'}"
+Venetoclax,AML_015_01,14.26,"{'DNMT3A', 'FLT3'}"
+Selumetinib,AML_022_01,11.27,{'DNMT3A'}
+Trametinib,AML_022_01,19.23,{'DNMT3A'}
+Selumetinib,AML_028_04,9.76,set()
+Trametinib,AML_028_04,12.34,set()
+Midostaurin,AML_028_04,23.44,set()
+Ibrutinib,AML_028_04,5.3,set()
+Venetoclax,AML_028_04,25.76,set()
+Selumetinib,AML_032_01,-6.44,set()
+Trametinib,AML_032_01,-0.26,set()
+Midostaurin,AML_032_01,0.34,set()
+Ibrutinib,AML_032_01,0.0,set()
+Venetoclax,AML_032_01,1.26,set()
+Selumetinib,AML_042_01,5.73,set()
+Trametinib,AML_042_01,14.2,set()
+Midostaurin,AML_042_01,-2.13,set()
+Ibrutinib,AML_042_01,0.0,set()
+Venetoclax,AML_042_01,15.97,set()
+Selumetinib,AML_043_02,4.65,{'NPM1'}
+Trametinib,AML_043_02,9.93,{'NPM1'}
+Midostaurin,AML_043_02,10.13,{'NPM1'}
+Ibrutinib,AML_043_02,0.0,{'NPM1'}
+Venetoclax,AML_043_02,2.5,{'NPM1'}
+Entospletinib,AML_043_02,0.0,{'NPM1'}
+Selumetinib,AML_045_01,-6.44,set()
+Trametinib,AML_045_01,-5.16,set()
+Midostaurin,AML_045_01,-2.96,set()
+Ibrutinib,AML_045_01,0.0,set()
+Venetoclax,AML_045_01,14.16,set()
+Selumetinib,AML_046_01,8.13,set()
+Trametinib,AML_046_01,-0.6,set()
+Midostaurin,AML_046_01,29.27,set()
+Ibrutinib,AML_046_01,7.1,set()
+Venetoclax,AML_046_01,34.47,set()
+Selumetinib,AML_050_02,11.17,set()
+Trametinib,AML_050_02,14.23,set()
+Midostaurin,AML_050_02,-2.1,set()
+Selumetinib,AML_073_01,1.33,set()
+Trametinib,AML_073_01,4.3,set()
+Midostaurin,AML_073_01,5.07,set()
+Ibrutinib,AML_073_01,1.2,set()
+Venetoclax,AML_073_01,14.27,set()
+Selumetinib,AML_076_02,2.25,set()
+Trametinib,AML_076_02,4.83,set()
+Midostaurin,AML_076_02,11.33,set()
+Ibrutinib,AML_076_02,0.2,set()
+Venetoclax,AML_076_02,0.0,set()
+Entospletinib,AML_076_02,0.0,set()
+Selumetinib,AML_078_02,4.85,{'DNMT3A'}
+Trametinib,AML_078_02,7.23,{'DNMT3A'}
+Midostaurin,AML_078_02,4.93,{'DNMT3A'}
+Ibrutinib,AML_078_02,0.0,{'DNMT3A'}
+Entospletinib,AML_078_02,0.0,{'DNMT3A'}
+Selumetinib,AML_120_03,6.65,set()
+Trametinib,AML_120_03,11.65,set()
+Midostaurin,AML_120_03,22.45,set()
+Ibrutinib,AML_120_03,0.1,set()
+Selumetinib,AML_120_01,3.67,set()
+Trametinib,AML_120_01,12.93,set()
+Selumetinib,AML_129_03,-0.13,set()
+Trametinib,AML_129_03,2.53,set()
+Midostaurin,AML_129_03,6.3,set()
+Selumetinib,AML_175_01,-6.44,set()
+Trametinib,AML_175_01,-4.26,set()
+Midostaurin,AML_175_01,-3.16,set()
+Ibrutinib,AML_175_01,0.0,set()
+Venetoclax,AML_175_01,3.06,set()
+Selumetinib,AML_179_01,-1.13,{'FLT3'}
+Trametinib,AML_179_01,-1.47,{'FLT3'}
+Selumetinib,AML_183_03,3.85,{'FLT3'}
+Trametinib,AML_183_03,8.33,{'FLT3'}
+Midostaurin,AML_183_03,7.83,{'FLT3'}
+Ibrutinib,AML_183_03,0.0,{'FLT3'}
+Entospletinib,AML_183_03,0.0,{'FLT3'}
+Selumetinib,AML_183_01,-0.27,set()
+Trametinib,AML_183_01,3.4,set()
+Midostaurin,AML_183_01,3.97,set()
+Ibrutinib,AML_183_01,0.0,set()
+Venetoclax,AML_183_01,-5.93,set()
+Selumetinib,AML_183_02,2.45,set()
+Trametinib,AML_183_02,10.03,set()
+Midostaurin,AML_183_02,9.23,set()
+Ibrutinib,AML_183_02,0.0,set()
+Venetoclax,AML_183_02,1.1,set()
+Entospletinib,AML_183_02,0.5,set()

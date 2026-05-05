@@ -1,0 +1,6 @@
+drug,train_n_exp,train_pearson_r,train_pearson_p,train_mae,train_rmse,test_n_exp,test_pearson_r,test_pearson_p,test_mae,test_rmse,n_patients_mean,n_patients_min,n_patients_max,std_mean,std_min,std_max,n_drugs
+Venetoclax,32,0.822,8e-09,0.105,0.156,8,0.585,1e-01,0.27,0.304,44.0,5,180,75.989,62.12,91.16,1
+Midostaurin,32,0.9,2e-12,0.083,0.107,8,0.368,4e-01,0.333,0.421,55.0,8,235,56.176,36.33,69.63,1
+Ibrutinib,32,0.931,1e-14,0.057,0.089,8,0.169,7e-01,0.372,0.446,51.75,7,220,48.575,38.11,57.04,1
+Selumetinib,32,0.868,1e-10,0.096,0.12,8,-0.06,9e-01,0.392,0.485,53.125,8,226,71.621,64.12,81.63,1
+Entospletinib,32,0.878,4e-11,0.092,0.118,8,-0.507,2e-01,0.519,0.588,36.5,5,145,46.215,22.41,61.2,1

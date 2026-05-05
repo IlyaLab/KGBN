@@ -1,0 +1,9 @@
+Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values,n_patients,std,drug,mutation_profile
+5,,,"FLT3,KIT","1,1",AUC,203.41,235,52.39,Midostaurin,No mutation
+10,FLT3,1.0,"FLT3,KIT","1,1",AUC,155.56,44,67.23,Midostaurin,FLT3_ITD
+15,,,"FLT3,KIT,NPM1","1,1,1",AUC,214.32,45,44.92,Midostaurin,NPM1
+20,,,"DNMT3A,FLT3,KIT","1,1,1",AUC,202.61,32,60.67,Midostaurin,DNMT3A
+25,FLT3,1.0,"FLT3,KIT,NPM1","1,1,1",AUC,157.14,25,69.63,Midostaurin,"FLT3_ITD,NPM1"
+30,FLT3,1.0,"DNMT3A,FLT3,KIT","1,1,1",AUC,170.42,8,36.33,Midostaurin,"DNMT3A,FLT3_ITD"
+35,,,"DNMT3A,FLT3,KIT,NPM1","1,1,1,1",AUC,206.71,23,63.18,Midostaurin,"DNMT3A,NPM1"
+40,FLT3,1.0,"DNMT3A,FLT3,KIT,NPM1","1,1,1,1",AUC,167.81,28,55.06,Midostaurin,"DNMT3A,FLT3_ITD,NPM1"

@@ -1,0 +1,9 @@
+Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values,n_patients,std,drug,mutation_profile
+4,,,"MAP2K1,MAP2K2","1,1",AUC,182.7,226,69.74,Selumetinib,No mutation
+9,FLT3,1.0,"MAP2K1,MAP2K2","1,1",AUC,190.5,43,74.06,Selumetinib,FLT3_ITD
+14,,,"MAP2K1,MAP2K2,NPM1","1,1,1",AUC,210.19,43,81.63,Selumetinib,NPM1
+19,,,"DNMT3A,MAP2K1,MAP2K2","1,1,1",AUC,191.1,30,71.12,Selumetinib,DNMT3A
+24,FLT3,1.0,"MAP2K1,MAP2K2,NPM1","1,1,1",AUC,211.61,23,72.49,Selumetinib,"FLT3_ITD,NPM1"
+29,FLT3,1.0,"DNMT3A,MAP2K1,MAP2K2","1,1,1",AUC,194.31,8,70.21,Selumetinib,"DNMT3A,FLT3_ITD"
+34,,,"DNMT3A,MAP2K1,MAP2K2,NPM1","1,1,1,1",AUC,165.84,24,69.6,Selumetinib,"DNMT3A,NPM1"
+39,FLT3,1.0,"DNMT3A,MAP2K1,MAP2K2,NPM1","1,1,1,1",AUC,188.74,28,64.12,Selumetinib,"DNMT3A,FLT3_ITD,NPM1"

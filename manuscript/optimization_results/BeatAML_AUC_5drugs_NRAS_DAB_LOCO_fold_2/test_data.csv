@@ -1,0 +1,6 @@
+Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values,n_patients,std,drug,mutation_profile
+51,DAB2IP,1,"BCL2,DNMT3A","1,1",AUC,175.04,7,55.66,Venetoclax,"DNMT3A,DAB2IP"
+52,DAB2IP,1,"BTK,DNMT3A","1,1",AUC,215.2,8,62.56,Ibrutinib,"DNMT3A,DAB2IP"
+53,DAB2IP,1,"DNMT3A,SYK","1,1",AUC,212.45,6,42.45,Entospletinib,"DNMT3A,DAB2IP"
+54,DAB2IP,1,"DNMT3A,MAP2K1,MAP2K2","1,1,1",AUC,151.58,8,68.81,Selumetinib,"DNMT3A,DAB2IP"
+55,DAB2IP,1,"DNMT3A,FLT3,KIT","1,1,1",AUC,212.64,7,73.06,Midostaurin,"DNMT3A,DAB2IP"

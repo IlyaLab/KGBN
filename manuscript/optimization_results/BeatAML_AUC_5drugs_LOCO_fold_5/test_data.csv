@@ -1,0 +1,6 @@
+Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values,n_patients,std,drug,mutation_profile
+21,FLT3,1.0,"BCL2,NPM1","1,1",AUC,95.32,19,64.62,Venetoclax,"FLT3_ITD,NPM1"
+22,FLT3,1.0,"BTK,NPM1","1,1",AUC,169.77,22,53.52,Ibrutinib,"FLT3_ITD,NPM1"
+23,FLT3,1.0,"NPM1,SYK","1,1",AUC,136.91,19,51.73,Entospletinib,"FLT3_ITD,NPM1"
+24,FLT3,1.0,"MAP2K1,MAP2K2,NPM1","1,1,1",AUC,211.61,23,72.49,Selumetinib,"FLT3_ITD,NPM1"
+25,FLT3,1.0,"FLT3,KIT,NPM1","1,1,1",AUC,157.14,25,69.63,Midostaurin,"FLT3_ITD,NPM1"

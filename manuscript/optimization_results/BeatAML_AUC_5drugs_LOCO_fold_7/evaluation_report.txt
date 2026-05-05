@@ -1,0 +1,36 @@
+============================================================
+OPTIMIZATION RESULT EVALUATION REPORT
+============================================================
+
+OVERALL PERFORMANCE:
+--------------------
+Pearson Correlation: 0.8705
+P-value: 1.088965e-11
+R-squared: -37.5991
+Mean Squared Error: 30459.150688
+Root Mean Squared Error: 174.525502
+Mean Absolute Error: 172.293260
+Number of data points: 35
+
+OPTIMIZATION DETAILS:
+--------------------
+Final MSE: 0.013764
+Success: True
+Iterations: 3000
+Function evaluations: 12292160
+
+CONFIGURATION:
+--------------------
+de_params: {'strategy': 'best1bin', 'maxiter': 3000, 'popsize': 40, 'tol': 0.001, 'atol': 0, 'mutation': (0.5, 1.5), 'recombination': 0.7, 'seed': None, 'disp': False, 'init': 'sobol', 'updating': 'deferred', 'workers': -1, 'early_stopping': False}
+steady_state: {'method': 'tsmc', 'tsmc_params': {'epsilon': 0.05, 'r': 0.1, 's': 0.85, 'p_mir': 0.01, 'initial_nsteps': 100, 'max_iterations': 1000, 'freeze_constant': True, 'seed': 9}}
+max_try: 2
+success_threshold: 0.1
+seed: 9
+
+PER-NODE PERFORMANCE:
+--------------------
+Formula:
+  Correlation: 0.8705 (p = 1.0890e-11)
+  MSE: 30459.150688
+  MAE: 172.293260
+  Data points: 35
