@@ -196,6 +196,7 @@
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
@@ -213,6 +214,7 @@
 <li class="toctree-l2"><a class="reference internal" href="experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -330,14 +332,15 @@ TP53 = !SRC &amp; MAPK1 # Scores: SRC_inhibit:0.524; MAPK1_activate:0.777
 <span class="p">)</span>
 <span class="n">kg_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">kg_string</span><span class="p">)</span>
 
-<span class="c1"># Extend specific nodes to PBN</span>
-<span class="n">extended_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">extend_networks</span><span class="p">(</span>
+<span class="c1"># Extend specific nodes to a PBN definition string</span>
+<span class="n">extended_pbn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">extend_networks</span><span class="p">(</span>
     <span class="n">orig_bn</span><span class="p">,</span>
     <span class="n">kg_bn</span><span class="p">,</span>
     <span class="n">nodes_to_extend</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;TP53&#39;</span><span class="p">],</span>
     <span class="n">prob</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># probability for KG rules</span>
     <span class="n">descriptive</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
+<span class="n">extended_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">extended_pbn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;pbn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This creates a PBN where selected nodes have alternative rules from the KG with specified probabilities.</p>
@@ -347,24 +350,26 @@ TP53 = !SRC &amp; MAPK1 # Scores: SRC_inhibit:0.524; MAPK1_activate:0.777
 <p>Combine original and KG models using different strategies:</p>
 <section id="deterministic-merge-boolean-network">
 <h3>Deterministic Merge (Boolean Network)<a class="headerlink" href="#deterministic-merge-boolean-network" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Merge into deterministic BN</span>
-<span class="n">merged_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Merge into a deterministic BN definition string</span>
+<span class="n">merged_bn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">(</span>
     <span class="p">[</span><span class="n">orig_bn</span><span class="p">,</span> <span class="n">kg_bn</span><span class="p">],</span>
     <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Inhibitor Wins&#39;</span><span class="p">,</span>  <span class="c1"># &#39;OR&#39;, &#39;AND&#39;, &#39;Inhibitor Wins&#39;</span>
     <span class="n">descriptive</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
+<span class="n">merged_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">merged_bn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;bn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="probabilistic-merge-pbn">
 <h3>Probabilistic Merge (PBN)<a class="headerlink" href="#probabilistic-merge-pbn" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Merge into PBN with specified probabilities</span>
-<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Merge into a PBN definition string with specified probabilities</span>
+<span class="n">merged_pbn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">(</span>
     <span class="p">[</span><span class="n">orig_bn</span><span class="p">,</span> <span class="n">kg_bn</span><span class="p">],</span>
     <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PBN&#39;</span><span class="p">,</span>
     <span class="n">prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>  <span class="c1"># probability for original model rules</span>
     <span class="n">descriptive</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
+<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">merged_pbn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;pbn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -374,7 +379,7 @@ TP53 = !SRC &amp; MAPK1 # Scores: SRC_inhibit:0.524; MAPK1_activate:0.777
 <li><p><strong>``’OR’``</strong>: Union of all regulations</p></li>
 <li><p><strong>``’AND’``</strong>: Intersection of regulations</p></li>
 <li><p><strong>``’Inhibitor Wins’``</strong>: Inhibitors override activators (recommended)</p></li>
-<li><p><strong>``’PBN’``</strong>: Create alternative rules with specified probabilities</p></li>
+<li><p><strong>``’PBN’``</strong>: Create alternative rules with specified probabilities. The first model in the list receives probability <code class="docutils literal notranslate"><span class="pre">prob</span></code> for overlapping nodes.</p></li>
 </ul>
 </section>
 </section>
@@ -432,7 +437,7 @@ TP53 = !SRC &amp; MAPK1 # Scores: SRC_inhibit:0.524; MAPK1_activate:0.777
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>ProxPath: <a class="reference external" href="https://github.com/SaccoPerfettoLab/ProxPath">https://github.com/SaccoPerfettoLab/ProxPath</a></p></li>
-<li><p>Iannuccelli, M., Vitriolo, A., Licata, L. et al. Curation of causal interactions mediated by genes associated with autism accelerates the understanding of gene-phenotype relationships underlying neurodevelopmental disorders. Mol Psychiatry 29, 186–196 (2024). <a class="reference external" href="https://doi-org.offcampus.lib.washington.edu/10.1038/s41380-023-02317-3">https://doi-org.offcampus.lib.washington.edu/10.1038/s41380-023-02317-3</a></p></li>
+<li><p>Iannuccelli, M., Vitriolo, A., Licata, L. et al. Curation of causal interactions mediated by genes associated with autism accelerates the understanding of gene-phenotype relationships underlying neurodevelopmental disorders. Mol Psychiatry 29, 186-196 (2024). <a class="reference external" href="https://doi.org/10.1038/s41380-023-02317-3">https://doi.org/10.1038/s41380-023-02317-3</a></p></li>
 </ul>
 </section>
 <section id="complete-workflow-example">
@@ -452,11 +457,12 @@ TP53 = !SRC &amp; MAPK1 # Scores: SRC_inhibit:0.524; MAPK1_activate:0.777
 <span class="n">orig_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="s1">&#39;curated_model.txt&#39;</span><span class="p">)</span>
 
 <span class="c1"># 3. Merge into PBN</span>
-<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">(</span>
+<span class="n">merged_pbn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">(</span>
     <span class="p">[</span><span class="n">orig_bn</span><span class="p">,</span> <span class="n">kg_bn</span><span class="p">],</span>
     <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PBN&#39;</span><span class="p">,</span>
     <span class="n">prob</span><span class="o">=</span><span class="mf">0.8</span>
 <span class="p">)</span>
+<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">merged_pbn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;pbn&#39;</span><span class="p">)</span>
 
 <span class="c1"># 4. Simulate</span>
 <span class="n">calc</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">SteadyStateCalculator</span><span class="p">(</span><span class="n">merged_pbn</span><span class="p">)</span>

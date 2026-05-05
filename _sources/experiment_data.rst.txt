@@ -30,7 +30,7 @@ Column Descriptions
 - **Stimuli_efficacy**: Efficacy values 0-1 (optional, defaults to 1.0)
 - **Inhibitors**: Nodes fixed to 0 (comma-separated)
 - **Inhibitors_efficacy**: Efficacy values 0-1 (optional, defaults to 1.0)
-- **Measured_nodes**: Nodes with experimental measurements OR a formula expression (when use_formula=True)
+- **Measured_nodes**: Nodes with experimental measurements, or a formula expression when loading with ``use_formula=True``
 - **Measured_values**: Corresponding values 0-1 (normalized). For formulas, provide a single value per row in the formula's natural range
 
 Efficacy Values
@@ -47,7 +47,10 @@ Efficacy Values
 Formula-based Measurements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using formulas (``use_formula=True``):
+When using formulas, call ``ExperimentData.load_from_csv(..., use_formula=True)``.
+For optimization and sensitivity workflows, you can also pass
+``Measured_formula="N1 + N2 - N3"`` to override the CSV ``Measured_nodes``
+column.
 
 - **Measured_nodes**: Contains a formula expression (e.g., ``N1 + N2 - N3``)
 - **Measured_values**: Single value per row in the formula's natural range

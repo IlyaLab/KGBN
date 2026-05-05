@@ -1,12 +1,18 @@
 Basic Simulation
-===============
+================
 
 Welcome to KGBN! This guide will help you get started with Boolean Network and Probabilistic Boolean Network modeling.
 
 Installation
 ------------
 
-To install KGBN for development, navigate to the KGBN directory and run:
+Install the released package with ``pip``:
+
+.. code-block:: bash
+
+   pip install KGBN
+
+For development from a local checkout, navigate to the repository and run:
 
 .. code-block:: bash
 
@@ -16,7 +22,7 @@ To install KGBN for development, navigate to the KGBN directory and run:
 Dependencies
 ~~~~~~~~~~~~
 
-KGBN requires the following packages:
+Core KGBN installs its runtime dependencies automatically:
 
 - ``numpy``
 - ``pandas``
@@ -28,7 +34,8 @@ KGBN requires the following packages:
 - ``boolean.py``
 - ``pyswarms``
 
-These will be installed automatically when you install KGBN using the command above.
+Sensitivity analysis additionally uses ``SALib`` and ``tqdm``; install those
+with ``pip install "KGBN[sensitivity]"`` or ``pip install "KGBN[all]"``.
 
 Quick Start
 -----------
@@ -261,18 +268,21 @@ Combine multiple networks:
    network1 = KGBN.load_network("network1.txt")
    network2 = KGBN.load_network("network2.txt")
 
-   # Merge into Boolean Network using Inhibitor Wins method
-   merged_bn = KGBN.merge_networks([network1, network2], method='Inhibitor Wins')
+   # Merge into a Boolean Network using Inhibitor Wins
+   merged_bn_string = KGBN.merge_networks([network1, network2], method='Inhibitor Wins')
+   merged_bn = KGBN.load_network(merged_bn_string, network_type='bn')
 
-   # Merge into PBN (creates alternative rules with probability 0.9)
-   merged_pbn = KGBN.merge_networks([network1, network2], method='PBN', prob=0.9)
+   # Merge into a PBN (creates alternative rules with probability 0.9)
+   merged_pbn_string = KGBN.merge_networks([network1, network2], method='PBN', prob=0.9)
+   merged_pbn = KGBN.load_network(merged_pbn_string, network_type='pbn')
 
 More Information
-----------
+----------------
 
 - :doc:`knowledge_graph_guide` - Knowledge graph integration
 - :doc:`steady_state_guide` - Advanced steady state analysis
 - :doc:`optimization_guide` - Parameter optimization
+- :doc:`sensitivity_analysis` - Influence and parameter sensitivity
 - :doc:`api` - Complete API reference
 
 Examples

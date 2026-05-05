@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Knowledge Graph Augmentation" href="knowledge_graph_guide.html"><link rel="prev" title="Welcome to KGBN’s documentation!" href="index.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Knowledge Graph Augmentation" href="knowledge_graph_guide.html"><link rel="prev" title="Welcome to KGBN’s Documentation!" href="index.html">
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
         <title>Basic Simulation - KGBN 0.1.0 documentation</title>
@@ -196,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
@@ -213,6 +214,7 @@
 <li class="toctree-l2"><a class="reference internal" href="experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -258,14 +260,18 @@
 <p>Welcome to KGBN! This guide will help you get started with Boolean Network and Probabilistic Boolean Network modeling.</p>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
-<p>To install KGBN for development, navigate to the KGBN directory and run:</p>
+<p>Install the released package with <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>KGBN
+</pre></div>
+</div>
+<p>For development from a local checkout, navigate to the repository and run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>KGBN
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
 <section id="dependencies">
 <h3>Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">¶</a></h3>
-<p>KGBN requires the following packages:</p>
+<p>Core KGBN installs its runtime dependencies automatically:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code></p></li>
@@ -277,7 +283,8 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <li><p><code class="docutils literal notranslate"><span class="pre">boolean.py</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pyswarms</span></code></p></li>
 </ul>
-<p>These will be installed automatically when you install KGBN using the command above.</p>
+<p>Sensitivity analysis additionally uses <code class="docutils literal notranslate"><span class="pre">SALib</span></code> and <code class="docutils literal notranslate"><span class="pre">tqdm</span></code>; install those
+with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;KGBN[sensitivity]&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;KGBN[all]&quot;</span></code>.</p>
 </section>
 </section>
 <section id="quick-start">
@@ -475,11 +482,13 @@ GeneB = GeneA
 <span class="n">network1</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="s2">&quot;network1.txt&quot;</span><span class="p">)</span>
 <span class="n">network2</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="s2">&quot;network2.txt&quot;</span><span class="p">)</span>
 
-<span class="c1"># Merge into Boolean Network using Inhibitor Wins method</span>
-<span class="n">merged_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Inhibitor Wins&#39;</span><span class="p">)</span>
+<span class="c1"># Merge into a Boolean Network using Inhibitor Wins</span>
+<span class="n">merged_bn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Inhibitor Wins&#39;</span><span class="p">)</span>
+<span class="n">merged_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">merged_bn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;bn&#39;</span><span class="p">)</span>
 
-<span class="c1"># Merge into PBN (creates alternative rules with probability 0.9)</span>
-<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PBN&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="c1"># Merge into a PBN (creates alternative rules with probability 0.9)</span>
+<span class="n">merged_pbn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PBN&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">merged_pbn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;pbn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -490,6 +499,7 @@ GeneB = GeneA
 <li><p><a class="reference internal" href="knowledge_graph_guide.html"><span class="doc">Knowledge Graph Augmentation</span></a> - Knowledge graph integration</p></li>
 <li><p><a class="reference internal" href="steady_state_guide.html"><span class="doc">Steady State Calculation Guide</span></a> - Advanced steady state analysis</p></li>
 <li><p><a class="reference internal" href="optimization_guide.html"><span class="doc">KGBN Optimizer</span></a> - Parameter optimization</p></li>
+<li><p><a class="reference internal" href="sensitivity_analysis.html"><span class="doc">Sensitivity Analysis</span></a> - Influence and parameter sensitivity</p></li>
 <li><p><a class="reference internal" href="api.html"><span class="doc">API Reference</span></a> - Complete API reference</p></li>
 </ul>
 </section>

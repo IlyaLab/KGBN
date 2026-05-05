@@ -196,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
@@ -213,6 +214,7 @@
 <li class="toctree-l2"><a class="reference internal" href="experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -254,8 +256,8 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="welcome-to-kgbn-s-documentation">
-<h1>Welcome to KGBN’s documentation!<a class="headerlink" href="#welcome-to-kgbn-s-documentation" title="Link to this heading">¶</a></h1>
-<p>KGBN is a Python library for Boolean Network (BN) and Probabilistic Boolean Network (PBN) modeling, simulation, optimization, and analysis with applications in systems biology. It also supports building models from knowledge graphs and integrating them with BNs and PBNs.
+<h1>Welcome to KGBN’s Documentation!<a class="headerlink" href="#welcome-to-kgbn-s-documentation" title="Link to this heading">¶</a></h1>
+<p>KGBN is a Python library for Boolean Network (BN) and Probabilistic Boolean Network (PBN) modeling, simulation, optimization, and analysis with applications in systems biology. It supports the manuscript workflow of identifying and standardizing models, extending them with knowledge-graph rules, optimizing PBN parameters with experimental data, simulating steady states, and evaluating model or phenotype outputs.
 For more details, please refer to the <a class="reference external" href="https://github.com/ilyalab/KGBN">GitHub repository</a>.</p>
 </section>
 <section id="documentation">
@@ -293,6 +295,21 @@ For more details, please refer to the <a class="reference external" href="https:
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="optimization_guide.html#optimization">Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimization_guide.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.sensitivity_analysis"><code class="docutils literal notranslate"><span class="pre">sensitivity_analysis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.PBNSensitivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">PBNSensitivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_sensitivity_results"><code class="docutils literal notranslate"><span class="pre">plot_sensitivity_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.influence_analysis"><code class="docutils literal notranslate"><span class="pre">influence_analysis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.mse_sensitivity_analysis"><code class="docutils literal notranslate"><span class="pre">mse_sensitivity_analysis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.MSESensitivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">MSESensitivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_influence_results"><code class="docutils literal notranslate"><span class="pre">plot_influence_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_mse_sensitivity_results"><code class="docutils literal notranslate"><span class="pre">plot_mse_sensitivity_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#inputs">Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#formula-measurements">Formula Measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#see-also">See Also</a></li>
 </ul>
 </li>
 </ul>

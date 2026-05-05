@@ -196,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
@@ -213,6 +214,7 @@
 <li class="toctree-l2"><a class="reference internal" href="experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -363,11 +365,13 @@ This will return a PBN where:
 <span class="n">network1</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network_from_file</span><span class="p">(</span><span class="s2">&quot;network1.txt&quot;</span><span class="p">)</span>
 <span class="n">network2</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network_from_file</span><span class="p">(</span><span class="s2">&quot;network2.txt&quot;</span><span class="p">)</span>
 
-<span class="c1"># Merge into a single Boolean Network</span>
-<span class="n">merged_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Inhibitor Wins&#39;</span><span class="p">)</span>
+<span class="c1"># Merge into a Boolean-network definition string</span>
+<span class="n">merged_bn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;Inhibitor Wins&#39;</span><span class="p">)</span>
+<span class="n">merged_bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">merged_bn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;bn&#39;</span><span class="p">)</span>
 
-<span class="c1"># Or merge into a Probabilistic Boolean Network</span>
-<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PBN&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="c1"># Or merge into a PBN definition string</span>
+<span class="n">merged_pbn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">merge_networks</span><span class="p">([</span><span class="n">network1</span><span class="p">,</span> <span class="n">network2</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PBN&#39;</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">merged_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">merged_pbn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;pbn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -378,8 +382,9 @@ This will return a PBN where:
 <span class="c1"># Load a Boolean Network</span>
 <span class="n">bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network_from_file</span><span class="p">(</span><span class="s2">&quot;network.txt&quot;</span><span class="p">)</span>
 
-<span class="c1"># Convert to PBN with equal probabilities for existing rules and a self-loop</span>
-<span class="n">pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">BN2PBN</span><span class="p">(</span><span class="n">bn</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="c1"># Convert to PBN rules with equal probabilities for existing rules and self-loops</span>
+<span class="n">pbn_string</span><span class="p">,</span> <span class="n">nodes_to_optimize</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">BN2PBN</span><span class="p">(</span><span class="n">bn</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">pbn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;pbn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -393,13 +398,14 @@ This will return a PBN where:
 <span class="n">kg_network</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network_from_string</span><span class="p">(</span><span class="n">kg_string</span><span class="p">)</span>
 
 <span class="c1"># Extend original network with KG information</span>
-<span class="n">extended_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">extend_networks</span><span class="p">(</span>
+<span class="n">extended_pbn_string</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">extend_networks</span><span class="p">(</span>
     <span class="n">original_bn</span><span class="p">,</span>
     <span class="n">kg_network</span><span class="p">,</span>
     <span class="n">nodes_to_extend</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GENE1&#39;</span><span class="p">,</span> <span class="s1">&#39;GENE2&#39;</span><span class="p">],</span>
     <span class="n">prob</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="c1"># probability of the rules from the KG</span>
     <span class="n">descriptive</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
+<span class="n">extended_pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">extended_pbn_string</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s1">&#39;pbn&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

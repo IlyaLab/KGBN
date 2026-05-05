@@ -194,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
@@ -211,6 +212,7 @@
 <li class="toctree-l2"><a class="reference internal" href="experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -266,6 +268,10 @@
           <li><a href="PBN.html#KGBN.PBN.ProbabilisticBN.__init__">(KGBN.PBN.ProbabilisticBN method)</a>
 </li>
           <li><a href="result_evaluation.html#KGBN.result_evaluation.ResultEvaluator.__init__">(KGBN.result_evaluation.ResultEvaluator method)</a>
+</li>
+          <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.MSESensitivityAnalyzer.__init__">(KGBN.sensitivity_analysis.MSESensitivityAnalyzer method)</a>
+</li>
+          <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.PBNSensitivityAnalyzer.__init__">(KGBN.sensitivity_analysis.PBNSensitivityAnalyzer method)</a>
 </li>
           <li><a href="simulation_evaluator.html#KGBN.simulation_evaluator.SimulationEvaluator.__init__">(KGBN.simulation_evaluator.SimulationEvaluator method)</a>
 </li>
@@ -432,10 +438,16 @@
           <li><a href="parameter_optimizer.html#KGBN.parameter_optimizer.ParameterOptimizer.get_pbn_rules_string">(KGBN.parameter_optimizer.ParameterOptimizer method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="phenotype_score.html#KGBN.phenotype_score.get_phenotypes">get_phenotypes() (in module KGBN.phenotype_score)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.MSESensitivityAnalyzer.get_top_sensitive_nodes">get_top_sensitive_nodes() (KGBN.sensitivity_analysis.MSESensitivityAnalyzer method)</a>
+
+        <ul>
+          <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.PBNSensitivityAnalyzer.get_top_sensitive_nodes">(KGBN.sensitivity_analysis.PBNSensitivityAnalyzer method)</a>
+</li>
+        </ul></li>
         <li><a href="bmatrix.html#KGBN.BMatrix.get_truth_table">get_truth_table() (in module KGBN.BMatrix)</a>
 </li>
         <li><a href="model_parser.html#KGBN.model_parser.get_upstream">get_upstream() (in module KGBN.model_parser)</a>
@@ -488,6 +500,8 @@
   <h2>I</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.influence_analysis">influence_analysis() (in module KGBN.sensitivity_analysis)</a>, <a href="sensitivity_analysis.html#id2">[1]</a>
+</li>
         <li><a href="booleanNetwork.html#KGBN.booleanNetwork.BooleanNetwork.initializeOutput">initializeOutput() (KGBN.booleanNetwork.BooleanNetwork method)</a>
 
         <ul>
@@ -555,8 +569,6 @@
           <li><a href="parameter_optimizer.html#module-KGBN.parameter_optimizer">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     KGBN.PBN
 
@@ -564,6 +576,8 @@
           <li><a href="PBN.html#module-KGBN.PBN">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     KGBN.phenotype_score
 
@@ -576,6 +590,13 @@
 
         <ul>
           <li><a href="result_evaluation.html#module-KGBN.result_evaluation">module</a>
+</li>
+        </ul></li>
+        <li>
+    KGBN.sensitivity_analysis
+
+        <ul>
+          <li><a href="sensitivity_analysis.html#module-KGBN.sensitivity_analysis">module</a>
 </li>
         </ul></li>
         <li>
@@ -675,6 +696,8 @@
 </li>
           <li><a href="result_evaluation.html#module-KGBN.result_evaluation">KGBN.result_evaluation</a>
 </li>
+          <li><a href="sensitivity_analysis.html#module-KGBN.sensitivity_analysis">KGBN.sensitivity_analysis</a>
+</li>
           <li><a href="simulation_evaluator.html#module-KGBN.simulation_evaluator">KGBN.simulation_evaluator</a>
 </li>
           <li><a href="steady_state.html#module-KGBN.steady_state">KGBN.steady_state</a>
@@ -682,6 +705,12 @@
           <li><a href="vis.html#module-KGBN.vis">KGBN.vis</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.mse_sensitivity_analysis">mse_sensitivity_analysis() (in module KGBN.sensitivity_analysis)</a>, <a href="sensitivity_analysis.html#id3">[1]</a>
+</li>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.MSESensitivityAnalyzer">MSESensitivityAnalyzer (class in KGBN.sensitivity_analysis)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -728,15 +757,23 @@
 </li>
         <li><a href="model_parser.html#KGBN.model_parser.parse_expression">parse_expression() (in module KGBN.model_parser)</a>
 </li>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.PBNSensitivityAnalyzer">PBNSensitivityAnalyzer (class in KGBN.sensitivity_analysis)</a>
+</li>
         <li><a href="phenotype_score.html#KGBN.phenotype_score.phenotype_scores">phenotype_scores() (in module KGBN.phenotype_score)</a>
+</li>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_influence_results">plot_influence_results() (in module KGBN.sensitivity_analysis)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_mse_sensitivity_results">plot_mse_sensitivity_results() (in module KGBN.sensitivity_analysis)</a>
+</li>
         <li><a href="parameter_optimizer.html#KGBN.parameter_optimizer.ParameterOptimizer.plot_optimization_history">plot_optimization_history() (KGBN.parameter_optimizer.ParameterOptimizer method)</a>
 </li>
         <li><a href="result_evaluation.html#KGBN.result_evaluation.ResultEvaluator.plot_prediction_vs_experimental">plot_prediction_vs_experimental() (KGBN.result_evaluation.ResultEvaluator method)</a>
 </li>
         <li><a href="result_evaluation.html#KGBN.result_evaluation.ResultEvaluator.plot_residuals">plot_residuals() (KGBN.result_evaluation.ResultEvaluator method)</a>
+</li>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_sensitivity_results">plot_sensitivity_results() (in module KGBN.sensitivity_analysis)</a>
 </li>
         <li><a href="PBN.html#KGBN.PBN.ProbabilisticBN">ProbabilisticBN (class in KGBN.PBN)</a>
 </li>
@@ -754,14 +791,20 @@
 </li>
         <li><a href="model_compressor.html#KGBN.model_compressor.ModelCompressor.remove_nodes">remove_nodes() (KGBN.model_compressor.ModelCompressor method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="bmatrix.html#KGBN.BMatrix.rename_nodes">rename_nodes() (in module KGBN.BMatrix)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="steady_state.html#KGBN.steady_state.SteadyStateCalculator.reset_network_conditions">reset_network_conditions() (KGBN.steady_state.SteadyStateCalculator method)</a>
 </li>
         <li><a href="result_evaluation.html#KGBN.result_evaluation.ResultEvaluator">ResultEvaluator (class in KGBN.result_evaluation)</a>
 </li>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.MSESensitivityAnalyzer.run_analysis">run_analysis() (KGBN.sensitivity_analysis.MSESensitivityAnalyzer method)</a>
+
+        <ul>
+          <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.PBNSensitivityAnalyzer.run_analysis">(KGBN.sensitivity_analysis.PBNSensitivityAnalyzer method)</a>
+</li>
+        </ul></li>
     </ul></td>
   </tr></table>
 </section>
@@ -770,6 +813,8 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="sensitivity_analysis.html#KGBN.sensitivity_analysis.sensitivity_analysis">sensitivity_analysis() (in module KGBN.sensitivity_analysis)</a>, <a href="sensitivity_analysis.html#id0">[1]</a>
+</li>
         <li><a href="steady_state.html#KGBN.steady_state.SteadyStateCalculator.set_experimental_conditions">set_experimental_conditions() (KGBN.steady_state.SteadyStateCalculator method)</a>
 </li>
         <li><a href="booleanNetwork.html#KGBN.booleanNetwork.BooleanNetwork.setInitialValue">setInitialValue() (KGBN.booleanNetwork.BooleanNetwork method)</a>
@@ -784,10 +829,10 @@
           <li><a href="PBN.html#KGBN.PBN.ProbabilisticBN.setInitialValues">(KGBN.PBN.ProbabilisticBN method)</a>
 </li>
         </ul></li>
-        <li><a href="model_parser.html#KGBN.model_parser.simplify_expression">simplify_expression() (in module KGBN.model_parser)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="model_parser.html#KGBN.model_parser.simplify_expression">simplify_expression() (in module KGBN.model_parser)</a>
+</li>
         <li><a href="result_evaluation.html#KGBN.result_evaluation.ResultEvaluator.simulate_optimized_model">simulate_optimized_model() (KGBN.result_evaluation.ResultEvaluator method)</a>
 </li>
         <li><a href="simulation_evaluator.html#KGBN.simulation_evaluator.SimulationEvaluator">SimulationEvaluator (class in KGBN.simulation_evaluator)</a>

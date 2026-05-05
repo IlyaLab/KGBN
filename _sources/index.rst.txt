@@ -1,14 +1,14 @@
 .. KGBN documentation master file
 
-Welcome to KGBN's documentation!
-==================================
+Welcome to KGBN's Documentation!
+================================
 
-KGBN is a Python library for Boolean Network (BN) and Probabilistic Boolean Network (PBN) modeling, simulation, optimization, and analysis with applications in systems biology. It also supports building models from knowledge graphs and integrating them with BNs and PBNs.
+KGBN is a Python library for Boolean Network (BN) and Probabilistic Boolean Network (PBN) modeling, simulation, optimization, and analysis with applications in systems biology. It supports the manuscript workflow of identifying and standardizing models, extending them with knowledge-graph rules, optimizing PBN parameters with experimental data, simulating steady states, and evaluating model or phenotype outputs.
 For more details, please refer to the `GitHub repository <https://github.com/ilyalab/KGBN>`_.
 
 
 Documentation
-======================
+=============
 
 .. toctree::
    :maxdepth: 2
@@ -18,6 +18,7 @@ Documentation
    knowledge_graph_guide
    steady_state_guide
    optimization_guide
+   sensitivity_analysis
 
 .. toctree::
    :maxdepth: 2

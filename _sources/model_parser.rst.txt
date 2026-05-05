@@ -22,11 +22,13 @@ Merging Networks
    network1 = KGBN.load_network_from_file("network1.txt")
    network2 = KGBN.load_network_from_file("network2.txt")
 
-   # Merge into a single Boolean Network
-   merged_bn = KGBN.merge_networks([network1, network2], method='Inhibitor Wins')
+   # Merge into a Boolean-network definition string
+   merged_bn_string = KGBN.merge_networks([network1, network2], method='Inhibitor Wins')
+   merged_bn = KGBN.load_network(merged_bn_string, network_type='bn')
 
-   # Or merge into a Probabilistic Boolean Network
-   merged_pbn = KGBN.merge_networks([network1, network2], method='PBN', prob=0.9)
+   # Or merge into a PBN definition string
+   merged_pbn_string = KGBN.merge_networks([network1, network2], method='PBN', prob=0.9)
+   merged_pbn = KGBN.load_network(merged_pbn_string, network_type='pbn')
 
 Converting BN to PBN
 ~~~~~~~~~~~~~~~~~~~~
@@ -38,8 +40,9 @@ Converting BN to PBN
    # Load a Boolean Network
    bn = KGBN.load_network_from_file("network.txt")
 
-   # Convert to PBN with equal probabilities for existing rules and a self-loop
-   pbn = KGBN.BN2PBN(bn, prob=0.5)
+   # Convert to PBN rules with equal probabilities for existing rules and self-loops
+   pbn_string, nodes_to_optimize = KGBN.BN2PBN(bn, prob=0.5)
+   pbn = KGBN.load_network(pbn_string, network_type='pbn')
 
 Extending Networks
 ~~~~~~~~~~~~~~~~~~
@@ -54,10 +57,11 @@ Extending Networks
    kg_network = KGBN.load_network_from_string(kg_string)
 
    # Extend original network with KG information
-   extended_pbn = KGBN.extend_networks(
+   extended_pbn_string = KGBN.extend_networks(
        original_bn, 
        kg_network, 
        nodes_to_extend=['GENE1', 'GENE2'],
        prob=0.5, # probability of the rules from the KG
        descriptive=True
    )
+   extended_pbn = KGBN.load_network(extended_pbn_string, network_type='pbn')

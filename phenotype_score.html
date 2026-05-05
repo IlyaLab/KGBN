@@ -196,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
@@ -213,6 +214,7 @@
 <li class="toctree-l2"><a class="reference internal" href="experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -253,9 +255,12 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-KGBN.phenotype_score">
-<span id="kgbn-phenotype-score"></span><h1>KGBN.phenotype_score<a class="headerlink" href="#module-KGBN.phenotype_score" title="Link to this heading">¶</a></h1>
-<dl class="py function">
+          <section id="kgbn-phenotype-score">
+<h1>KGBN.phenotype_score<a class="headerlink" href="#kgbn-phenotype-score" title="Link to this heading">¶</a></h1>
+<p>Functions for listing packaged phenotypes, selecting ProxPath gene-phenotype
+relationships, and computing phenotype scores from simulated steady-state
+results.</p>
+<span class="target" id="module-KGBN.phenotype_score"></span><dl class="py function">
 <dt class="sig sig-object py" id="KGBN.phenotype_score.get_phenotypes">
 <span class="sig-prename descclassname"><span class="pre">KGBN.phenotype_score.</span></span><span class="sig-name descname"><span class="pre">get_phenotypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('/home/runner/work/KGBN/KGBN/src/KGBN/data/significant_paths_to_phenotypes.txt')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/KGBN/phenotype_score.html#get_phenotypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#KGBN.phenotype_score.get_phenotypes" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>

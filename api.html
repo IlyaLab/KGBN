@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="KGBN.BMatrix" href="bmatrix.html"><link rel="prev" title="KGBN Optimizer" href="optimization_guide.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="KGBN.BMatrix" href="bmatrix.html"><link rel="prev" title="Sensitivity Analysis" href="sensitivity_analysis.html">
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
         <title>API Reference - KGBN 0.1.0 documentation</title>
@@ -196,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
@@ -213,6 +214,7 @@
 <li class="toctree-l2"><a class="reference internal" href="experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -397,6 +399,21 @@
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html#visualization">Visualization</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.sensitivity_analysis"><code class="docutils literal notranslate"><span class="pre">sensitivity_analysis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.PBNSensitivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">PBNSensitivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_sensitivity_results"><code class="docutils literal notranslate"><span class="pre">plot_sensitivity_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.influence_analysis"><code class="docutils literal notranslate"><span class="pre">influence_analysis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.mse_sensitivity_analysis"><code class="docutils literal notranslate"><span class="pre">mse_sensitivity_analysis()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.MSESensitivityAnalyzer"><code class="docutils literal notranslate"><span class="pre">MSESensitivityAnalyzer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_influence_results"><code class="docutils literal notranslate"><span class="pre">plot_influence_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#KGBN.sensitivity_analysis.plot_mse_sensitivity_results"><code class="docutils literal notranslate"><span class="pre">plot_mse_sensitivity_results()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#inputs">Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#formula-measurements">Formula Measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html#see-also">See Also</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
@@ -416,14 +433,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="optimization_guide.html">
+          <a class="prev-page" href="sensitivity_analysis.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">KGBN Optimizer</div>
+                <div class="title">Sensitivity Analysis</div>
                 
               </div>
             </a>

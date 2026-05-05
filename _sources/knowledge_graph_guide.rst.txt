@@ -87,14 +87,15 @@ Extend networks by adding KG-informed rules for selected nodes:
    )
    kg_bn = KGBN.load_network(kg_string)
    
-   # Extend specific nodes to PBN
-   extended_pbn = KGBN.extend_networks(
+   # Extend specific nodes to a PBN definition string
+   extended_pbn_string = KGBN.extend_networks(
        orig_bn, 
        kg_bn, 
        nodes_to_extend=['TP53'], 
        prob=0.3,  # probability for KG rules
        descriptive=True
    )
+   extended_pbn = KGBN.load_network(extended_pbn_string, network_type='pbn')
 
 This creates a PBN where selected nodes have alternative rules from the KG with specified probabilities.
 
@@ -104,29 +105,31 @@ Merging Networks
 Combine original and KG models using different strategies:
 
 Deterministic Merge (Boolean Network)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Merge into deterministic BN
-   merged_bn = KGBN.merge_networks(
+   # Merge into a deterministic BN definition string
+   merged_bn_string = KGBN.merge_networks(
        [orig_bn, kg_bn], 
        method='Inhibitor Wins',  # 'OR', 'AND', 'Inhibitor Wins'
        descriptive=True
    )
+   merged_bn = KGBN.load_network(merged_bn_string, network_type='bn')
 
 Probabilistic Merge (PBN)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   # Merge into PBN with specified probabilities
-   merged_pbn = KGBN.merge_networks(
+   # Merge into a PBN definition string with specified probabilities
+   merged_pbn_string = KGBN.merge_networks(
        [orig_bn, kg_bn], 
        method='PBN', 
        prob=0.9,  # probability for original model rules
        descriptive=True
    )
+   merged_pbn = KGBN.load_network(merged_pbn_string, network_type='pbn')
 
 Merge Methods
 ~~~~~~~~~~~~~
@@ -134,7 +137,7 @@ Merge Methods
 - **``'OR'``**: Union of all regulations
 - **``'AND'``**: Intersection of regulations  
 - **``'Inhibitor Wins'``**: Inhibitors override activators (recommended)
-- **``'PBN'``**: Create alternative rules with specified probabilities
+- **``'PBN'``**: Create alternative rules with specified probabilities. The first model in the list receives probability ``prob`` for overlapping nodes.
 
 Visualization and Simulation
 -----------------------------
@@ -196,7 +199,7 @@ The function supports multiple simulation result formats:
 References
 ----------
 - ProxPath: https://github.com/SaccoPerfettoLab/ProxPath
-- Iannuccelli, M., Vitriolo, A., Licata, L. et al. Curation of causal interactions mediated by genes associated with autism accelerates the understanding of gene-phenotype relationships underlying neurodevelopmental disorders. Mol Psychiatry 29, 186–196 (2024). https://doi-org.offcampus.lib.washington.edu/10.1038/s41380-023-02317-3
+- Iannuccelli, M., Vitriolo, A., Licata, L. et al. Curation of causal interactions mediated by genes associated with autism accelerates the understanding of gene-phenotype relationships underlying neurodevelopmental disorders. Mol Psychiatry 29, 186-196 (2024). https://doi.org/10.1038/s41380-023-02317-3
 
 
 Complete Workflow Example
@@ -219,11 +222,12 @@ Complete Workflow Example
    orig_bn = KGBN.load_network('curated_model.txt')
    
    # 3. Merge into PBN
-   merged_pbn = KGBN.merge_networks(
+   merged_pbn_string = KGBN.merge_networks(
        [orig_bn, kg_bn], 
        method='PBN', 
        prob=0.8
    )
+   merged_pbn = KGBN.load_network(merged_pbn_string, network_type='pbn')
    
    # 4. Simulate
    calc = KGBN.SteadyStateCalculator(merged_pbn)

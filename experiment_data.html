@@ -196,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul class="current">
@@ -213,6 +214,7 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model_compressor.html">KGBN.model_compressor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -343,7 +345,7 @@ PBN parameters and generates predicted values for the measured nodes.</p>
 <li><p><strong>Stimuli_efficacy</strong>: Efficacy values 0-1 (optional, defaults to 1.0)</p></li>
 <li><p><strong>Inhibitors</strong>: Nodes fixed to 0 (comma-separated)</p></li>
 <li><p><strong>Inhibitors_efficacy</strong>: Efficacy values 0-1 (optional, defaults to 1.0)</p></li>
-<li><p><strong>Measured_nodes</strong>: Nodes with experimental measurements OR a formula expression (when use_formula=True)</p></li>
+<li><p><strong>Measured_nodes</strong>: Nodes with experimental measurements, or a formula expression when loading with <code class="docutils literal notranslate"><span class="pre">use_formula=True</span></code></p></li>
 <li><p><strong>Measured_values</strong>: Corresponding values 0-1 (normalized). For formulas, provide a single value per row in the formula’s natural range</p></li>
 </ul>
 </section>
@@ -362,7 +364,10 @@ PBN parameters and generates predicted values for the measured nodes.</p>
 </section>
 <section id="formula-based-measurements">
 <h3>Formula-based Measurements<a class="headerlink" href="#formula-based-measurements" title="Link to this heading">¶</a></h3>
-<p>When using formulas (<code class="docutils literal notranslate"><span class="pre">use_formula=True</span></code>):</p>
+<p>When using formulas, call <code class="docutils literal notranslate"><span class="pre">ExperimentData.load_from_csv(...,</span> <span class="pre">use_formula=True)</span></code>.
+For optimization and sensitivity workflows, you can also pass
+<code class="docutils literal notranslate"><span class="pre">Measured_formula=&quot;N1</span> <span class="pre">+</span> <span class="pre">N2</span> <span class="pre">-</span> <span class="pre">N3&quot;</span></code> to override the CSV <code class="docutils literal notranslate"><span class="pre">Measured_nodes</span></code>
+column.</p>
 <ul class="simple">
 <li><p><strong>Measured_nodes</strong>: Contains a formula expression (e.g., <code class="docutils literal notranslate"><span class="pre">N1</span> <span class="pre">+</span> <span class="pre">N2</span> <span class="pre">-</span> <span class="pre">N3</span></code>)</p></li>
 <li><p><strong>Measured_values</strong>: Single value per row in the formula’s natural range</p></li>
