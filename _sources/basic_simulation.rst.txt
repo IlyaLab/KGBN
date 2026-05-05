@@ -282,7 +282,6 @@ More Information
 - :doc:`knowledge_graph_guide` - Knowledge graph integration
 - :doc:`steady_state_guide` - Advanced steady state analysis
 - :doc:`optimization_guide` - Parameter optimization
-- :doc:`sensitivity_analysis` - Influence and parameter sensitivity
 - :doc:`api` - Complete API reference
 
 Examples

@@ -18,7 +18,6 @@ Documentation
    knowledge_graph_guide
    steady_state_guide
    optimization_guide
-   sensitivity_analysis
 
 .. toctree::
    :maxdepth: 2

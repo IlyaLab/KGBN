@@ -196,7 +196,6 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Steady State Calculation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="optimization_guide.html">KGBN Optimizer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
@@ -257,287 +256,141 @@
         <article role="main" id="furo-main-content">
           <section id="steady-state-calculation-guide">
 <h1>Steady State Calculation Guide<a class="headerlink" href="#steady-state-calculation-guide" title="Link to this heading">¶</a></h1>
-<p>This guide provides information about steady state calculation in KGBN.</p>
-<section id="steadystatecalculator-for-kgbn">
-<h2>SteadyStateCalculator for KGBN<a class="headerlink" href="#steadystatecalculator-for-kgbn" title="Link to this heading">¶</a></h2>
+<p>This guide summarizes how to compute steady-state behavior for Boolean
+Networks (BNs) and Probabilistic Boolean Networks (PBNs) in KGBN.</p>
 <section id="overview">
-<h3>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">SteadyStateCalculator</span></code> class provides steady-state calculation capabilities for both Boolean Networks and Probabilistic Boolean Networks in KGBN.</p>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">KGBN.SteadyStateCalculator</span></code> after loading a network. The calculator
+selects deterministic attractor finding for BNs and supports Monte Carlo or
+two-state Markov chain (TSMC) estimation for PBNs.</p>
 </section>
 <section id="quick-start">
-<h3>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h3>
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">KGBN</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># Load a PBN</span>
-<span class="n">network_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pbn_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">N1 = N1, 1</span>
 <span class="s2">N2 = N2, 1</span>
 <span class="s2">N3 = N1, 0.6</span>
 <span class="s2">N3 = N1 &amp; !N2, 0.4</span>
 <span class="s2">&quot;&quot;&quot;</span>
-<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">network</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">network_string</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">x0</span><span class="p">)</span>
 
-<span class="c1"># Create calculator</span>
-<span class="n">calc</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">SteadyStateCalculator</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+<span class="n">pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="n">pbn_string</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">calc</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">SteadyStateCalculator</span><span class="p">(</span><span class="n">pbn</span><span class="p">)</span>
 
-<span class="c1"># Calculate steady state</span>
-<span class="n">steady_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;monte_carlo&#39;</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">p_noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Steady state: </span><span class="si">{</span><span class="n">steady_state</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">steady_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;monte_carlo&quot;</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">p_noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">steady_state</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="methods">
-<h3>Methods<a class="headerlink" href="#methods" title="Link to this heading">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">compute_steady_state()</span></code> method automatically selects the appropriate calculation method:</p>
+<h2>Methods<a class="headerlink" href="#methods" title="Link to this heading">¶</a></h2>
+<section id="monte-carlo">
+<h3>Monte Carlo<a class="headerlink" href="#monte-carlo" title="Link to this heading">¶</a></h3>
+<p>Monte Carlo runs independent simulations and averages the second half of each
+trajectory.</p>
+<p>Common parameters:</p>
 <ul class="simple">
-<li><p>For Boolean Networks: uses deterministic attractor finding</p></li>
-<li><p>For PBNs: uses Monte Carlo or TSMC based on the <code class="docutils literal notranslate"><span class="pre">method</span></code> parameter</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_runs</span></code>: number of independent runs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_steps</span></code>: simulation steps per run.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p_noise</span></code>: probability of random state flips.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code>: random seed.</p></li>
 </ul>
-<p><strong>Parameters</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code> (str): ‘monte_carlo’ (default), ‘tsmc’, or ‘deterministic’</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>: Method-specific parameters</p></li>
-</ul>
-<p><strong>Returns</strong>: numpy array of steady-state probabilities (one value per node)</p>
-<hr class="docutils" />
-<section id="tsmc-method-two-state-markov-chain">
-<h4>1. TSMC Method (Two-State Markov Chain)<a class="headerlink" href="#tsmc-method-two-state-markov-chain" title="Link to this heading">¶</a></h4>
-<p><strong>Purpose</strong>: Calculate steady state using transition probability analysis.</p>
-<p><strong>When to use</strong>:</p>
-<ul class="simple">
-<li><p>When you need faster calculations</p></li>
-<li><p>For networks with well-defined transition properties</p></li>
-</ul>
-<p><strong>Parameters</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">epsilon</span></code> (float, default=0.001): Range of transition probability (smaller = more accurate)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">r</span></code> (float, default=0.025): Range of accuracy (smaller = more accurate)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code> (float, default=0.95): Probability of accuracy (closer to 1 = more confident)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">p_noise</span></code> (float, default=0): Noise probability</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">p_mir</span></code> (float, default=0.001): Perturbation probability (Miranda-Parga scheme)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">initial_nsteps</span></code> (int, default=100): Initial number of simulation steps</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">max_iterations</span></code> (int, default=500): Maximum convergence iterations</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">freeze_constant</span></code> (bool, default=False): Whether to freeze constant nodes</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (int, optional): Random seed for reproducibility</p></li>
-</ul>
-<p><strong>How it works</strong>:</p>
-<ol class="arabic simple">
-<li><p>Runs simulation and analyzes state transitions</p></li>
-<li><p>Automatically determines required burn-in period</p></li>
-<li><p>Adjusts simulation length based on convergence criteria</p></li>
-<li><p>Ensures results meet specified statistical accuracy</p></li>
-</ol>
-<p><strong>The <code class="docutils literal notranslate"><span class="pre">freeze_constant</span></code> parameter</strong>:</p>
-<p>In the original MATLAB implementation, self-loop nodes (e.g., <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">=</span> <span class="pre">A</span></code>) are treated as inputs and never perturbed. However, this causes different behavior between TSMC and Monte Carlo:</p>
-<ul class="simple">
-<li><p><strong>Monte Carlo</strong>: Each run starts with a fresh random state, so self-loops naturally converge to 0.5</p></li>
-<li><p><strong>TSMC</strong>: Uses one initial state for the entire trajectory, so self-loops stay at their initial value</p></li>
-</ul>
-<p>Setting <code class="docutils literal notranslate"><span class="pre">freeze_constant=False</span></code> allows TSMC to perturb self-loop nodes, making the two methods converge to identical stationary distributions.</p>
-<p><strong>Example</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Similar to Monte Carlo behavior (recommended)</span>
-<span class="n">steady_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
-    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;tsmc&#39;</span><span class="p">,</span>
-    <span class="n">r</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-    <span class="n">p_mir</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>  <span class="c1"># Adds perturbation to match noise behavior</span>
-    <span class="n">initial_nsteps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
-    <span class="n">freeze_constant</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Allow self-loops to be perturbed</span>
-    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span>
-<span class="p">)</span>
-
-<span class="c1"># Original MATLAB behavior</span>
-<span class="n">steady_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
-    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;tsmc&#39;</span><span class="p">,</span>
-    <span class="n">r</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-    <span class="n">initial_nsteps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
-    <span class="n">freeze_constant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Keep self-loops fixed</span>
-    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<hr class="docutils" />
-<section id="monte-carlo-method">
-<h4>2. Monte Carlo Method<a class="headerlink" href="#monte-carlo-method" title="Link to this heading">¶</a></h4>
-<p><strong>Purpose</strong>: Calculate steady state using multiple independent simulations.</p>
-<p><strong>When to use</strong>:</p>
-<ul class="simple">
-<li><p>Default method for most PBN steady-state calculations</p></li>
-<li><p>When you need reliable estimates with convergence checking</p></li>
-</ul>
-<p><strong>Parameters</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">n_runs</span></code> (int, default=10): Number of independent simulation runs</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">n_steps</span></code> (int, default=1000): Number of simulation steps per run</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">p_noise</span></code> (float, default=0): Noise probability for state flipping</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">analyze_convergence</span></code> (bool, default=False): Whether to analyze and plot convergence</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">output_node</span></code> (str, optional): Specific node for convergence analysis</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (int, optional): Random seed for reproducibility</p></li>
-</ul>
-<p><strong>How it works</strong>:</p>
-<ol class="arabic simple">
-<li><p>Runs multiple independent simulations from random initial states</p></li>
-<li><p>For each run, takes the second half of the trajectory as steady state</p></li>
-<li><p>Averages across all runs to get final steady-state probabilities</p></li>
-</ol>
-<p><strong>Example</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Basic usage</span>
-<span class="n">steady_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
-    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;monte_carlo&#39;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">steady_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;monte_carlo&quot;</span><span class="p">,</span>
     <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
     <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
     <span class="n">p_noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
-    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span>
-<span class="p">)</span>
-
-<span class="c1"># With convergence analysis</span>
-<span class="n">steady_state</span><span class="p">,</span> <span class="n">convergence_info</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
-    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;monte_carlo&#39;</span><span class="p">,</span>
-    <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-    <span class="n">n_steps</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span>
-    <span class="n">p_noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
-    <span class="n">analyze_convergence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">output_node</span><span class="o">=</span><span class="s1">&#39;N3&#39;</span><span class="p">,</span>
-    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Convergence Analysis</strong>: When <code class="docutils literal notranslate"><span class="pre">analyze_convergence=True</span></code>, the method will:</p>
-<ul class="simple">
-<li><p>Calculate running averages at different time points</p></li>
-<li><p>Compute relative changes between consecutive averages</p></li>
-<li><p>Display a convergence plot</p></li>
-<li><p>Return both the steady state and convergence information</p></li>
-</ul>
 </section>
-<hr class="docutils" />
-<section id="deterministic-method">
-<h4>3. Deterministic Method<a class="headerlink" href="#deterministic-method" title="Link to this heading">¶</a></h4>
-<p><strong>Purpose</strong>: Find attractors (fixed points and limit cycles) in Boolean networks.</p>
-<p><strong>Parameters</strong>:</p>
+<section id="tsmc">
+<h3>TSMC<a class="headerlink" href="#tsmc" title="Link to this heading">¶</a></h3>
+<p>TSMC estimates steady state with transition-probability criteria and can be
+faster for large PBNs.</p>
+<p>Common parameters:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">n_runs</span></code> (int, default=100): Number of random initial conditions to try</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">n_steps</span></code> (int, default=1000): Maximum steps before declaring no cycle found</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">verbose</span></code> (bool, default=True): Whether to print attractor information</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">seed</span></code> (int, optional): Random seed for reproducibility</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epsilon</span></code>: convergence threshold.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">r</span></code>: accuracy range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">s</span></code>: probability of accuracy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">p_mir</span></code>: perturbation probability.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initial_nsteps</span></code>: initial simulation length.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_iterations</span></code>: maximum convergence iterations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">freeze_constant</span></code>: whether self-loop nodes should stay fixed.</p></li>
 </ul>
-<p><strong>How it works</strong>:</p>
-<ol class="arabic simple">
-<li><p>Tries multiple random initial conditions</p></li>
-<li><p>Simulates until finding a repeating pattern</p></li>
-<li><p>Identifies fixed points (period 1) and limit cycles (period &gt; 1)</p></li>
-<li><p>Returns all unique attractors found</p></li>
-</ol>
-<p><strong>Returns</strong>: Dictionary with:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">fixed_points</span></code>: List of fixed point states</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cyclic_attractors</span></code>: List of limit cycles (each cycle is a list of states)</p></li>
-</ul>
-<p><strong>Example</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">KGBN</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">steady_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;tsmc&quot;</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">r</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">p_mir</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">initial_nsteps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">max_iterations</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
+    <span class="n">freeze_constant</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="deterministic-attractors">
+<h3>Deterministic Attractors<a class="headerlink" href="#deterministic-attractors" title="Link to this heading">¶</a></h3>
+<p>For deterministic BNs, KGBN finds fixed points and cyclic attractors.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="s2">&quot;network.txt&quot;</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s2">&quot;bn&quot;</span><span class="p">)</span>
+<span class="n">calc</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">SteadyStateCalculator</span><span class="p">(</span><span class="n">bn</span><span class="p">)</span>
 
-<span class="c1"># Load a Boolean network</span>
-<span class="n">network</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="s2">&quot;network.txt&quot;</span><span class="p">)</span>
-<span class="n">calc</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">SteadyStateCalculator</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+<span class="n">attractors</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;deterministic&quot;</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="c1"># Find attractors</span>
-<span class="n">attractors</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span><span class="n">n_runs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># Access results</span>
-<span class="n">fixed_points</span> <span class="o">=</span> <span class="n">attractors</span><span class="p">[</span><span class="s1">&#39;fixed_points&#39;</span><span class="p">]</span>
-<span class="n">cycles</span> <span class="o">=</span> <span class="n">attractors</span><span class="p">[</span><span class="s1">&#39;cyclic_attractors&#39;</span><span class="p">]</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fixed_points</span><span class="p">)</span><span class="si">}</span><span class="s2"> fixed points&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cycles</span><span class="p">)</span><span class="si">}</span><span class="s2"> limit cycles&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">attractors</span><span class="p">[</span><span class="s2">&quot;fixed_points&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">attractors</span><span class="p">[</span><span class="s2">&quot;cyclic_attractors&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </section>
 </section>
-<hr class="docutils" />
 <section id="experimental-conditions">
-<h3>Experimental Conditions<a class="headerlink" href="#experimental-conditions" title="Link to this heading">¶</a></h3>
-<section id="setting-perturbations">
-<h4>Setting Perturbations<a class="headerlink" href="#setting-perturbations" title="Link to this heading">¶</a></h4>
-<p>You can simulate experimental conditions by setting stimuli (activators) and inhibitors:</p>
-<p><strong>Parameters</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">stimuli</span></code> (list): Node names to fix at value 1</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">stimuli_efficacy</span></code> (list, optional): Efficacy values 0-1 (default: 1.0 for all)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">inhibitors</span></code> (list): Node names to fix at value 0</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">inhibitors_efficacy</span></code> (list, optional): Efficacy values 0-1 (default: 1.0 for all)</p></li>
-</ul>
-<p><strong>Efficacy values</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">1.0</span></code> (default): Full knockout/stimulation</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">1.0</span></code>: Partial efficacy - creates probabilistic perturbation</p>
-<ul>
-<li><p>For inhibitors: P(node=0) = efficacy</p></li>
-<li><p>For stimuli: P(node=1) = efficacy</p></li>
-</ul>
-</li>
-</ul>
-<p><strong>Note</strong>: Efficacy option is only available for Monte Carlo method.</p>
-</section>
-<section id="example">
-<h4>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">KGBN</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-
-<span class="c1"># Load network</span>
-<span class="n">network_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">N1 = N1, 1</span>
-<span class="s2">N2 = N2, 1</span>
-<span class="s2">N3 = N1, 0.6</span>
-<span class="s2">N3 = N1 &amp; !N2, 0.4</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="n">network</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_pbn_from_string</span><span class="p">(</span><span class="n">network_string</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">calc</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">SteadyStateCalculator</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
-
-<span class="c1"># 1. Stimulate N1 (fix to 1)</span>
-<span class="n">calc</span><span class="o">.</span><span class="n">set_experimental_conditions</span><span class="p">(</span><span class="n">stimuli</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;N1&#39;</span><span class="p">])</span>
-<span class="n">ss1</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;monte_carlo&#39;</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">p_noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N1 stimulated: </span><span class="si">{</span><span class="n">ss1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># [1., 0., 1.]</span>
-
-<span class="c1"># 2. Stimulate N2 (fix to 1)</span>
-<span class="n">calc</span><span class="o">.</span><span class="n">set_experimental_conditions</span><span class="p">(</span><span class="n">stimuli</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;N2&#39;</span><span class="p">])</span>
-<span class="n">ss2</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;monte_carlo&#39;</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">p_noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;N2 stimulated: </span><span class="si">{</span><span class="n">ss2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># [0., 1., 0.]</span>
-
-<span class="c1"># 3. Partial efficacy perturbations</span>
-<span class="n">calc</span><span class="o">.</span><span class="n">set_experimental_conditions</span><span class="p">(</span>
-    <span class="n">stimuli</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;N1&#39;</span><span class="p">],</span>
-    <span class="n">stimuli_efficacy</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span>
-    <span class="n">inhibitors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;N2&#39;</span><span class="p">],</span>
-    <span class="n">inhibitors_efficacy</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">]</span>
+<h2>Experimental Conditions<a class="headerlink" href="#experimental-conditions" title="Link to this heading">¶</a></h2>
+<p>Use experimental conditions to fix stimuli to 1 and inhibitors to 0 before
+steady-state calculation. Partial efficacy values are supported for Monte Carlo
+simulation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">calc</span><span class="o">.</span><span class="n">set_experimental_conditions</span><span class="p">(</span>
+    <span class="n">stimuli</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;N1&quot;</span><span class="p">],</span>
+    <span class="n">stimuli_efficacy</span><span class="o">=</span><span class="p">[</span><span class="mf">0.8</span><span class="p">],</span>
+    <span class="n">inhibitors</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;N2&quot;</span><span class="p">],</span>
+    <span class="n">inhibitors_efficacy</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">ss3</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;monte_carlo&#39;</span><span class="p">,</span> <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">p_noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Partial efficacy: </span><span class="si">{</span><span class="n">ss3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1"># Always reset when done</span>
+<span class="n">perturbed_state</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">compute_steady_state</span><span class="p">(</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;monte_carlo&quot;</span><span class="p">,</span>
+    <span class="n">n_runs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="n">p_noise</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+<span class="p">)</span>
+
 <span class="n">calc</span><span class="o">.</span><span class="n">reset_network_conditions</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
-</section>
 <section id="see-also">
-<h3>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h3>
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><strong>Examples</strong>: See <code class="docutils literal notranslate"><span class="pre">Examples/BN_PBN_steady_state.ipynb</span></code> for detailed examples</p></li>
-<li><p><strong>Optimization</strong>: See <code class="docutils literal notranslate"><span class="pre">src/Optimizer_README.md</span></code> for integration with parameter optimization</p></li>
+<li><p><a class="reference internal" href="basic_simulation.html"><span class="doc">Basic Simulation</span></a></p></li>
+<li><p><a class="reference internal" href="optimization_guide.html"><span class="doc">KGBN Optimizer</span></a></p></li>
+<li><p><a class="reference internal" href="steady_state.html"><span class="doc">KGBN.steady_state</span></a></p></li>
 </ul>
-</section>
-<section id="references">
-<h3>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h3>
-<ul class="simple">
-<li><p>Trairatphisan, P., et al. (2014). “optPBN: An Optimisation Toolbox for Probabilistic Boolean Networks.” PLOS ONE 9(7): e98001.</p></li>
-<li><p>Shmulevich, I., &amp; Dougherty, E. R. (2010). Probabilistic Boolean Networks: The Modeling and Control of Gene Regulatory Networks.</p></li>
-<li><p>Miranda, E., &amp; Parga, N. (2010). “Noise and low-level dynamics can coordinate multisite activity in the mammalian olfactory bulb.” Journal of Neurophysiology.</p></li>
-</ul>
-</section>
 </section>
 </section>
 
@@ -597,24 +450,16 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Steady State Calculation Guide</a><ul>
-<li><a class="reference internal" href="#steadystatecalculator-for-kgbn">SteadyStateCalculator for KGBN</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
 <li><a class="reference internal" href="#quick-start">Quick Start</a></li>
 <li><a class="reference internal" href="#methods">Methods</a><ul>
-<li><a class="reference internal" href="#tsmc-method-two-state-markov-chain">1. TSMC Method (Two-State Markov Chain)</a></li>
-<li><a class="reference internal" href="#monte-carlo-method">2. Monte Carlo Method</a></li>
-<li><a class="reference internal" href="#deterministic-method">3. Deterministic Method</a></li>
+<li><a class="reference internal" href="#monte-carlo">Monte Carlo</a></li>
+<li><a class="reference internal" href="#tsmc">TSMC</a></li>
+<li><a class="reference internal" href="#deterministic-attractors">Deterministic Attractors</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#experimental-conditions">Experimental Conditions</a><ul>
-<li><a class="reference internal" href="#setting-perturbations">Setting Perturbations</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#experimental-conditions">Experimental Conditions</a></li>
 <li><a class="reference internal" href="#see-also">See Also</a></li>
-<li><a class="reference internal" href="#references">References</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

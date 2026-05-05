@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Sensitivity Analysis" href="sensitivity_analysis.html"><link rel="prev" title="Steady State Calculation Guide" href="steady_state_guide.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="API Reference" href="api.html"><link rel="prev" title="Steady State Calculation Guide" href="steady_state_guide.html">
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
         <title>KGBN Optimizer - KGBN 0.1.0 documentation</title>
@@ -196,7 +196,6 @@
 <li class="toctree-l1"><a class="reference internal" href="knowledge_graph_guide.html">Knowledge Graph Augmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state_guide.html">Steady State Calculation Guide</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">KGBN Optimizer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sensitivity_analysis.html">Sensitivity Analysis</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference:</span></p>
 <ul>
@@ -257,275 +256,138 @@
         <article role="main" id="furo-main-content">
           <section id="kgbn-optimizer">
 <h1>KGBN Optimizer<a class="headerlink" href="#kgbn-optimizer" title="Link to this heading">¶</a></h1>
-<p>A Python implementation of Probabilistic Boolean Network (PBN) parameter optimization based on the optPBN framework. This module enables parameter estimation for PBNs using experimental data.</p>
-<section id="optimization">
-<h2>Optimization<a class="headerlink" href="#optimization" title="Link to this heading">¶</a></h2>
+<p>KGBN optimizes PBN rule probabilities against experimental measurements.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Optimization requires:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">ProbabilisticBN</span></code> object,</p></li>
+<li><p>an experiment CSV or parsed experiment list,</p></li>
+<li><p>optional <code class="docutils literal notranslate"><span class="pre">nodes_to_optimize</span></code> to restrict which node probabilities can vary.</p></li>
+</ul>
+</section>
 <section id="basic-usage">
-<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">¶</a></h3>
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">KGBN</span>
 
-<span class="c1"># Load or create your PBN</span>
-<span class="n">pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_network</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">pbn</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">load_pbn_from_file</span><span class="p">(</span><span class="s2">&quot;network.txt&quot;</span><span class="p">)</span>
 
-<span class="c1"># Initialize optimizer</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">ParameterOptimizer</span><span class="p">(</span><span class="n">pbn</span><span class="p">,</span> <span class="s2">&quot;experiments.csv&quot;</span><span class="p">,</span> <span class="n">nodes_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Cas3&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">ParameterOptimizer</span><span class="p">(</span>
+    <span class="n">pbn</span><span class="p">,</span>
+    <span class="s2">&quot;experiments.csv&quot;</span><span class="p">,</span>
+    <span class="n">nodes_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Cas3&quot;</span><span class="p">],</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="c1"># Run optimization</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;differential_evolution&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;differential_evolution&quot;</span><span class="p">)</span>
 
-<span class="c1"># Get an optimized PBN object</span>
 <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
     <span class="n">optimized_pbn</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">get_optimized_pbn</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="input-data-format">
-<h3>Input Data Format<a class="headerlink" href="#input-data-format" title="Link to this heading">¶</a></h3>
 <section id="experimental-data">
-<h4>Experimental Data<a class="headerlink" href="#experimental-data" title="Link to this heading">¶</a></h4>
-<p>CSV file format:</p>
+<h2>Experimental Data<a class="headerlink" href="#experimental-data" title="Link to this heading">¶</a></h2>
+<p>Experiment CSV files describe perturbations and measurements:</p>
 <div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values
 1,TGFa,1,TNFa,1,&quot;NFkB,ERK,C8,Akt&quot;,&quot;0.7,0.88,0,1&quot;
 2,TNFa,1,TGFa,1,&quot;NFkB,ERK,C8,Akt&quot;,&quot;0.3,0.12,1,0&quot;
-3,&quot;TGFa,TNFa&quot;,&quot;1,1&quot;,,,&quot;NFkB,ERK,C8,Akt&quot;,&quot;1,1,1,1&quot;
-4,&quot;TGFa,TNFa&quot;,&quot;1,1&quot;,PI3K,0.7,&quot;NFkB,ERK,C8,Akt&quot;,&quot;0.3,0.12,1,0&quot;
 </pre></div>
 </div>
+<p>Important columns:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Stimuli</span></code>: Nodes fixed to 1 (comma-separated)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Stimuli_efficacy</span></code>: Efficacy of stimuli (0-1, comma-separated, optional)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Inhibitors</span></code>: Nodes fixed to 0 (comma-separated)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Inhibitors_efficacy</span></code>: Efficacy of inhibitors (0-1, comma-separated, optional)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Measured_nodes</span></code>: Nodes with experimental measurements OR a formula expression</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Measured_values</span></code>: Corresponding values. For formulas, a single value per row is required</p>
-<ul>
-<li><p>Values can be in any range; use the <code class="docutils literal notranslate"><span class="pre">normalize</span></code> parameter for automatic scaling</p></li>
-</ul>
-</li>
-</ul>
-<p>See <a class="reference internal" href="#../Examples/files/experiments_example.csv"><span class="xref myst">Examples/files/experiments_example.csv</span></a> for an example file.</p>
-<p><strong>Efficacy Values:</strong></p>
-<ul class="simple">
-<li><p><strong>1.0 (default)</strong>: Full efficacy - node is completely knocked out/stimulated</p></li>
-<li><p><strong>&lt; 1.0</strong>: Partial efficacy - creates probabilistic perturbation</p>
-<ul>
-<li><p><strong>For inhibitors (target=0)</strong>: P(node=0) = efficacy, P(node=1) = 1-efficacy</p></li>
-<li><p><strong>For stimuli (target=1)</strong>: P(node=1) = efficacy, P(node=0) = 1-efficacy</p></li>
-</ul>
-</li>
-<li><p><strong>Example</strong>: <code class="docutils literal notranslate"><span class="pre">PI3K,0.7</span></code> means PI3K inhibition has 70% probability of setting PI3K=0, 30% of PI3K=1</p></li>
-<li><p>If efficacy columns are empty, defaults to 1.0 for all perturbations</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Stimuli</span></code>: nodes fixed to 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Stimuli_efficacy</span></code>: optional efficacy values from 0 to 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Inhibitors</span></code>: nodes fixed to 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Inhibitors_efficacy</span></code>: optional efficacy values from 0 to 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Measured_nodes</span></code>: measured node names or a formula.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Measured_values</span></code>: target values for measured nodes or the formula.</p></li>
 </ul>
 </section>
-<section id="formula-based-measurements-phenotype-score">
-<h4>Formula-based Measurements (Phenotype score)<a class="headerlink" href="#formula-based-measurements-phenotype-score" title="Link to this heading">¶</a></h4>
-<p>We can target an aggregate score instead of individual nodes using a formula based on node names and arithmetic operators. Two ways to use formulas:</p>
-<ul class="simple">
-<li><p>Place the formula directly in <code class="docutils literal notranslate"><span class="pre">Measured_nodes</span></code> and provide a single target value in <code class="docutils literal notranslate"><span class="pre">Measured_values</span></code>:</p></li>
-</ul>
-<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>Experiments,Stimuli,Stimuli_efficacy,Inhibitors,Inhibitors_efficacy,Measured_nodes,Measured_values
-1,,,,,&quot;nodeA + nodeB - nodeC&quot;,0.75
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>Or supply a global formula via the optimizer argument <code class="docutils literal notranslate"><span class="pre">Measured_formula</span></code> (overrides CSV <code class="docutils literal notranslate"><span class="pre">Measured_nodes</span></code> ), with each CSV row having a single <code class="docutils literal notranslate"><span class="pre">Measured_values</span></code> entry:</p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">ParameterOptimizer</span><span class="p">(</span>
+<section id="formula-based-measurements">
+<h2>Formula-Based Measurements<a class="headerlink" href="#formula-based-measurements" title="Link to this heading">¶</a></h2>
+<p>Use a formula when the objective should fit an aggregate phenotype-like score
+instead of individual node values.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">ParameterOptimizer</span><span class="p">(</span>
     <span class="n">pbn</span><span class="p">,</span>
     <span class="s2">&quot;experiments.csv&quot;</span><span class="p">,</span>
-    <span class="n">nodes_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;nodeX&#39;</span><span class="p">],</span>
-    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">Measured_formula</span><span class="o">=</span><span class="s2">&quot;nodeA + nodeB - nodeC&quot;</span>
+    <span class="n">nodes_to_optimize</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;nodeX&quot;</span><span class="p">],</span>
+    <span class="n">Measured_formula</span><span class="o">=</span><span class="s2">&quot;nodeA + nodeB - nodeC&quot;</span><span class="p">,</span>
+    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Supported operators: <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>, parentheses and unary <code class="docutils literal notranslate"><span class="pre">+/-</span></code></p></li>
-<li><p>Variables must correspond to nodes in the network (<code class="docutils literal notranslate"><span class="pre">pbn.nodeDict</span></code>)</p></li>
-<li><p>Measured values should be in the same range as the theoretical formula range</p>
-<ul>
-<li><p>Formula range examples: <code class="docutils literal notranslate"><span class="pre">N1+N2+N3</span></code> → [0,3], <code class="docutils literal notranslate"><span class="pre">N1+N2-N3</span></code> → [-1,2], <code class="docutils literal notranslate"><span class="pre">N1-N2</span></code> → [-1,1]</p></li>
-</ul>
-</li>
-</ul>
+<p>Formulas support <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>, parentheses. Formula variables must match network node names.</p>
 </section>
-<section id="value-normalization">
-<h4>Value Normalization<a class="headerlink" href="#value-normalization" title="Link to this heading">¶</a></h4>
-<p>When experimental measurements span different scales, enable automatic min-max normalization:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">ParameterOptimizer</span><span class="p">(</span>
-    <span class="n">pbn</span><span class="p">,</span>
-    <span class="s2">&quot;experiments.csv&quot;</span><span class="p">,</span>
-    <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Enable automatic normalization</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p><strong>How normalization works:</strong></p>
-<ol class="arabic simple">
-<li><p><strong>Measured values</strong> (from CSV): All measured values across all experiments are collected and scaled to [0, 1] using min-max normalization:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">normalized</span> <span class="pre">=</span> <span class="pre">(value</span> <span class="pre">-</span> <span class="pre">min)</span> <span class="pre">/</span> <span class="pre">(max</span> <span class="pre">-</span> <span class="pre">min)</span></code></p></li>
-<li><p>Example: Values <code class="docutils literal notranslate"><span class="pre">[0.5,</span> <span class="pre">2.0,</span> <span class="pre">2.5,</span> <span class="pre">3.0]</span></code> → <code class="docutils literal notranslate"><span class="pre">[0.0,</span> <span class="pre">0.6,</span> <span class="pre">0.8,</span> <span class="pre">1.0]</span></code></p></li>
-</ul>
-</li>
-<li><p><strong>Predicted values</strong> (from simulation): At each optimization iteration, all predicted values (node states or phenotype scores) across all experiments are collected and scaled to [0, 1]:</p>
-<ul class="simple">
-<li><p>Example: Predicted <code class="docutils literal notranslate"><span class="pre">[2,</span> <span class="pre">3,</span> <span class="pre">4]</span></code> → <code class="docutils literal notranslate"><span class="pre">[0.0,</span> <span class="pre">0.5,</span> <span class="pre">1.0]</span></code></p></li>
-</ul>
-</li>
-<li><p><strong>SSE calculation</strong>: Mean squared error is computed using normalized values</p></li>
-</ol>
-</section>
-</section>
-<section id="configurations">
-<h3>Configurations<a class="headerlink" href="#configurations" title="Link to this heading">¶</a></h3>
-<p>Current support two optimization methods:</p>
-<ul class="simple">
-<li><p>Differential evolution</p></li>
-<li><p>Particle Swarm Optimization</p></li>
-</ul>
-<p>The parameters of each approach can be set via a config dictionary:</p>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<p>KGBN currently supports differential evolution and particle swarm optimization.
+Pass method-specific parameters through <code class="docutils literal notranslate"><span class="pre">config</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-<span class="c1"># Global settings</span>
-    <span class="s1">&#39;seed&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>                        <span class="c1"># Global seed for random number generation (affects all stochastic processes)</span>
-    <span class="s1">&#39;success_threshold&#39;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>       <span class="c1"># Global success threshold for final result evaluation</span>
-    <span class="s1">&#39;max_try&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>                     <span class="c1"># Try up to 3 times if optimization fails</span>
-
-<span class="c1"># Differential Evolution parameters</span>
-    <span class="s1">&#39;de_params&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;strategy&#39;</span><span class="p">:</span> <span class="s1">&#39;best1bin&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
-        <span class="s1">&#39;popsize&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
-        <span class="s1">&#39;tol&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>                  <span class="c1"># Relative tolerance for scipy DE convergence</span>
-        <span class="s1">&#39;atol&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>                    <span class="c1"># Absolute tolerance for scipy DE convergence</span>
-        <span class="s1">&#39;mutation&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="s1">&#39;recombination&#39;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
-        <span class="s1">&#39;init&#39;</span><span class="p">:</span> <span class="s1">&#39;sobol&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;updating&#39;</span><span class="p">:</span> <span class="s1">&#39;deferred&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;workers&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>                <span class="c1"># Use all available cores for parallelization</span>
-        <span class="s1">&#39;polish&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>              <span class="c1"># Disable polish step for faster runs</span>
-        <span class="s1">&#39;early_stopping&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>       <span class="c1"># Enable early stopping for DE</span>
+    <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="s2">&quot;success_threshold&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+    <span class="s2">&quot;max_try&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;de_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+        <span class="s2">&quot;popsize&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>
+        <span class="s2">&quot;workers&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;early_stopping&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">},</span>
-
-<span class="c1"># Particle Swarm Optimization parameters</span>
-    <span class="s1">&#39;pso_params&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;n_particles&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
-        <span class="s1">&#39;iters&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="s1">&#39;options&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;c1&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span>
-        <span class="s1">&#39;ftol&#39;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span>                 <span class="c1"># Function tolerance for early stopping</span>
-        <span class="s1">&#39;ftol_iter&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span>              <span class="c1"># Check stagnation over this many iterations</span>
+    <span class="s2">&quot;pso_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;n_particles&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="s2">&quot;iters&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;c1&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;c2&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">},</span>
     <span class="p">},</span>
-
-<span class="c1"># Steady state calculation</span>
-    <span class="s1">&#39;steady_state&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="s1">&#39;monte_carlo&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;monte_carlo_params&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;n_runs&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-            <span class="s1">&#39;n_steps&#39;</span><span class="p">:</span> <span class="mi">1000</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+    <span class="s2">&quot;steady_state&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;monte_carlo&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;monte_carlo_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;n_runs&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+            <span class="s2">&quot;n_steps&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">ParameterOptimizer</span><span class="p">(</span><span class="n">pbn</span><span class="p">,</span> <span class="s2">&quot;experiments.csv&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="s1">&#39;differential_evolution&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<section id="early-stopping">
-<h4>Early Stopping<a class="headerlink" href="#early-stopping" title="Link to this heading">¶</a></h4>
-<p>Early stopping behavior differs between optimization methods:</p>
-<p><strong>Differential Evolution (DE):</strong></p>
-<p>Two approaches:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">early_stopping</span></code>: stop when MSE drops below <code class="docutils literal notranslate"><span class="pre">success_threshold</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">tol</span></code> and <code class="docutils literal notranslate"><span class="pre">atol</span></code>: stops when <code class="docutils literal notranslate"><span class="pre">np.std(pop)</span> <span class="pre">&lt;=</span> <span class="pre">atol</span> <span class="pre">+</span> <span class="pre">tol</span> <span class="pre">*</span> <span class="pre">np.abs(np.mean(population_energies))</span></code></p></li>
-</ul>
-<p><strong>Particle Swarm Optimization (PSO):</strong></p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ftol</span></code>: Function tolerance - stops when fitness improvement is below this value</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ftol_iter</span></code>: Number of iterations to check for stagnation</p></li>
-</ul>
-<p><strong>Final Success Determination:</strong></p>
-<ul class="simple">
-<li><p>Both methods use the global <code class="docutils literal notranslate"><span class="pre">success_threshold</span></code> to determine if the final result is considered successful</p></li>
-<li><p>If unsuccessful, the optimizer will run up to <code class="docutils literal notranslate"><span class="pre">max_try</span></code> times.</p></li>
-</ul>
-</section>
-<section id="discrete-mode">
-<h4>Discrete Mode<a class="headerlink" href="#discrete-mode" title="Link to this heading">¶</a></h4>
-<p>For Boolean Network optimization:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configure discrete optimization</span>
-<span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;discrete_params&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">0.6</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># Run optimization in discrete mode</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span>
-    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;differential_evolution&#39;</span><span class="p">,</span>
-    <span class="n">discrete</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">ParameterOptimizer</span><span class="p">(</span><span class="n">pbn</span><span class="p">,</span> <span class="s2">&quot;experiments.csv&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;differential_evolution&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-</section>
-<section id="results">
-<h3>Results<a class="headerlink" href="#results" title="Link to this heading">¶</a></h3>
-<p>The optimization returns an <code class="docutils literal notranslate"><span class="pre">OptimizeResult</span></code> object containing:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">success</span></code>: Boolean indicating if the optimizer terminated successfully</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">message</span></code>: Status message</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>: Optimized parameters (flattened vector)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">fun</span></code>: Final objective value (MSE)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">history</span></code>: List of best MSE values at each iteration</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nfev</span></code>: Number of function evaluations</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nit</span></code>: Number of iterations</p></li>
-</ul>
-</section>
-<section id="plot-optimization-history">
-<h3>Plot Optimization History<a class="headerlink" href="#plot-optimization-history" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Basic history plot</span>
-<span class="n">optimizer</span><span class="o">.</span><span class="n">plot_optimization_history</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-<span class="c1"># Advanced plotting with options</span>
-<span class="n">optimizer</span><span class="o">.</span><span class="n">plot_optimization_history</span><span class="p">(</span>
+<section id="results-and-evaluation">
+<h2>Results And Evaluation<a class="headerlink" href="#results-and-evaluation" title="Link to this heading">¶</a></h2>
+<p>The optimizer returns a SciPy-style result object with fields such as
+<code class="docutils literal notranslate"><span class="pre">success</span></code>, <code class="docutils literal notranslate"><span class="pre">message</span></code>, <code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">fun</span></code>, <code class="docutils literal notranslate"><span class="pre">history</span></code>, <code class="docutils literal notranslate"><span class="pre">nfev</span></code>, and <code class="docutils literal notranslate"><span class="pre">nit</span></code>.</p>
+<p>Plot optimization history:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span><span class="o">.</span><span class="n">plot_optimization_history</span><span class="p">(</span>
     <span class="n">result</span><span class="p">,</span>
-    <span class="n">save_path</span><span class="o">=</span><span class="s1">&#39;optimization_history.png&#39;</span><span class="p">,</span>
-    <span class="n">show_stagnation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>    <span class="c1"># Highlight stagnation periods</span>
-    <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span>          <span class="c1"># Use logarithmic scale</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;optimization_history.png&quot;</span><span class="p">,</span>
+    <span class="n">show_stagnation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">log_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="result-evaluation">
-<h3>Result Evaluation<a class="headerlink" href="#result-evaluation" title="Link to this heading">¶</a></h3>
-<p>Evaluate optimization results:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">KGBN</span><span class="w"> </span><span class="kn">import</span> <span class="n">evaluate_optimization_result</span>
-
-<span class="n">evaluator</span> <span class="o">=</span> <span class="n">evaluate_optimization_result</span><span class="p">(</span>
+<p>Evaluate the optimized model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">evaluator</span> <span class="o">=</span> <span class="n">KGBN</span><span class="o">.</span><span class="n">evaluate_optimization_result</span><span class="p">(</span>
     <span class="n">result</span><span class="p">,</span>
     <span class="n">optimizer</span><span class="p">,</span>
     <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;evaluation_results&quot;</span><span class="p">,</span>
     <span class="n">plot_residuals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">detailed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<section id="evaluation-plots">
-<h4>Evaluation Plots<a class="headerlink" href="#evaluation-plots" title="Link to this heading">¶</a></h4>
-<p>The <code class="docutils literal notranslate"><span class="pre">evaluate_optimization_result</span></code> function generates several plots to assess optimization quality:</p>
-<ol class="arabic simple">
-<li><p><strong>Prediction vs Experimental Plot (<code class="docutils literal notranslate"><span class="pre">prediction_vs_experimental.png</span></code>)</strong></p></li>
-<li><p><strong>Residuals Plot (<code class="docutils literal notranslate"><span class="pre">residuals.png</span></code>)</strong></p></li>
-<li><p><strong>Optimization History Plot (<code class="docutils literal notranslate"><span class="pre">optimization_history.png</span></code>)</strong></p></li>
-</ol>
 </section>
-</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="experiment_data.html"><span class="doc">KGBN.experiment_data</span></a></p></li>
+<li><p><a class="reference internal" href="parameter_optimizer.html"><span class="doc">KGBN.parameter_optimizer</span></a></p></li>
+<li><p><a class="reference internal" href="result_evaluation.html"><span class="doc">KGBN.result_evaluation</span></a></p></li>
+</ul>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">¶</a></h2>
-<p>Based on the optPBN framework:</p>
 <ul class="simple">
 <li><p>Trairatphisan, P., et al. (2014). “optPBN: An Optimisation Toolbox for Probabilistic Boolean Networks.” PLOS ONE 9(7): e98001.</p></li>
 </ul>
@@ -537,12 +399,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="sensitivity_analysis.html">
+          <a class="next-page" href="api.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Sensitivity Analysis</div>
+                <div class="title">API Reference</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -588,27 +450,13 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">KGBN Optimizer</a><ul>
-<li><a class="reference internal" href="#optimization">Optimization</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
 <li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
-<li><a class="reference internal" href="#input-data-format">Input Data Format</a><ul>
 <li><a class="reference internal" href="#experimental-data">Experimental Data</a></li>
-<li><a class="reference internal" href="#formula-based-measurements-phenotype-score">Formula-based Measurements (Phenotype score)</a></li>
-<li><a class="reference internal" href="#value-normalization">Value Normalization</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#configurations">Configurations</a><ul>
-<li><a class="reference internal" href="#early-stopping">Early Stopping</a></li>
-<li><a class="reference internal" href="#discrete-mode">Discrete Mode</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#results">Results</a></li>
-<li><a class="reference internal" href="#plot-optimization-history">Plot Optimization History</a></li>
-<li><a class="reference internal" href="#result-evaluation">Result Evaluation</a><ul>
-<li><a class="reference internal" href="#evaluation-plots">Evaluation Plots</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#formula-based-measurements">Formula-Based Measurements</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#results-and-evaluation">Results And Evaluation</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
 <li><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
