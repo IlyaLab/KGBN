@@ -417,7 +417,8 @@ def generate_experiments(pbn, experiment_csv: str, config: dict = None, output_c
     Generate hypothesized experimental values using the current PBN parameters.
     
     This function simulates the experiments defined in the CSV file using the current
-    PBN parameters and generates predicted values for the measured nodes.
+    PBN parameters and writes the generated values to ``Measured_values`` so the
+    returned or saved CSV can be used directly by the optimizer for evaluation.
     
     Parameters:
     -----------
@@ -431,7 +432,9 @@ def generate_experiments(pbn, experiment_csv: str, config: dict = None, output_c
     Returns:
     --------
     pd.DataFrame
-        DataFrame with original experiment data plus generated predicted values
+        DataFrame with generated ``Measured_values`` plus ``Predicted_values`` as an
+        audit copy. If the input CSV already contained measurements, they are kept in
+        ``Original_measured_values``.
     """
     # Load experiments
     experiments = ExperimentData.load_from_csv(experiment_csv)
@@ -451,6 +454,7 @@ def generate_experiments(pbn, experiment_csv: str, config: dict = None, output_c
             }
     }
 }
+    config = config or {}
     ss_config = config.get('steady_state', default_config['steady_state'])
     results = []
     
@@ -466,11 +470,11 @@ def generate_experiments(pbn, experiment_csv: str, config: dict = None, output_c
         # Calculate steady state
         method = ss_config.get('method', 'monte_carlo')
         if method == 'tsmc':
-            params = ss_config.get('tsmc_params', {})
+            params = ss_config.get('tsmc_params', {}).copy()
             params['seed'] = config.get('seed', 9) if config else 9
             steady_state = steady_state_calc.compute_stationary_tsmc(**params)
         else:  # monte_carlo
-            params = ss_config.get('monte_carlo_params', {})
+            params = ss_config.get('monte_carlo_params', {}).copy()
             params['seed'] = config.get('seed', 9) if config else 9
             steady_state = steady_state_calc.compute_stationary_mc(**params)
         
@@ -489,7 +493,15 @@ def generate_experiments(pbn, experiment_csv: str, config: dict = None, output_c
                 node_idx = pbn.nodeDict[node]
                 predicted_values.append(round(steady_state[node_idx], round_to))
         
-        # Create result row
+        generated_values = ','.join(map(str, predicted_values))
+        original_measured_values = (
+            str(experiment.get('measured_value'))
+            if experiment.get('measured_formula')
+            else ','.join(map(str, experiment['measurements'].values()))
+        )
+
+        # Create result row. The optimizer reads Measured_values, so generated
+        # synthetic experiments must place the simulated values there.
         result_row = {
             'Experiments': experiment['id'],
             'Stimuli': ','.join(experiment['stimuli']) if experiment['stimuli'] else '',
@@ -497,9 +509,12 @@ def generate_experiments(pbn, experiment_csv: str, config: dict = None, output_c
             'Inhibitors': ','.join(experiment['inhibitors']) if experiment['inhibitors'] else '',
             'Inhibitors_efficacy': ','.join(map(str, experiment['inhibitors_efficacy'])) if experiment['inhibitors_efficacy'] else '',
             'Measured_nodes': experiment['measured_formula'] if experiment.get('measured_formula') else ','.join(experiment['measurements'].keys()),
-            'Measured_values': str(experiment.get('measured_value')) if experiment.get('measured_formula') else ','.join(map(str, experiment['measurements'].values())),
-            'Predicted_values': ','.join(map(str, predicted_values))
+            'Measured_values': generated_values,
+            'Predicted_values': generated_values
         }
+
+        if original_measured_values:
+            result_row['Original_measured_values'] = original_measured_values
         
         results.append(result_row)
     

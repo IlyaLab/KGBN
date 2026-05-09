@@ -1,4 +1,4 @@
-Sensitivity Analysis
+KGBN.sensitivity_analysis
 ====================
 
 The ``KGBN.sensitivity_analysis`` module provides three helpers for analyzing

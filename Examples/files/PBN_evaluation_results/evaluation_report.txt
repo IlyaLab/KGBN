@@ -1,0 +1,62 @@
+============================================================
+OPTIMIZATION RESULT EVALUATION REPORT
+============================================================
+
+OVERALL PERFORMANCE:
+--------------------
+Pearson Correlation: 1.0000
+P-value: 9.525840e-101
+R-squared: 0.9999
+Mean Squared Error: 0.000008
+Root Mean Squared Error: 0.002894
+Mean Absolute Error: 0.002419
+Number of data points: 50
+
+OPTIMIZATION DETAILS:
+--------------------
+Final MSE: 0.000042
+Success: True
+Iterations: 100
+Function evaluations: 10000
+
+CONFIGURATION:
+--------------------
+pso_params: {'n_particles': 100, 'iters': 100, 'options': {'c1': 0.5, 'c2': 0.3, 'w': 0.9}, 'ftol': -1, 'ftol_iter': 5}
+steady_state: {'method': 'monte_carlo', 'monte_carlo_params': {'n_runs': 3, 'n_steps': 2000, 'p_noise': 0.05, 'seed': 9}}
+max_try: 2
+success_threshold: 0.1
+display_rules_every: 0
+seed: 9
+de_params: {'strategy': 'best1bin', 'maxiter': 500, 'popsize': 15, 'tol': 0.01, 'atol': 0, 'mutation': (0.5, 1), 'recombination': 0.7, 'init': 'sobol', 'updating': 'deferred', 'workers': -1, 'polish': False, 'early_stopping': True, 'success_threshold': 0.01}
+
+PER-NODE PERFORMANCE:
+--------------------
+CDK2:
+  Correlation: 1.0000 (p = 2.1214e-17)
+  MSE: 0.000012
+  MAE: 0.002890
+  Data points: 10
+
+MAPK1:
+  Correlation: 1.0000 (p = 1.3090e-18)
+  MSE: 0.000004
+  MAE: 0.001629
+  Data points: 10
+
+CASP3:
+  Correlation: 1.0000 (p = 7.7089e-18)
+  MSE: 0.000012
+  MAE: 0.002949
+  Data points: 10
+
+TP53:
+  Correlation: 1.0000 (p = 1.9283e-19)
+  MSE: 0.000007
+  MAE: 0.002091
+  Data points: 10
+
+AKT1:
+  Correlation: 1.0000 (p = 5.9671e-18)
+  MSE: 0.000008
+  MAE: 0.002538
+  Data points: 10
