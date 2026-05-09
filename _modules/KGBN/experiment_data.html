@@ -212,7 +212,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../experiment_data.html">KGBN.experiment_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../result_evaluation.html">KGBN.result_evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../model_compressor.html">KGBN.model_compressor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../sensitivity_analysis.html">Sensitivity Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sensitivity_analysis.html">KGBN.sensitivity_analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -684,7 +684,8 @@
 <span class="sd">    Generate hypothesized experimental values using the current PBN parameters.</span>
 <span class="sd">    </span>
 <span class="sd">    This function simulates the experiments defined in the CSV file using the current</span>
-<span class="sd">    PBN parameters and generates predicted values for the measured nodes.</span>
+<span class="sd">    PBN parameters and writes the generated values to ``Measured_values`` so the</span>
+<span class="sd">    returned or saved CSV can be used directly by the optimizer for evaluation.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
@@ -698,7 +699,9 @@
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
 <span class="sd">    pd.DataFrame</span>
-<span class="sd">        DataFrame with original experiment data plus generated predicted values</span>
+<span class="sd">        DataFrame with generated ``Measured_values`` plus ``Predicted_values`` as an</span>
+<span class="sd">        audit copy. If the input CSV already contained measurements, they are kept in</span>
+<span class="sd">        ``Original_measured_values``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Load experiments</span>
     <span class="n">experiments</span> <span class="o">=</span> <span class="n">ExperimentData</span><span class="o">.</span><span class="n">load_from_csv</span><span class="p">(</span><span class="n">experiment_csv</span><span class="p">)</span>
@@ -718,6 +721,7 @@
             <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
     <span class="n">ss_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;steady_state&#39;</span><span class="p">,</span> <span class="n">default_config</span><span class="p">[</span><span class="s1">&#39;steady_state&#39;</span><span class="p">])</span>
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
     
@@ -733,11 +737,11 @@
         <span class="c1"># Calculate steady state</span>
         <span class="n">method</span> <span class="o">=</span> <span class="n">ss_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;monte_carlo&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;tsmc&#39;</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="n">ss_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tsmc_params&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">ss_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tsmc_params&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="k">if</span> <span class="n">config</span> <span class="k">else</span> <span class="mi">9</span>
             <span class="n">steady_state</span> <span class="o">=</span> <span class="n">steady_state_calc</span><span class="o">.</span><span class="n">compute_stationary_tsmc</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># monte_carlo</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="n">ss_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;monte_carlo_params&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">ss_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;monte_carlo_params&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="k">if</span> <span class="n">config</span> <span class="k">else</span> <span class="mi">9</span>
             <span class="n">steady_state</span> <span class="o">=</span> <span class="n">steady_state_calc</span><span class="o">.</span><span class="n">compute_stationary_mc</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
         
@@ -756,7 +760,15 @@
                 <span class="n">node_idx</span> <span class="o">=</span> <span class="n">pbn</span><span class="o">.</span><span class="n">nodeDict</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
                 <span class="n">predicted_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">steady_state</span><span class="p">[</span><span class="n">node_idx</span><span class="p">],</span> <span class="n">round_to</span><span class="p">))</span>
         
-        <span class="c1"># Create result row</span>
+        <span class="n">generated_values</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">predicted_values</span><span class="p">))</span>
+        <span class="n">original_measured_values</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;measured_value&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;measured_formula&#39;</span><span class="p">)</span>
+            <span class="k">else</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;measurements&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Create result row. The optimizer reads Measured_values, so generated</span>
+        <span class="c1"># synthetic experiments must place the simulated values there.</span>
         <span class="n">result_row</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;Experiments&#39;</span><span class="p">:</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
             <span class="s1">&#39;Stimuli&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;stimuli&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;stimuli&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
@@ -764,9 +776,12 @@
             <span class="s1">&#39;Inhibitors&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;inhibitors&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;inhibitors&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
             <span class="s1">&#39;Inhibitors_efficacy&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;inhibitors_efficacy&#39;</span><span class="p">]))</span> <span class="k">if</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;inhibitors_efficacy&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
             <span class="s1">&#39;Measured_nodes&#39;</span><span class="p">:</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;measured_formula&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;measured_formula&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;measurements&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
-            <span class="s1">&#39;Measured_values&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;measured_value&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;measured_formula&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">experiment</span><span class="p">[</span><span class="s1">&#39;measurements&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())),</span>
-            <span class="s1">&#39;Predicted_values&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">predicted_values</span><span class="p">))</span>
+            <span class="s1">&#39;Measured_values&#39;</span><span class="p">:</span> <span class="n">generated_values</span><span class="p">,</span>
+            <span class="s1">&#39;Predicted_values&#39;</span><span class="p">:</span> <span class="n">generated_values</span>
         <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">original_measured_values</span><span class="p">:</span>
+            <span class="n">result_row</span><span class="p">[</span><span class="s1">&#39;Original_measured_values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_measured_values</span>
         
         <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result_row</span><span class="p">)</span>
     
